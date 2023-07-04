@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../image/Logo.png";
 import { styled } from "styled-components";
-import Customer from "../../components/login/Customer";
+import LoginComponent from "../../components/login/LoginComponent";
+import SignUpComponent from "../../components/login/SignUpComponent";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { loginMenuRecoil, loginSignUp } from "../../recoil/atom";
 
 function Login() {
+    const navigate = useNavigate();
+
     // 개인 사업자 메뉴
-    const [loginMenu, setLoginMenu] = useState(true);
+    const [loginMenu, setLoginMenu] = useRecoilState(loginMenuRecoil);
+    // 로그인 회원가입
+    const [signUp, setSignUp] = useRecoilState(loginSignUp);
 
     const customer = () => {
         setLoginMenu(true);
@@ -14,6 +22,11 @@ function Login() {
     const business = () => {
         setLoginMenu(false);
     };
+
+    useEffect(() => {
+        setSignUp(false);
+        setLoginMenu(true);
+    }, []);
 
     return (
         <LoginDIv>
@@ -24,15 +37,24 @@ function Login() {
 
             {/* 로그인 메뉴 */}
             <LoginMenu>
-                <LoginMenuDiv onClick={customer} loginMenu={loginMenu}>
+                <CustomerDiv onClick={customer} loginmenu={loginMenu ? 1 : 0}>
                     개인회원
-                </LoginMenuDiv>
-                <LoginMenuDiv onClick={business} loginMenu={!loginMenu}>
+                </CustomerDiv>
+                <CustomerDiv onClick={business} loginmenu={!loginMenu ? 1 : 0}>
                     사업자회원
-                </LoginMenuDiv>
+                </CustomerDiv>
             </LoginMenu>
 
-            <Customer />
+            {signUp ? <SignUpComponent /> : <LoginComponent />}
+
+            <GoBack
+                onClick={() => {
+                    // navigate("/");
+                    setSignUp(false);
+                }}
+            >
+                뒤로가기
+            </GoBack>
         </LoginDIv>
     );
 }
@@ -40,7 +62,7 @@ function Login() {
 export default Login;
 const LoginDIv = styled.div`
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     padding: 0 20px;
     margin-top: -70px;
     display: flex;
@@ -66,12 +88,19 @@ const LoginMenu = styled.div`
     cursor: pointer;
 `;
 
-const LoginMenuDiv = styled.div`
+const CustomerDiv = styled.div`
     width: 50%;
     border-bottom: ${(props) =>
-        props.loginMenu ? "1px solid #F06A24" : "1px solid #000"};
+        props.loginmenu ? "1px solid #F06A24" : "1px solid #000"};
     font-size: 14px;
     padding-bottom: 14px;
-    color: ${(props) => (props.loginMenu ? "#F06A24" : "#000")};
-    font-weight: ${(props) => (props.loginMenu ? "700" : "500")};
+    color: ${(props) => (props.loginmenu ? "#F06A24" : "#000")};
+    font-weight: ${(props) => (props.loginmenu ? "700" : "500")};
+`;
+
+const GoBack = styled.p`
+    font-size: 16px;
+    font-weight: 500;
+    margin: 50px 0;
+    cursor: pointer;
 `;
