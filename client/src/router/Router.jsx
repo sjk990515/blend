@@ -11,11 +11,13 @@ function Router() {
             <GlobalStyles />
             <>
                 {/* <Header /> */}
-                {/* <Menulayout /> */}
+                <Menulayout />
             </>
 
             <Routes>
                 <Route path="/" element={<MainPage />} />
+                {/* 마이페이지 - 07/04 한원 */}
+                <Route path="/member" element={<MyPage/>} />
             </Routes>
         </BrowserRouter>
     );
