@@ -4,23 +4,31 @@ import Menulayout from "../layout/Menulayout";
 import MainPage from "../pages/mainPage/MainPage";
 import MyPage from "../pages/myPage/MyPage";
 import GlobalStyles from "../GlobalStyles";
+import { styled } from "styled-components";
+import Header from "../layout/Header";
 
 function Router() {
     return (
         <BrowserRouter>
-            <GlobalStyles />
-            <>
-                {/* <Header /> */}
-                <Menulayout />
-            </>
+            <MobileWidthDiv>
+                <GlobalStyles />
+                <>
+                    <Header />
+                    {/* <Menulayout /> */}
+                </>
 
-            <Routes>
-                <Route path="/" element={<MainPage />} />
-                {/* 마이페이지 - 07/04 한원 */}
-                <Route path="/member" element={<MyPage/>} />
-            </Routes>
+                <Routes>
+                    <Route path="/" element={<MainPage />} />
+                    <Route path="/myPage" element={<MyPage />} />
+                </Routes>
+            </MobileWidthDiv>
         </BrowserRouter>
     );
 }
 
 export default Router;
+const MobileWidthDiv = styled.div`
+    max-width: 430px;
+    margin: 0 auto;
+    background: #e4e1e0;
+`;
