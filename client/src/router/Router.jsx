@@ -20,6 +20,8 @@ function Router() {
                 <Routes>
                     <Route path="/" element={<MainPage />} />
                     <Route path="/myPage" element={<MyPage />} />
+                    <Route path="/menu" element={<Menulayout />} />
+
                 </Routes>
             </MobileWidthDiv>
         </BrowserRouter>

@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import logo from "../image/logo_for_menupage.png";
 
 function Menulayout() {
     return (
         <Body>
             <LogoArea>
-                <img src="img/logo-small.png"></img>
-                <div>X</div>
+                <LogoImg src={logo}></LogoImg>
+                <div className="go-back">X</div>
             </LogoArea>
         </Body>
     )
@@ -21,7 +22,18 @@ const Body = styled.div`
 `;
 
 const LogoArea = styled.div`
+    display:flex;
     padding-left: 20px;
     height: 57px;
     border-bottom: 1px solid #432C20;
+    width:100%;
+    justify-content: space-between;
+
+    .go-back{
+        margin-right: 20px;
+    }
+`;
+
+const LogoImg = styled.img`
+    
 `;
