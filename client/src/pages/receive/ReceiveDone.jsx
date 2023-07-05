@@ -1,42 +1,41 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import profile1 from "../../image/profile1.png"
+import profile3 from "../../image/profile3.png"
 
 
-function SendCheck() {
+function SendDone() {
     const navigate = useNavigate();
 
 
-    const SendDone =()=>{
-        navigate("/senddone")
+    const Main =()=>{
+        navigate("/")
     }
-
     return (
         
         <Body>
             <Wrap>
             <div className="Title">
                 <Phone>010-3302-1234</Phone>
-                <Bal> 나의 잔액은: 3,000 BEANS </Bal>
+                <Bal> 나의 잔액은: 2,100 BEANS </Bal>
             </div>
                 <Alertbx>
-                   <Profile><ProfileImg src={profile1} alt="redbean"/></Profile>
+                   <Profile><ProfileImg src={profile3} alt="skybluebean"/></Profile>
                    <div className="text">
-                   <p>010-2222-1234님께</p>
-                   <p className="price">1000</p>
-                   <p>BEANS를 이체합니다.</p>
+                   <p>010-2222-1234님 으로 부터</p>
+                   <p>받기 완료!</p>
                    </div>
                 </Alertbx>
+                <Confirm onClick={Main}>확인</Confirm>
 
-            <Sendbtn onClick={SendDone}>보내기</Sendbtn>
+            
       
             </Wrap>
         </Body>
     );
 }
 
-export default SendCheck;
+export default SendDone;
 
 
 
@@ -102,7 +101,7 @@ padding:32px;
 
 .al1{
   line-height:20px;
-  color:#F06A24;
+  color:#6DBE75;
 }
 
 p{
@@ -111,6 +110,12 @@ p{
   
 }
 
+p:nth-child(2){
+    font-size:22px;
+    font-weight:800;
+    margin-top:54px;
+  
+}
 .price{
     font-size:20px;
     font-weight:800;
@@ -145,7 +150,7 @@ top:20px; left:20px;
 `;
 
 
-const Sendbtn =styled.div`
+const Confirm = styled.div`
 width:110px;
 height:46px;
 border-radius:30px;
@@ -158,7 +163,5 @@ margin-top:10px;
 color:#432C20;
 font-size:14px;
 font-weight:800;
-/* margin-bottom:154px; */
-
-
+cursor:pointer;
 `;

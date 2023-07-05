@@ -5,6 +5,12 @@ import profile2 from "../../image/profile2.png"
 
 
 function SendDone() {
+    const navigate = useNavigate();
+
+
+    const Main =()=>{
+        navigate("/")
+    }
     return (
         
         <Body>
@@ -20,6 +26,7 @@ function SendDone() {
                    <p>보내기 완료!</p>
                    </div>
                 </Alertbx>
+                <Confirm onClick={Main}>확인</Confirm>
 
             
       
@@ -143,3 +150,18 @@ top:20px; left:20px;
 `;
 
 
+const Confirm = styled.div`
+width:110px;
+height:46px;
+border-radius:30px;
+background-color:#F6F290;
+border:0;
+text-align:center;
+margin:0 auto;
+line-height:46px;
+margin-top:10px;
+color:#432C20;
+font-size:14px;
+font-weight:800;
+cursor:pointer;
+`;
