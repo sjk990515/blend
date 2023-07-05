@@ -22,24 +22,39 @@ function Menulayout() {
          navigate("/login");
      };
      
+     // 로그아웃 클릭
      const logoutOnClick = () => {
          navigate("/logout");
      };
 
+     // Beans 메뉴 클릭
      const beansOnClick = () => {
          navigate("/beans");
      };
-
+     
+     // Mypage 메뉴 클릭
      const myPageOnClick = () => {
          navigate("/mypage");
      };
 
+     // Notice 메뉴 클릭
      const noticeOnClick = () => {
          navigate("/notice");
      };
 
+     // Shop 메뉴 클릭
      const shopOnClick = () => {
          navigate("/shop");
+     };
+
+     // 토큰 보내기 버튼 클릭
+     const sendOnClick = () => {
+         navigate("/send");
+     };
+     
+     // 토큰 받기 버튼 클릭
+     const recieveOnClick = () => {
+         navigate("/recieve");
      };
 
     return (
@@ -56,7 +71,7 @@ function Menulayout() {
             
             {/* 유저 정보 영역 */}
             <UserArea>
-                <div className="no-login">
+                <NoLogin>
                     <div className="login-area">
                         <span className="info">로그인 해주세요.</span>
                         <p className="go-login" onClick={loginOnClick}>로그인 하러가기</p>
@@ -66,7 +81,8 @@ function Menulayout() {
                     <div className="img-area">
                         <BeanImg src={bean_img}></BeanImg>
                     </div>
-                </div> 
+                </NoLogin>
+
                 <Logined>
                     <div className="user-info">
                         <p className="user-phone-area">
@@ -75,12 +91,12 @@ function Menulayout() {
                         </p>
                         <div className="user-token-area">
                             <span className="user-token">3,100</span>
-                            <span className="user-token-name">beans</span>
+                            <span className="user-token-name">BEANS</span>
                         </div>
                     </div>
                     <div className="btn-area">
-                        <TokenSendBtn></TokenSendBtn>
-                        <TokenReceiveBtn></TokenReceiveBtn>
+                        <TokenSendBtn onClick={sendOnClick}>토큰보내기</TokenSendBtn>
+                        <TokenReceiveBtn onClick={recieveOnClick}>토큰받기</TokenReceiveBtn>
                     </div>
                 </Logined>    
             </UserArea>
@@ -154,10 +170,10 @@ const UserArea = styled.div`
     width: 100%;
     padding: 50px 0 80px 20px;
     position: relative;
+    `;
 
-    .no-login {
-        display: none;
-    }
+const NoLogin = styled.div`
+    display: none;
 
     .login-area {
         position: absolute;
@@ -184,7 +200,7 @@ const UserArea = styled.div`
         width: 100%;
         text-align: right;
     }
-    `;
+`
 
 const BeanImg = styled.img`
     padding-right: 18px;
@@ -192,11 +208,12 @@ const BeanImg = styled.img`
 `;
 
 const Logined = styled.div`
-    height: 60px;
+    /* padding-bottom: 80px; */
     color: #432C20;
+    /* display: none; */
 
     .user-phone-area {
-        padding-bottom: 20px;
+        padding-bottom: 25px;
     }
     .user-phone {
         font-weight: 600;
@@ -211,31 +228,48 @@ const Logined = styled.div`
     .user-token-area {
         border-bottom: 1px solid #432C20;
         /* text-decoration: underline; */
-        width: 154px;
+        width: 166px;
     }
 
     .user-token {
-        font-size: 28px;
+        font-size: 32px;
         font-weight: 900;
-        margin-right: 25px;
+        margin-right: 18px;
     }
 
     .user-token-name {
         font-size: 14px;
         font-weight: 600;
+    }
 
+    .btn-area {
+        display: flex;
+        padding-top: 26px;
+        align-items: center;
+        justify-content: center;
     }
 `
 
 // 토큰 보내기 버튼
-const TokenSendBtn = styled.div`
-    
+const TokenSendBtn = styled.button`
+    background-color: #432C20;
+    color: #F6F290;
+    font-size: 14px;
+    font-weight: 600;
+    width: 60%;
+    padding: 16px 0 16px 0;
+    border: none;
+    border-radius: 30px;
+    margin-right: 13px;
+    cursor: pointer;
 `
 
 // 토큰 받기 버튼
-const TokenReceiveBtn = styled.div`
-    
-`
+const TokenReceiveBtn = styled(TokenSendBtn)`
+    background-color: #F6F290;
+    color: #432C20;
+    border: 1px solid #432C20;
+`;
 
 // 메뉴 영역
 const MenuArea = styled.div`
