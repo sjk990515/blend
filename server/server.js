@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 // port 번호
-const port = 3000;
+const port = 80;
 
 // post로 데이터가 들어오면 json 형태로 변환
 app.use(express.urlencoded({extended:false}));

@@ -85,7 +85,7 @@ async function balance_of(_address){
 
 // 지갑을 생성
 async function create_wallet(){
-    const wallet = await caver.kas.wallet.createAcoount();
+    const wallet = await caver.kas.wallet.createAccount();
     console.log("##create wallet : "+wallet);
     return wallet.address
 }
