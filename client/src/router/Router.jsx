@@ -15,6 +15,7 @@ import SendDone from "../pages/send/SendDone";
 import Receive from "../pages/receive/Receive";
 import ReceiveDone from "../pages/receive/ReceiveDone";
 import MyBeans from "../pages/mainPage/MyBeans";
+import Beans from "../pages/beans/Beans";
 
 function Router() {
     return (
@@ -36,6 +37,7 @@ function Router() {
                     <Route path="/senddone" element={<SendDone />} />
                     <Route path="/receive" element={<Receive />} />
                     <Route path="/receivedone" element={<ReceiveDone />} />
+                    <Route path="/beans" element={<Beans />} />
                 </Routes>
             </MobileWidthDiv>
         </BrowserRouter>

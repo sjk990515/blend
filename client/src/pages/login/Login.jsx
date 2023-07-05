@@ -30,8 +30,6 @@ function Login() {
 
     return (
         <LoginDIv>
-            {/* 로고 */}
-            {/* <LoginLogoImg src={Logo} /> */}
             {/* 타이틀 */}
             <LoginTitleH2>{signUp ? "회원가입" : "로그인"}</LoginTitleH2>
 
@@ -69,10 +67,6 @@ const LoginDIv = styled.div`
     flex-direction: column;
     align-items: center;
 `;
-const LoginLogoImg = styled.img`
-    margin: 100px 0 40px;
-`;
-
 const LoginTitleH2 = styled.h2`
     font-size: 20px;
     font-weight: 900;
