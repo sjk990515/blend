@@ -102,7 +102,6 @@ module.exports = function(){
 
     // localhost:3000/member/checkId [post] Ajax아이디 중복체크
     router.post("/checkId", async function(req,res){
-        r
     })
 
 
@@ -112,7 +111,7 @@ module.exports = function(){
     })
 
 
-    // localhost:3000/member/login [get] 회원가입 등록
+    // localhost:3000/member/login [get] 로그인 등록
     router.get("/login", async function(req,res){
         res.render('login.ejs') 
        
