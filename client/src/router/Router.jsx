@@ -12,6 +12,8 @@ import Send from "../pages/send/Send";
 import Scan from "../pages/send/Scan";
 import SendCheck from "../pages/send/SendCheck";
 import SendDone from "../pages/send/SendDone";
+import Receive from "../pages/receive/Receive";
+import ReceiveDone from "../pages/receive/ReceiveDone";
 import MyBeans from "../pages/mainPage/MyBeans";
 
 function Router() {
@@ -32,6 +34,8 @@ function Router() {
                     <Route path="/scan" element={<Scan />} />
                     <Route path="/sendcheck" element={<SendCheck />} />
                     <Route path="/senddone" element={<SendDone />} />
+                    <Route path="/receive" element={<Receive />} />
+                    <Route path="/receivedone" element={<ReceiveDone />} />
                 </Routes>
             </MobileWidthDiv>
         </BrowserRouter>

@@ -7,8 +7,8 @@ function Send() {
     const navigate = useNavigate();
 
 
-    const aaaa =()=>{
-        navigate("/")
+    const SendCheck =()=>{
+        navigate("/sendcheck")
     }
 
     return (
@@ -19,9 +19,9 @@ function Send() {
                 <Addr>0x0000000000</Addr>
             </div>
             <InputBox>
-                <Ibox></Ibox>
+                <Ibox placeholder="수량"></Ibox>
                     <Bal> 나의 잔액은: 3000 </Bal>
-                <Ibox></Ibox>
+                <Ibox placeholder="주소 혹은 핸드폰 번호"></Ibox>
                 <Wrap>
                     <div className="ScanBtn">
                     <Scan>스캔</Scan> 
@@ -29,9 +29,7 @@ function Send() {
                     <div className="notice">수량과 주소를 확인하세요.</div>
                 </Wrap>
             </InputBox>
-            <Sendbtn onClick={() => {
-                navigate('/')
-            }}>보내기</Sendbtn>
+            <Sendbtn onClick={SendCheck}>보내기</Sendbtn>
             <Cancel>취소</Cancel>
       
             
@@ -67,7 +65,12 @@ height:60px;
 border-radius:30px;
 border:2px solid #F6F290;
 background-color:#432C20;
-
+text-indent:10px;
+color:#f2f2f2;
+font-size:14px;
+::placeholder{
+    14px;
+}
 `;
 
 

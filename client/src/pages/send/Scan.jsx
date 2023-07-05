@@ -5,6 +5,13 @@ import styled from "styled-components";
 
 
 function Scan() {
+    const navigate = useNavigate();
+
+
+    const Main =()=>{
+        navigate("/")
+    }
+    
     return (
         
         <Body>
@@ -19,7 +26,7 @@ function Scan() {
                         <p class="al1">가능합니다.</p>
                     </Alertbx>
 
-                <Back>뒤로가기</Back>
+                <Back onClick={Main}>뒤로가기</Back>
             </Wrap>
             
         </Body>
@@ -106,7 +113,7 @@ margin-top:10px;
 color:#432C20;
 font-size:14px;
 font-weight:800;
-
+cursor:pointer;
 
 
 `;
