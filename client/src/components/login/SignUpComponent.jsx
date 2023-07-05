@@ -24,13 +24,12 @@ function SignUpComponent() {
     };
 
     const numberPostMutation = useMutation(
-        (newNumber) => axios.post("http://localhost:4000", newNumber),
+        (newNumber) =>
+            axios.post("http://localhost:4000/member/smsAuth", newNumber),
         {
-            onSuccess: () => {
-                // (response) => {
-                //     const result = response.data;
-                //     console.log("Mutation successful. Result:", result);
-                // };
+            onSuccess: (response) => {
+                const result = response.data;
+                console.log(result);
                 // queryClient.invalidateQueries("comment");
             },
         }
@@ -38,12 +37,23 @@ function SignUpComponent() {
 
     const phoneMessage = () => {
         const newNumber = {
-            phoneCheck,
+            id: phoneCheck,
         };
+        // const aaa = JSON.stringify(newNumber);
 
         numberPostMutation.mutate(newNumber);
-    };
 
+        //     fetch("http://localhost:4000/member/smsAuth", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: {
+        //             id: phoneCheck,
+        //         },
+        //     }).then((response) => console.log(response));
+        // };
+    };
     return (
         <>
             <SignUpForm>
