@@ -34,44 +34,6 @@ export const ProfileImg = styled.img`
  left: 18px;
 `;
 
-export const UserArea = styled.div`
- padding-top: 30px;
- text-align: center;
- font-size: 20px;
-`
-
-export const UserInfoArea = styled.div`
- padding-top: 70px;
- padding-left: 20px;
- 
- .user-info-txt {
-     font-weight: 700;
-     font-size: 16px;
-     padding-left: 2px;
- }
-`
-
-export const UserInfoArticle = styled.div`
- font-size: 14px;
- font-weight: 700;
- margin-top: 14px;
- padding-left: 10px;
- width: 95%;
- height: 55px;
- line-height: 55px;
- border: 1px solid #432C20;
- border-radius: 5px;
-
- .input {
-     padding-left: 80px;
-     font-weight: 700;
- }
-
- .user-email {
-     padding-left: 67px;
- }
-`
-
 export const BtnArea = styled.div`
  text-align: center;
 `
@@ -86,4 +48,9 @@ export const GotoUpdateFormBtn = styled.button`
  font-size: 16px;
  border-radius: 30px;
  cursor: pointer;
+`
+export const UserArea = styled.div`
+padding-top: 30px;
+text-align: center;
+font-size: 20px;
 `
