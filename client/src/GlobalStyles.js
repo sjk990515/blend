@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, styled } from "styled-components";
 import reset from "styled-reset"; // style-reset 패키지
 const GlobalStyles = createGlobalStyle` 
     ${reset}
@@ -9,8 +9,8 @@ const GlobalStyles = createGlobalStyle`
     *{
         box-sizing: border-box;
     }
-    body { 
-        font-family:'NanumSquareNeo';
+    body {
+        font-family: 'NanumSquareNeo';
     }
 
     @font-face {
