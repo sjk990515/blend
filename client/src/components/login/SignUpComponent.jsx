@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
 import { loginMenuRecoil } from "../../recoil/atom";
 import { useRecoilState } from "recoil";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 function SignUpComponent() {
+    // 비밀번호 온오프
+    const [passIconOn, setPassIconOn] = useState(false);
     // 유저 로그인 메뉴
     const [loginMenu, setLoginMenu] = useRecoilState(loginMenuRecoil);
+
+    // 패스워드 숨김 아이콘
+    const passIconOnClick = () => {
+        setPassIconOn(!passIconOn);
+    };
 
     return (
         <>
@@ -22,7 +30,7 @@ function SignUpComponent() {
                                 : "사업자 번호 입력(-없이)"
                         }
                     />
-                    <IdCheck>인증</IdCheck>
+                    {loginMenu ? <IdCheck>인증</IdCheck> : ""}
                 </Phonediv>
 
                 <InputText>{loginMenu ? "이름" : "가맹점 이름"}</InputText>
@@ -42,7 +50,7 @@ function SignUpComponent() {
 
                 <InputText>{loginMenu ? "생일" : "휴대폰 번호"}</InputText>
                 <SignUpInput
-                    type="text"
+                    type={loginMenu ? "date" : "text"}
                     placeholder={
                         loginMenu ? "생일 입력" : "휴대폰 번호 입력(-없이)"
                     }
@@ -52,7 +60,26 @@ function SignUpComponent() {
                 <SignUpInput type="text" placeholder="이메일 입력" />
 
                 <InputText>비밀번호</InputText>
-                <SignUpInput type="text" placeholder="영문자, 숫자 입력" />
+                <PassBox>
+                    <PassInput
+                        type={passIconOn ? "text" : "password"}
+                        placeholder="비밀번호 입력"
+                    />
+                    <PassIcon onClick={passIconOnClick}>
+                        {passIconOn ? <AiFillEye /> : <AiFillEyeInvisible />}
+                    </PassIcon>
+                </PassBox>
+
+                <InputText>비밀번호 확인</InputText>
+                <PassBox>
+                    <PassInput
+                        type={passIconOn ? "text" : "password"}
+                        placeholder="비밀번호 입력"
+                    />
+                    <PassIcon onClick={passIconOnClick}>
+                        {passIconOn ? <AiFillEye /> : <AiFillEyeInvisible />}
+                    </PassIcon>
+                </PassBox>
 
                 <SignUpButton>회원가입</SignUpButton>
             </SignUpForm>
@@ -103,6 +130,26 @@ const SignUpInput = styled.input`
     padding-bottom: 10px;
     text-indent: 5px;
     margin-bottom: 25px;
+`;
+
+const PassBox = styled.div`
+    position: relative;
+    margin-bottom: 25px;
+`;
+const PassInput = styled.input`
+    background: #e4e1e0;
+    width: 100%;
+    /* font-size: 12px; */
+    border: 0;
+    border-bottom: 1px solid #000;
+    padding-bottom: 10px;
+    text-indent: 5px;
+`;
+const PassIcon = styled.div`
+    position: absolute;
+    cursor: pointer;
+    bottom: 5px;
+    right: 10px;
 `;
 
 const SignUpButton = styled.button`

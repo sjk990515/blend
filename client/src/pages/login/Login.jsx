@@ -31,9 +31,9 @@ function Login() {
     return (
         <LoginDIv>
             {/* 로고 */}
-            <LoginLogoImg src={Logo} />
+            {/* <LoginLogoImg src={Logo} /> */}
             {/* 타이틀 */}
-            <LoginTitleH2>로그인</LoginTitleH2>
+            <LoginTitleH2>{signUp ? "회원가입" : "로그인"}</LoginTitleH2>
 
             {/* 로그인 메뉴 */}
             <LoginMenu>
@@ -47,14 +47,14 @@ function Login() {
 
             {signUp ? <SignUpComponent /> : <LoginComponent />}
 
-            <GoBack
+            {/* <GoBack
                 onClick={() => {
                     // navigate("/");
                     setSignUp(false);
                 }}
             >
                 뒤로가기
-            </GoBack>
+            </GoBack> */}
         </LoginDIv>
     );
 }
@@ -64,7 +64,6 @@ const LoginDIv = styled.div`
     width: 100%;
     min-height: 100vh;
     padding: 0 20px;
-    margin-top: -70px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -76,6 +75,7 @@ const LoginLogoImg = styled.img`
 const LoginTitleH2 = styled.h2`
     font-size: 20px;
     font-weight: 900;
+    margin-top: 30px;
     margin-bottom: 40px;
 `;
 

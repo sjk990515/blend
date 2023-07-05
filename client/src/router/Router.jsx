@@ -33,4 +33,5 @@ const MobileWidthDiv = styled.div`
     max-width: 430px;
     margin: 0 auto;
     background: #e4e1e0;
+    margin-top: 70px;
 `;
