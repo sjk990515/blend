@@ -14,13 +14,12 @@ function Router() {
                 <GlobalStyles />
                 <>
                     <Header />
-                    <Menulayout />
+                    {/* <Menulayout /> */}
                 </>
 
                 <Routes>
                     <Route path="/" element={<MainPage />} />
                     <Route path="/myPage" element={<MyPage />} />
-                    {/* <Route path="/menu" element={<Menulayout />} /> */}
 
                 </Routes>
             </MobileWidthDiv>

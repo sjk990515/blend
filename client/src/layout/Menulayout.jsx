@@ -71,6 +71,7 @@ function Menulayout() {
             
             {/* 유저 정보 영역 */}
             <UserArea>
+                {/* 로그인 안 했을 때 보여질 컴포넌트 */}
                 <NoLogin>
                     <div className="login-area">
                         <span className="info">로그인 해주세요.</span>
@@ -83,6 +84,7 @@ function Menulayout() {
                     </div>
                 </NoLogin>
 
+                {/* 로그인 했을 때 보여질 컴포넌트 */}
                 <Logined>
                     <div className="user-info">
                         <p className="user-phone-area">
@@ -132,7 +134,6 @@ const Body = styled.div`
     top: 0;
     background-color: #E4E1E0;
     z-index: 999999999;
-
     justify-content: center;
     align-items: center;
 
