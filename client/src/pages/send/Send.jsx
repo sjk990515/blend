@@ -44,7 +44,7 @@ export default Send;
 const Body = styled.div`
 background-color:#432C20;
 text-align:center;
-overflow-y:hidden;
+
 `;
 
 const Phone = styled.div`
