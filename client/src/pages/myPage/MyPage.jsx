@@ -1,14 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 import profile_img from "../../image/profile_for_my.png"
+import { useNavigate } from "react-router-dom";
 
 function MyPage() {
+    // 네비게이트
+    const navigate = useNavigate();
+
+    // X버튼(닫기) 클릭시 메인페이지로 네비게이트
+    const mypageUpdateFormOnClick = () => {
+        navigate("/mypage/update");
+    };
+
     return (
         <Body>
             <div className="wrapper">
                 {/* 프사 영역 */}
                 <div className="profile-area">
                     <ImgBorder>
+                        {/* 회원이 프사 수정하면 수정 필요 */}
                         <ProfileImg src={profile_img}></ProfileImg>
                     </ImgBorder>
                 </div>
@@ -46,7 +56,7 @@ function MyPage() {
 
                 {/* 버튼 */}
                 <BtnArea>
-                    <GotoUpdateFormBtn>수정하기</GotoUpdateFormBtn>
+                    <GotoUpdateFormBtn onClick={ mypageUpdateFormOnClick }>수정하기</GotoUpdateFormBtn>
                 </BtnArea>
             </div>
         </Body>
@@ -109,6 +119,7 @@ const UserInfoArea = styled.div`
     .user-info-txt {
         font-weight: 700;
         font-size: 16px;
+        padding-left: 2px;
     }
 `
 
