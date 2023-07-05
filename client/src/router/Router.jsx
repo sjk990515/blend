@@ -8,6 +8,14 @@ import { styled } from "styled-components";
 import Header from "../layout/Header";
 import Login from "../pages/login/Login";
 
+import Send from "../pages/send/Send";
+import Scan from "../pages/send/Scan";
+import SendCheck from "../pages/send/SendCheck";
+import SendDone from "../pages/send/SendDone";
+import Receive from "../pages/receive/Receive";
+import ReceiveDone from "../pages/receive/ReceiveDone";
+import MyBeans from "../pages/mainPage/MyBeans";
+
 function Router() {
     return (
         <BrowserRouter>
@@ -17,11 +25,17 @@ function Router() {
                     <Header />
                     {/* <Menulayout /> */}
                 </>
-
                 <Routes>
                     <Route path="/" element={<MainPage />} />
                     {/* <Route path="/myPage" element={<MyPage />} /> */}
                     <Route path="/login" element={<Login />} />
+                    <Route path="/mybeans" element={<MyBeans />} />
+                    <Route path="/send" element={<Send />} />
+                    <Route path="/scan" element={<Scan />} />
+                    <Route path="/sendcheck" element={<SendCheck />} />
+                    <Route path="/senddone" element={<SendDone />} />
+                    <Route path="/receive" element={<Receive />} />
+                    <Route path="/receivedone" element={<ReceiveDone />} />
                 </Routes>
             </MobileWidthDiv>
         </BrowserRouter>
@@ -31,6 +45,7 @@ function Router() {
 export default Router;
 const MobileWidthDiv = styled.div`
     max-width: 430px;
+    overflow: hidden;
     margin: 0 auto;
     background: #e4e1e0;
     margin-top: 70px;
