@@ -3,16 +3,45 @@ import { styled } from "styled-components";
 import { loginMenuRecoil } from "../../recoil/atom";
 import { useRecoilState } from "recoil";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useMutation } from "react-query";
+import axios from "axios";
 
 function SignUpComponent() {
     // 비밀번호 온오프
     const [passIconOn, setPassIconOn] = useState(false);
     // 유저 로그인 메뉴
     const [loginMenu, setLoginMenu] = useRecoilState(loginMenuRecoil);
+    // 유저 로그인 메뉴
+    const [phoneCheck, setPhoneCheck] = useState("");
 
     // 패스워드 숨김 아이콘
     const passIconOnClick = () => {
         setPassIconOn(!passIconOn);
+    };
+
+    const IdOnChange = (e) => {
+        setPhoneCheck(e.target.value);
+    };
+
+    const numberPostMutation = useMutation(
+        (newNumber) => axios.post("http://localhost:4000", newNumber),
+        {
+            onSuccess: () => {
+                // (response) => {
+                //     const result = response.data;
+                //     console.log("Mutation successful. Result:", result);
+                // };
+                // queryClient.invalidateQueries("comment");
+            },
+        }
+    );
+
+    const phoneMessage = () => {
+        const newNumber = {
+            phoneCheck,
+        };
+
+        numberPostMutation.mutate(newNumber);
     };
 
     return (
@@ -24,13 +53,18 @@ function SignUpComponent() {
                 <Phonediv>
                     <IdInput
                         type="text"
+                        onChange={IdOnChange}
                         placeholder={
                             loginMenu
                                 ? "휴대폰 번호 입력(-없이)"
                                 : "사업자 번호 입력(-없이)"
                         }
                     />
-                    {loginMenu ? <IdCheck>인증</IdCheck> : ""}
+                    {loginMenu ? (
+                        <IdCheck onClick={phoneMessage}>인증</IdCheck>
+                    ) : (
+                        ""
+                    )}
                 </Phonediv>
 
                 <InputText>{loginMenu ? "이름" : "가맹점 이름"}</InputText>
