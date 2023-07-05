@@ -20,7 +20,7 @@ function Router() {
 
                 <Routes>
                     <Route path="/" element={<MainPage />} />
-                    <Route path="/myPage" element={<MyPage />} />
+                    {/* <Route path="/myPage" element={<MyPage />} /> */}
                     <Route path="/login" element={<Login />} />
                 </Routes>
             </MobileWidthDiv>

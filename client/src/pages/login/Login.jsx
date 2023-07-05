@@ -64,6 +64,7 @@ const LoginDIv = styled.div`
     width: 100%;
     min-height: 100vh;
     padding: 0 20px;
+    margin-top: -70px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -75,7 +76,7 @@ const LoginLogoImg = styled.img`
 const LoginTitleH2 = styled.h2`
     font-size: 20px;
     font-weight: 900;
-    margin-top: 30px;
+    margin-top: 100px;
     margin-bottom: 40px;
 `;
 

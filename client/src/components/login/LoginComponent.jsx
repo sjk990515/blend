@@ -89,7 +89,6 @@ const PassBox = styled.div`
 const PassInput = styled.input`
     background: #e4e1e0;
     width: 100%;
-    /* font-size: 12px; */
     border: 0;
     border-bottom: 1px solid #000;
     padding-bottom: 10px;
