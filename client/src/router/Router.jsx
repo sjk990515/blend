@@ -7,7 +7,7 @@ import GlobalStyles from "../GlobalStyles";
 import { styled } from "styled-components";
 import Header from "../layout/Header";
 import Login from "../pages/login/Login";
-
+import Loading from "../components/loading/loading";
 import Send from "../pages/send/Send";
 import Scan from "../pages/send/Scan";
 import SendCheck from "../pages/send/SendCheck";
@@ -25,6 +25,7 @@ function Router() {
                     {/* <Menulayout /> */}
                 </>
             <Routes>
+                <Route path="/loading" element={<Loading />} />
                 <Route path="/" element={<MainPage />} />
                 {/* <Route path="/myPage" element={<MyPage />} /> */}
                 <Route path="/login" element={<Login />} />
