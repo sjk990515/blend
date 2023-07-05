@@ -8,6 +8,11 @@ import { styled } from "styled-components";
 import Header from "../layout/Header";
 import Login from "../pages/login/Login";
 
+import Send from "../pages/send/Send";
+import Scan from "../pages/send/Scan";
+import SendCheck from "../pages/send/SendCheck";
+import SendDone from "../pages/send/SendDone";
+
 function Router() {
     return (
         <BrowserRouter>
@@ -17,12 +22,15 @@ function Router() {
                     <Header />
                     {/* <Menulayout /> */}
                 </>
-
-                <Routes>
-                    <Route path="/" element={<MainPage />} />
-                    {/* <Route path="/myPage" element={<MyPage />} /> */}
-                    <Route path="/login" element={<Login />} />
-                </Routes>
+            <Routes>
+                <Route path="/" element={<MainPage />} />
+                {/* <Route path="/myPage" element={<MyPage />} /> */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/send" element={<Send />} />
+                <Route path="/scan" element={<Scan />} />
+                <Route path="/sendcheck" element={<SendCheck />} />
+                <Route path="/senddone" element={<SendDone />} />
+            </Routes>
             </MobileWidthDiv>
         </BrowserRouter>
     );
