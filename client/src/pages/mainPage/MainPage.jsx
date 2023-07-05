@@ -8,13 +8,14 @@ import bestImg1 from "../../image/bestImg1.png";
 import bestImg2 from "../../image/bestImg2.png";
 import bestImg3 from "../../image/bestImg3.png";
 import { useNavigate } from "react-router-dom";
+import { IoIosArrowForward } from "react-icons/io";
 
 function MainPage() {
     const navigate = useNavigate();
     // slide 세팅
     const [noticeSlide, setNoticeSlide] = useState(0);
     //임시 로그인
-    const [loginTrue, setLoginTrue] = useState(true);
+    const loginTrue = true;
 
     const beansSettings = {
         autoplay: true,
@@ -46,17 +47,36 @@ function MainPage() {
         navigate("/login");
     };
 
+    const beansCountOnClick = () => {
+        navigate("/mybeans");
+    };
+
     return (
         <MainWrapDiv>
             {/* Bean박스 */}
             <BeanBox>
-                <BeanTitle>로그인 해주세요</BeanTitle>
-                <BeanSubTitle onClick={loginOnClick}>
-                    로그인 하러 가기 &gt;
-                </BeanSubTitle>
+                <BeanTitle>
+                    {loginTrue ? "안녕하세요!" : "로그인 해주세요"}
+                </BeanTitle>
+                {loginTrue ? (
+                    <BeanSubTitle>김김김님</BeanSubTitle>
+                ) : (
+                    <BeanSubTitle onClick={loginOnClick}>
+                        로그인 하러 가기 &gt;
+                    </BeanSubTitle>
+                )}
 
                 <BeansImg src={smallBeans}></BeansImg>
                 <BeansSmallImg src={smallBeans}></BeansSmallImg>
+
+                {loginTrue ? (
+                    <BeansCount onClick={beansCountOnClick}>
+                        3100 <BeansCountSpan>&nbsp; BEANS</BeansCountSpan>
+                        <IoIosArrowForward />
+                    </BeansCount>
+                ) : (
+                    <></>
+                )}
             </BeanBox>
 
             {/* 공지 */}
@@ -136,6 +156,21 @@ const BeansSmallImg = styled.img`
     top: 10px;
     right: 30px;
 `;
+
+const BeansCount = styled.p`
+    position: absolute;
+    display: flex;
+    align-items: end;
+    bottom: 20px;
+    right: 20px;
+    font-size: 22px;
+    font-weight: 500;
+    cursor: pointer;
+`;
+const BeansCountSpan = styled.span`
+    font-size: 14px;
+    font-weight: 700;
+`;
 const NoticeTitleDiv = styled.div`
     display: flex;
     justify-content: space-between;
@@ -196,6 +231,7 @@ const RecommendDiv = styled.div`
     border-radius: 10px;
     border: 2px solid #432c20;
     background: rgba(109, 190, 117, 0.2);
+    box-shadow: 2px 2px 5px 0 #727272;
 `;
 const RecommendH2 = styled.h2`
     font-size: 16px;

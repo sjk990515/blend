@@ -12,6 +12,7 @@ import Send from "../pages/send/Send";
 import Scan from "../pages/send/Scan";
 import SendCheck from "../pages/send/SendCheck";
 import SendDone from "../pages/send/SendDone";
+import MyBeans from "../pages/mainPage/MyBeans";
 
 function Router() {
     return (
@@ -22,15 +23,16 @@ function Router() {
                     <Header />
                     {/* <Menulayout /> */}
                 </>
-            <Routes>
-                <Route path="/" element={<MainPage />} />
-                {/* <Route path="/myPage" element={<MyPage />} /> */}
-                <Route path="/login" element={<Login />} />
-                <Route path="/send" element={<Send />} />
-                <Route path="/scan" element={<Scan />} />
-                <Route path="/sendcheck" element={<SendCheck />} />
-                <Route path="/senddone" element={<SendDone />} />
-            </Routes>
+                <Routes>
+                    <Route path="/" element={<MainPage />} />
+                    {/* <Route path="/myPage" element={<MyPage />} /> */}
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/mybeans" element={<MyBeans />} />
+                    <Route path="/send" element={<Send />} />
+                    <Route path="/scan" element={<Scan />} />
+                    <Route path="/sendcheck" element={<SendCheck />} />
+                    <Route path="/senddone" element={<SendDone />} />
+                </Routes>
             </MobileWidthDiv>
         </BrowserRouter>
     );
@@ -39,6 +41,7 @@ function Router() {
 export default Router;
 const MobileWidthDiv = styled.div`
     max-width: 430px;
+    overflow: hidden;
     margin: 0 auto;
     background: #e4e1e0;
     margin-top: 70px;
