@@ -9,7 +9,7 @@ const port = 3000;
 app.use(express.urlencoded({extended:false}));
 
 // view 파일 기본경로 설정
-app.set('views',__dirname + '/views');
+app.set('views',__dirname + '/Test');
 
 // view engine 설정
 app.set('view engine', 'ejs');
@@ -50,18 +50,24 @@ app.use(express.static('public'))
 //         res.redirect('/member/login')
 //     }else{
 //         console.log(req.session)
-//         res.send({ 
-//             'user' : req.session.logined
-//         })
+//         res.render('main.ejs',{ 'user' : req.session.logined})    // 리액트에 맞게수정 -> res.send({ 'user' : req.session.logined})
+//         
 //     }
 // })
 
-const main = require("./routes/main.js");
-app.use("/main",main);
+//const main = require("./Router/main.js");
+//app.use("/main",main);
 
 
-const member = require("./routes/member.js")()
+const member = require("./Router/member.js")()
 app.use("/member",member)
+
+//const token = require("./Router/token.js")()
+//app.use("/token",token)
+
+//const trade = require("./Router/trade.js")()
+//app.use("/trade",trade)
+
 
 const server = app.listen(port,function(){
     console.log(port,"Server Start")
