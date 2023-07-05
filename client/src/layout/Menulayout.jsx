@@ -16,7 +16,7 @@ function Menulayout() {
      
      // X버튼(닫기) 클릭시 메인페이지로 네비게이트
      const loginOnClick = () => {
-         navigate("/member/checkLogin");
+         navigate("/login");
      };
 
     return (
@@ -62,7 +62,11 @@ export default Menulayout;
 const Body = styled.div`
     overflow: hidden;
     height:100vh;
-    display: flex;
+    width:100vh;
+    top: 0;
+    left: 0; 
+    z-index: 999999999;
+    //position: fixed;
     justify-content: center;
     align-items: center;
 
@@ -131,10 +135,12 @@ const BeanImg = styled.img`
     padding-top: 25px;
 `;
 
+// 메뉴 영역
 const MenuArea = styled.div`
     text-align: center;
 `
 
+// 개별 메뉴 영역
 const MenuArticle = styled.div`
     height: 62px;
     border-bottom: 1px solid #432C20;
