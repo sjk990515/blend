@@ -21,6 +21,7 @@ function Menulayout() {
 
     return (
         <Body>
+           <div className="wrapper"> 
             {/* 로고와 메뉴 닫기 버튼 영역 */}
             <LogoArea>
                 {/* BLEND 로고 */}
@@ -32,25 +33,46 @@ function Menulayout() {
             
             {/* 유저 정보 영역 */}
             <UserArea>
-                    <div className="info">로그인 해주세요.</div>
-                    <div className="go-login" onClick={loginOnClick}>로그인 하러가기</div>
-                    
-                    {/* 커피콩 이미지 */}
-                    <BeanImg src={bean_img}></BeanImg>
-            </UserArea>
-            <MenuArea>
+                <div className="login-area">
+                    <span className="info">로그인 해주세요.</span>
+                    <p className="go-login" onClick={loginOnClick}>로그인 하러가기</p>
+                </div>
 
+                {/* 커피콩 이미지 */}
+                <div className="img-area">
+                    <BeanImg src={bean_img}></BeanImg>
+                </div>
+            </UserArea>
+
+            {/* 메뉴 영역 */}
+            <MenuArea>
+                <MenuArticle>Beans</MenuArticle>
+                <MenuArticle>Mypage</MenuArticle>
+                <MenuArticle>Notice</MenuArticle>
+                <MenuArticle>Shop</MenuArticle>
             </MenuArea>
+            </div>
         </Body>
     );
 }
 
 export default Menulayout;
 
+// 전체 감쌈
 const Body = styled.div`
     overflow: hidden;
+    height:100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .wrapper {
+        width: 100%;
+        position: absolute;
+    }
 `
 
+// 상단 (로고랑 닫기 버튼 영역)
 const LogoArea = styled.div`
     padding-left: 20px;
     display:flex;
@@ -72,17 +94,22 @@ const LogoImg = styled.img`
     width: 72px;
 `;
 
+// 사용자 영역 (로그인 해주세요..)
 const UserArea = styled.div`
     width: 100%;
-    padding: 50px 50px 80px 20px;
+    padding: 50px 0 80px 20px;
     position: relative;
-    object-fit: contain;
 
+    .login-area {
+        position: absolute;
+
+    }
+    
     .info {
         font-size: 30px;
         font-weight: 600;
     }
-
+    
     .go-login{
         padding-top: 17px;
         padding-left: 2px;
@@ -92,14 +119,25 @@ const UserArea = styled.div`
             //text-decoration: underline;
         }
     }
-`;
+    
+    .img-area {
+        width: 100%;
+        text-align: right;
+    }
+    `;
 
 const BeanImg = styled.img`
-    position: absolute;
-    left: 222px;
-    top:80px;
+    padding-right: 18px;
+    padding-top: 25px;
 `;
 
 const MenuArea = styled.div`
+    text-align: center;
+`
 
+const MenuArticle = styled.div`
+    height: 62px;
+    border-bottom: 1px solid #432C20;
+    line-height: 62px;
+    font-size: 26px;
 `
