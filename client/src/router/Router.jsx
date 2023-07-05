@@ -5,6 +5,11 @@ import MainPage from "../pages/mainPage/MainPage";
 import MyPage from "../pages/myPage/MyPage";
 import GlobalStyles from "../GlobalStyles";
 
+import Send from "../pages/send/Send";
+import Scan from "../pages/send/Scan";
+import SendCheck from "../pages/send/SendCheck";
+import SendDone from "../pages/send/SendDone";
+
 function Router() {
     return (
         <BrowserRouter>
@@ -16,6 +21,10 @@ function Router() {
 
             <Routes>
                 <Route path="/" element={<MainPage />} />
+                <Route path="/send" element={<Send />} />
+                <Route path="/scan" element={<Scan />} />
+                <Route path="/sendcheck" element={<SendCheck />} />
+                <Route path="/senddone" element={<SendDone />} />
             </Routes>
         </BrowserRouter>
     );
