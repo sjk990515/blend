@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main</title>
+    <script>
+        console.log(user.MEMBER_NUM)
+    </script>
+</head>
+<body>
+    <h1>main test</h1>
+    <h2>session 정보</h2>
+    <%=user[0]%><br>
+    <%=user.MEMBER_NUM%><br>
+    <%=user.MEMBER_ID%><br>
+    <%=user.MEMBER_PASSWORD%><br>
+    <%=user.MEMBER_BIRTH%><br>
+    <%=user.MEMBER_WALLET%><br>
+    <%=user.MEMBER_PROFILE%><br>
+
+    <button onclick="location.href='/member/logout'">로그아웃</button>
+</body>
+</html>
