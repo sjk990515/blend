@@ -7,10 +7,14 @@ import "slick-carousel/slick/slick-theme.css";
 import bestImg1 from "../../image/bestImg1.png";
 import bestImg2 from "../../image/bestImg2.png";
 import bestImg3 from "../../image/bestImg3.png";
+import { useNavigate } from "react-router-dom";
 
 function MainPage() {
+    const navigate = useNavigate();
     // slide 세팅
     const [noticeSlide, setNoticeSlide] = useState(0);
+    //임시 로그인
+    const [loginTrue, setLoginTrue] = useState(true);
 
     const beansSettings = {
         autoplay: true,
@@ -38,12 +42,18 @@ function MainPage() {
         slidesToScroll: 1,
     };
 
+    const loginOnClick = () => {
+        navigate("/login");
+    };
+
     return (
         <MainWrapDiv>
             {/* Bean박스 */}
             <BeanBox>
                 <BeanTitle>로그인 해주세요</BeanTitle>
-                <BeanSubTitle>로그인 하러 가기 &gt;</BeanSubTitle>
+                <BeanSubTitle onClick={loginOnClick}>
+                    로그인 하러 가기 &gt;
+                </BeanSubTitle>
 
                 <BeansImg src={smallBeans}></BeansImg>
                 <BeansSmallImg src={smallBeans}></BeansSmallImg>
