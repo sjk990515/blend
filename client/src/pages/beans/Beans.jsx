@@ -65,7 +65,7 @@ function Beans() {
                     <div className="ranking-article-area">
                         { ranks.map((i)=>{
                             return(
-                                // 링크 이동 어케 하징
+                                // 클릭 이동 어케 하징
                                 <RankingArticle >
                                     <RankTxt>{i.rank}.</RankTxt>
                                     <TokenBalanceTxt>{i.balance}</TokenBalanceTxt>
