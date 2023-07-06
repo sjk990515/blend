@@ -20,28 +20,36 @@
             <input type="text" name="_pass" maxlength="16" /><br />
             <label>BIRTHDAY</label>
             <input type="text" name="_birth" /><br />
+            <label>Name</label>
+            <input type="text" name="_name" /><br />
+            <label>email</label>
+            <input type="text" name="_email" /><br />
             <input type="submit" value="가입" />
         </form>
     </body>
 </html>
 <script>
     var auth_num = "";
-    $(document).ready(function () {
-        $(".ajaxSend").on("click", function () {
-            var id = $("input[name=_id]").val();
-            $.ajax({
-                url: "/member/smsAuth",
-                type: "POST",
-                dataType: "JSON",
-                data: { _id: id },
-            })
-                .done(function (json) {
-                    auth_num = json.auth_num;
-                    console.log(json);
-                })
-                .fail(function (xhr, status, errorThrown) {
-                    alert("Ajax failed");
+    session.setAttribute("name", "박경식");
+    session.setAttribute("age", new Integer(26));
+    session.setAttribute("gender", "남");
+    $(document).ready(function(){
+    $(".ajaxSend").on("click", function(){
+                    var id = $('input[name=_id]').val();
+                    $.ajax({
+                        url : "/member/smsAuth",
+                        type : "POST",
+                        dataType : "JSON",
+                        data : {"_id" : id}
+                    })
+                    .done(function (json){
+                        auth_num = json.auth_num 
+                        console.log(json)
+                    })
+                    .fail(function (xhr, status, errorThrown){
+                        alert("Ajax failed")
+                    })
                 });
-        });
+    
     });
 </script>
