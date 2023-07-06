@@ -2,6 +2,12 @@
 const express = require("express");
 const app = express();
 
+// post로 데이터가 들어오면 json 형태로 변환
+var bodyParser = require("body-parser");
+
+app.use(bodyParser());
+// app.use(express.json());
+
 const cors = require("cors");
 
 app.use(cors());
@@ -10,7 +16,7 @@ app.use(cors());
 const port = 4000;
 
 // post로 데이터가 들어오면 json 형태로 변환
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.urlencoded({ extended: false }));
 
 // view 파일 기본경로 설정
 app.set("views", __dirname + "/Test");
