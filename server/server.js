@@ -13,7 +13,7 @@ const cors = require('cors');
 app.use(cors());
 
 // port 번호
-const port = 5000;
+const port = 4000;
 
 // post로 데이터가 들어오면 json 형태로 변환
 // app.use(express.urlencoded({ extended: false }));
@@ -45,18 +45,17 @@ app.use(
 app.use(express.static('public'));
 
 // 임시 메인 경로,  URI 지정 필요 그대로 써도 상관없음
-app.get("/session", function (req, res) {
-    if (!req.session.logined) {
-        res.send({result:false});
-    } else {
-        console.log(req.session);
-        res.send({ user: req.session.logined,result:true }); // 리액트에 맞게수정 -> res.send({ 'user' : req.session.logined})
-    }
+app.get('/session', function (req, res) {
+   if (!req.session.logined) {
+      res.send({ result: false });
+   } else {
+      console.log(req.session);
+      res.send({ user: req.session.logined, result: true }); // 리액트에 맞게수정 -> res.send({ 'user' : req.session.logined})
+   }
 });
 
-
-//const main = require("./Router/main.js");
-//app.use("/main",main);
+const main = require('./Router/main.js')();
+app.use('/main', main);
 
 const member = require('./Router/member.js')();
 app.use('/member', member);
