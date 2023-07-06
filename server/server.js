@@ -2,13 +2,21 @@
 const express = require('express');
 const app = express();
 
-// port 번호
-const port = 3000;
+// post로 데이터가 들어오면 json 형태로 변환
+var bodyParser = require('body-parser');
 
-app.use(express.json());
+app.use(bodyParser());
+// app.use(express.json());
+
+const cors = require('cors');
+
+app.use(cors());
+
+// port 번호
+const port = 4000;
 
 // post로 데이터가 들어오면 json 형태로 변환
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.urlencoded({ extended: false }));
 
 // view 파일 기본경로 설정
 app.set('views', __dirname + '/Test');
@@ -37,15 +45,14 @@ app.use(
 app.use(express.static('public'));
 
 // 임시 메인 경로,  URI 지정 필요 그대로 써도 상관없음
-// app.get('/',function(req,res){
-//     if(!req.session.logined){
-//         res.redirect('/member/login')
-//     }else{
-//         console.log(req.session)
-//         res.render('main.ejs',{ 'user' : req.session.logined})    // 리액트에 맞게수정 -> res.send({ 'user' : req.session.logined})
-//
-//     }
-// })
+app.get('/', function (req, res) {
+   if (!req.session.logined) {
+      res.redirect('/member/login');
+   } else {
+      console.log(req.session);
+      res.render('main.ejs', { user: req.session.logined }); // 리액트에 맞게수정 -> res.send({ 'user' : req.session.logined})
+   }
+});
 
 //const main = require("./Router/main.js");
 //app.use("/main",main);

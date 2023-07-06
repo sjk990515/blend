@@ -76,7 +76,6 @@ const LoginForm = styled.form`
 const IdInput = styled.input`
     background: #e4e1e0;
     width: 100%;
-    /* font-size: 12px; */
     margin-bottom: 40px;
     border: 0;
     border-bottom: 1px solid #000;

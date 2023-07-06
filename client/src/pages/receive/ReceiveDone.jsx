@@ -1,8 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import profile3 from "../../image/profile3.png";
 
-function Receive() {
+function SendDone() {
     const navigate = useNavigate();
 
     const Main = () => {
@@ -13,23 +14,30 @@ function Receive() {
             <Wrap>
                 <div className="Title">
                     <Phone>010-3302-1234</Phone>
-                    <Stitle> 나의 QR코드 </Stitle>
+                    <Bal> 나의 잔액은: 2,100 BEANS </Bal>
                 </div>
-                <Qrbx>{/* QR IMAGE */}</Qrbx>
-                <Addr>0x00000000000</Addr>
-
-                <Cbtn onClick={Main}>받기취소</Cbtn>
+                <Alertbx>
+                    <Profile>
+                        <ProfileImg src={profile3} alt="skybluebean" />
+                    </Profile>
+                    <div className="text">
+                        <p>010-2222-1234님 으로 부터</p>
+                        <p>받기 완료!</p>
+                    </div>
+                </Alertbx>
+                <Confirm onClick={Main}>확인</Confirm>
             </Wrap>
         </Body>
     );
 }
 
-export default Receive;
+export default SendDone;
 
 const Body = styled.div`
     background-color: #432c20;
     text-align: center;
-    height: 100vh;
+    min-height: 100vh;
+    margin-top: -70px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,15 +49,17 @@ const Wrap = styled.div``;
 const Phone = styled.div`
     font-size: 26px;
     color: #f6f290;
+    /* padding-top:114px; */
     text-align: center;
 `;
 
 const Addr = styled(Phone)`
     font-size: 14px;
-    margin-bottom: 42px;
+    padding-top: 10px;
+    padding-bottom: 102px;
 `;
 
-const Stitle = styled.div`
+const Bal = styled.div`
     padding: 10px;
     color: #f6f290;
     font-weight: 800px;
@@ -58,14 +68,45 @@ const Stitle = styled.div`
     margin-bottom: 54px;
 `;
 
-const Qrbx = styled.div`
+const Alertbx = styled.div`
     width: 320px;
     height: 320px;
-    border: 2px solid #f6f290;
+    background-color: #f6f290;
     margin: 0 auto;
     border-radius: 10px;
-    margin-bottom: 28px;
+    margin-bottom: 90px;
     padding: 32px;
+
+    .qr {
+        font-size: 20px;
+        font-weight: bold;
+        padding-top: 112px;
+        margin-bottom: 34px;
+    }
+
+    .al1 {
+        line-height: 20px;
+        color: #6dbe75;
+    }
+
+    p {
+        font-size: 14px;
+        margin: 10px;
+    }
+
+    p:nth-child(2) {
+        font-size: 22px;
+        font-weight: 800;
+        margin-top: 54px;
+    }
+    .price {
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+    .text {
+        margin-top: 32px;
+    }
 `;
 
 const Profile = styled.div`
@@ -89,7 +130,7 @@ const ProfileImg = styled.img`
     left: 20px;
 `;
 
-const Cbtn = styled.div`
+const Confirm = styled.div`
     width: 110px;
     height: 46px;
     border-radius: 30px;
@@ -103,5 +144,4 @@ const Cbtn = styled.div`
     font-size: 14px;
     font-weight: 800;
     cursor: pointer;
-    /* margin-bottom:154px; */
 `;

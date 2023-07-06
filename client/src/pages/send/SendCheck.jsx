@@ -5,6 +5,13 @@ import profile1 from "../../image/profile1.png"
 
 
 function SendCheck() {
+    const navigate = useNavigate();
+
+
+    const SendDone =()=>{
+        navigate("/senddone")
+    }
+
     return (
         
         <Body>
@@ -22,7 +29,7 @@ function SendCheck() {
                    </div>
                 </Alertbx>
 
-            <Back>뒤로가기</Back>
+            <Sendbtn onClick={SendDone}>보내기</Sendbtn>
       
             </Wrap>
         </Body>
@@ -138,7 +145,7 @@ top:20px; left:20px;
 `;
 
 
-const Back =styled.div`
+const Sendbtn =styled.div`
 width:110px;
 height:46px;
 border-radius:30px;

@@ -3,18 +3,69 @@ import { styled } from "styled-components";
 import { loginMenuRecoil } from "../../recoil/atom";
 import { useRecoilState } from "recoil";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useMutation } from "react-query";
+import axios from "axios";
 
 function SignUpComponent() {
     // 비밀번호 온오프
     const [passIconOn, setPassIconOn] = useState(false);
     // 유저 로그인 메뉴
     const [loginMenu, setLoginMenu] = useRecoilState(loginMenuRecoil);
+    // 유저 로그인 메뉴
+    const [phoneCheck, setPhoneCheck] = useState("");
 
     // 패스워드 숨김 아이콘
     const passIconOnClick = () => {
         setPassIconOn(!passIconOn);
     };
 
+    const IdOnChange = (e) => {
+        setPhoneCheck(e.target.value);
+    };
+
+    const numberPostMutation = useMutation(
+        (bbb) => axios.post("http://localhost:4000/member/smsAuth", bbb),
+        {
+            onSuccess: (response) => {
+                const result = response.data;
+                console.log(result);
+                // queryClient.invalidateQueries("comment");
+            },
+        }
+    );
+
+    const phoneMessage = () => {
+        const bbb = new FormData();
+        bbb.append("_id", phoneCheck);
+        const newNumber = {
+            _id: phoneCheck,
+        };
+        const aaa = JSON.stringify(newNumber);
+
+        numberPostMutation.mutate(aaa);
+
+        //시도 2
+
+        //     fetch("http://localhost:4000/member/smsAuth", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: {
+        //             id: phoneCheck,
+        //         },
+        //     }).then((response) => console.log(response));
+        // };
+
+        //시도 2
+        // axios({
+        //     url: "http://localhost:4000/member/smsAuth",
+        //     method: "post",
+        //     data: bbb,
+        // }).then(function (res) {
+        //     console.log(res);
+        // });
+    };
     return (
         <>
             <SignUpForm>
@@ -24,13 +75,18 @@ function SignUpComponent() {
                 <Phonediv>
                     <IdInput
                         type="text"
+                        onChange={IdOnChange}
                         placeholder={
                             loginMenu
                                 ? "휴대폰 번호 입력(-없이)"
                                 : "사업자 번호 입력(-없이)"
                         }
                     />
-                    {loginMenu ? <IdCheck>인증</IdCheck> : ""}
+                    {loginMenu ? (
+                        <IdCheck onClick={phoneMessage}>인증</IdCheck>
+                    ) : (
+                        ""
+                    )}
                 </Phonediv>
 
                 <InputText>{loginMenu ? "이름" : "가맹점 이름"}</InputText>
