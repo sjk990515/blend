@@ -96,7 +96,7 @@ const Body = styled.div`
 const Wrapper = styled.div`
     width: 100%;
     margin-top: 110px;
-    `
+`
 
 const BeansBoardDiv = styled.div`
     z-index: 1;
