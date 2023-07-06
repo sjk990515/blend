@@ -42,14 +42,16 @@ align-items:center;
 margin-top:-70px;
 z-index:9999999999999;
 position:fixed;
-top:100;
+
 
 `;
 
 const Load = styled.img`
-margin-top:30px;
-width:70%;
-height:70%;
+margin-top:25px;
+margin-left:30px;
+width:60%;
+height:60%;
+
 `;
 
 
