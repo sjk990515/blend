@@ -16,12 +16,10 @@ function MyPage() {
         <Body>
             <div className="wrapper">
                 {/* 프사 영역 */}
-                <div className="profile-area">
-                    <ImgBorder>
-                        {/* 회원이 프사 수정하면 수정 필요 */}
-                        <ProfileImg src={profile_img}></ProfileImg>
-                    </ImgBorder>
-                </div>
+                <ImgBorder>
+                    {/* 회원이 프사 수정하면 수정 필요 */}
+                    <ProfileImg src={profile_img}></ProfileImg>
+                </ImgBorder>
 
                 {/* 회원 휴대폰번호(아이디) */}
                 <UserArea>
@@ -66,26 +64,17 @@ function MyPage() {
 export default MyPage;
 
 const Body = styled.div`
-    height:100vh;
     max-width: 430px;
     display: flex;
-    /* top: 0; */
-    /* background-color: #E4E1E0; */
-    /* z-index: 999999999;  */
     justify-content: center;
     align-items: center;
     min-height:100vh;
     margin-top:-70px;
-
+    
     .wrapper {
-        position: absolute;
         width: 100%;
+        padding-top: 70px;
     }
-
-    .profile-area {
-        padding-top: 30px;
-    }
-
     `
 // 프사 영역
  // 겉 테두리
@@ -110,6 +99,7 @@ const UserArea = styled.div`
     padding-top: 30px;
     text-align: center;
     font-size: 20px;
+    width: 100%;
 `
 
 const UserInfoArea = styled.div`

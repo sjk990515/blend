@@ -51,10 +51,10 @@ function Router() {
 
 export default Router;
 const MobileWidthDiv = styled.div`
-
     max-width: 430px;
     overflow: hidden;
     margin: 0 auto;
+    margin-left: 55%;
     background: #e4e1e0;
     padding-top: 70px;
     box-shadow: 0px 0px 15px 2px #727272;

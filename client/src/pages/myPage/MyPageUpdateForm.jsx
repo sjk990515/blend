@@ -15,7 +15,7 @@ function MyPageUpdateForm() {
 
     return(
         <S.Body>
-            <div className="wrapper">
+            <S.Wrapper>
                  {/* 프사 영역 */}
                  <Profilearea>
                     <S.ImgBorder>
@@ -41,10 +41,12 @@ function MyPageUpdateForm() {
                         <Input type="Date" name="date" defaultValue={"2023-07-05"}></Input>
                         <Input type="text" name="email" defaultValue={"blend@gmail.com"}></Input>
                         <Input type="password" name="password" defaultValue={"0dgoajei"}></Input>
+                        <div className="btn">
                         <UpdateDoneBtn>수정완료</UpdateDoneBtn>
+                        </div>
                     </form>
                 </FormArea>
-            </div>
+            </S.Wrapper>
         </S.Body>
     );
 }
@@ -52,7 +54,6 @@ function MyPageUpdateForm() {
 export default MyPageUpdateForm;
 
 const Profilearea = styled.div`
-    padding-top: 50px;
 `
 
 const AuthPhoneArea = styled.div`
@@ -67,17 +68,23 @@ const AuthPhoneArea = styled.div`
 `
 
 const AuthPhoneBtn = styled.button`
-    margin-top: 5px;
+    margin-top: 7px;
     background-color: #F6F290;
     border: 1px solid #432C20;
     border-radius: 30px;
-    font-size: 12px;
+    font-size: 13px;
     cursor: pointer;
     padding: 2px 14px 2px 14px;
 `
 
 const FormArea = styled.div`
+    padding: 20px;
     text-align: center;
+    /* margin-top: 5px; */
+
+    .btn {
+        text-align: center;
+    }
 `
 const Input = styled.input`
     font-size: 14px;
