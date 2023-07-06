@@ -22,6 +22,15 @@ function Router() {
                     <Route path="/" element={<MainPage />} />
                     <Route path="/myPage" element={<MyPage />} />
                     <Route path="/myPage/update" element={<MyPageUpdateForm />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/mybeans" element={<MyBeans />} />
+                    <Route path="/send" element={<Send />} />
+                    <Route path="/scan" element={<Scan />} />
+                    <Route path="/sendcheck" element={<SendCheck />} />
+                    <Route path="/senddone" element={<SendDone />} />
+                    <Route path="/receive" element={<Receive />} />
+                    <Route path="/receivedone" element={<ReceiveDone />} />
+                    <Route path="/beans" element={<Beans />} />
                 </Routes>
             </MobileWidthDiv>
         </BrowserRouter>
