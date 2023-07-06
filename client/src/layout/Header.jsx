@@ -1,6 +1,6 @@
 import React from "react";
 import { styled } from "styled-components";
-import small_Logo from "../image/small_Logo.png";
+import BlendLogo from "../image/BlendLogo.png";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +16,7 @@ function Header() {
     return (
         <HeaderDiv>
             {/* 작은 로고 클릭시 홈 이동 */}
-            <LogoImg src={small_Logo} onClick={smallLogoOnClick} />
+            <LogoImg src={BlendLogo} onClick={smallLogoOnClick} />
 
             {/* 햄버거 메뉴 */}
             <RxHamburgerMenu className="menu" />
@@ -26,10 +26,14 @@ function Header() {
 
 export default Header;
 const HeaderDiv = styled.div`
+    z-index: 999999;
+    position: fixed;
+    top: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    max-width: 430px;
     background: #432c20;
     height: 70px;
 
@@ -43,4 +47,5 @@ const HeaderDiv = styled.div`
 const LogoImg = styled.img`
     margin-left: 20px;
     cursor: pointer;
+    width: 70px;
 `;

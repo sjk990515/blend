@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { AiFillAmazonCircle } from "react-icons/ai";
 import styled from "styled-components";
 import logo from "../image/logo_for_menu.png";
 import bean_img from "../image/bean_img.png";
@@ -123,6 +124,10 @@ function Menulayout() {
 }
 
 export default Menulayout;
+const Wrap = styled.div`
+    width: 430px;
+    overflow: hidden;
+`;
 
 // 전체 감쌈
 const Body = styled.div`

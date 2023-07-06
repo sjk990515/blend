@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>join test</title>
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    </head>
+    <body>
+        <h1>회원가입 테스트</h1>
+        <form action="/member/joinSet" method="post">
+            <label>PHONE</label>
+            <input type="text" name="_id" maxlength="11" id="id" /><button
+                type="button"
+                class="ajaxSend"
+            >
+                ajax</button
+            ><br />
+            <label>PASSWORD</label>
+            <input type="text" name="_pass" maxlength="16" /><br />
+            <label>BIRTHDAY</label>
+            <input type="text" name="_birth" /><br />
+            <input type="submit" value="가입" />
+        </form>
+    </body>
+</html>
+<script>
+    var auth_num = "";
+    $(document).ready(function () {
+        $(".ajaxSend").on("click", function () {
+            var id = $("input[name=_id]").val();
+            $.ajax({
+                url: "/member/smsAuth",
+                type: "POST",
+                dataType: "JSON",
+                data: { _id: id },
+            })
+                .done(function (json) {
+                    auth_num = json.auth_num;
+                    console.log(json);
+                })
+                .fail(function (xhr, status, errorThrown) {
+                    alert("Ajax failed");
+                });
+        });
+    });
+</script>
