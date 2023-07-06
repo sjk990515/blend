@@ -38,10 +38,11 @@ export default Scan;
 const Body = styled.div`
 background-color:#432C20;
 text-align:center;
-height:100vh;
+min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
+margin-top:-70px;
 
 `;
 

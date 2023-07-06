@@ -45,12 +45,12 @@ app.use(
 app.use(express.static('public'));
 
 // 임시 메인 경로,  URI 지정 필요 그대로 써도 상관없음
-app.get('/', function (req, res) {
+app.get('/session', function (req, res) {
    if (!req.session.logined) {
-      res.redirect('/member/login');
+      res.send({ result: false });
    } else {
       console.log(req.session);
-      res.render('main.ejs', { user: req.session.logined }); // 리액트에 맞게수정 -> res.send({ 'user' : req.session.logined})
+      res.send({ user: req.session.logined, result: true }); // 리액트에 맞게수정 -> res.send({ 'user' : req.session.logined})
    }
 });
 

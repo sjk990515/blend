@@ -48,16 +48,19 @@ function generateRandomCode(n) {
    return str;
 }
 
+//토큰 생성
+//token.create_token('Beans','BNS',0,1000000000)
+
 module.exports = function () {
    // 기본경로 : localhost:3000/member
 
    // localhost:3000/member 요청 시
-   router.get('/', async function (req, res) {});
+   //    router.get("/", async function (req, res) {});
 
    // localhost:3000/member/join [get] 회원가입 폼
-   router.get('/join', async function (req, res) {
-      res.render('join.ejs');
-   });
+   //    router.get("/join", async function (req, res) {
+   //        res.render("join.ejs");
+   //    });
 
    // member table column
    /*
@@ -70,16 +73,17 @@ module.exports = function () {
     */
    // localhost:3000/member/joinSet [post] 회원가입 등록
    router.post('/joinSet', async function (req, res) {
-      const input_id = req.body._id;
-      const input_pass = req.body._pass;
-      const input_name = req.body._name;
-      const input_birth = req.body._birth;
-      const input_email = req.body._email;
-      const input_wallet = await token.create_wallet();
-      const input_auth = req.body.auth;
-      console.log('## joinSet input_Data : ' + input_id, input_pass, input_birth);
+      try {
+         const input_id = req.body._id;
+         const input_pass = req.body._pass;
+         const input_name = req.body._name;
+         const input_birth = req.body._birth;
+         const input_email = req.body._email;
+         const input_wallet = await token.create_wallet();
+         const input_auth = 1;
+         console.log('## joinSet input_Data : ' + input_id, input_pass, input_birth);
 
-      const sql = `
+         const sql = `
             insert
             into
             member
@@ -94,29 +98,34 @@ module.exports = function () {
             values
             (?,?,?,?,?,?,?)
         `;
-      const values = [input_id, input_pass, input_name, input_birth, input_email, input_wallet, input_auth];
+         const values = [input_id, input_pass, input_name, input_birth, input_email, input_wallet, input_auth];
 
-      connection.query(sql, values, function (err, result) {
-         if (err) {
-            console.log(err);
-            res.send(err);
-         } else {
-            console.log(result);
-            res.json({ message: 'Y' });
-         }
-      });
+         connection.query(sql, values, function (err, result) {
+            if (err) {
+               console.log(err);
+               res.send(err);
+            } else {
+               console.log(result);
+               res.json({ message: 'Y' });
+            }
+         });
+      } catch (e) {
+         console.error(e);
+      }
    });
 
    // localhost:3000/member/smsAuth [post] Ajax sms인증
-   router.post('/smsAuth', async function (req, res) {
+   router.get('/smsAuth', async function (req, res) {
       //확인 후 난수 데이터 보낼줄 것
+      // const abc = Object.keys(req.body)[0];
+      // const aaa = JSON.parse(req.body);
       console.log(req.body);
       const input_id = req.body._id;
 
       let authNum = generateRandomCode(4);
       console.log(authNum);
       const phonetext = '[Blend]Blend에서 인증번호를 발송해드립니다. 당신의 인증번호는 [' + authNum + '] 입니다.';
-      const resNum = { auth_Num: authNum };
+      const resNum = { auth_num: authNum };
 
       console.log('## text : ' + phonetext);
 
@@ -157,11 +166,10 @@ module.exports = function () {
          }
       });
    });
-
    // localhost:3000/member/login [get] 로그인 등록
-   router.get('/login', async function (req, res) {
-      res.render('login.ejs');
-   });
+   //    router.get("/login", async function (req, res) {
+   //        res.render("login.ejs");
+   //    });
 
    // localhost:3000/member/checkLogin [post] 로그인 유효성검사
    router.post('/checkLogin', function (req, res) {
@@ -190,9 +198,9 @@ module.exports = function () {
             console.log('## checkLogin : ' + result);
             if (result.length != 0) {
                req.session.logined = result[0];
-               res.redirect('../'); // 메인으로 가는 경로 정해지면 바꿔주세요
+               res.send({ result: true }); // 메인으로 가는 경로 정해지면 바꿔주세요
             } else {
-               res.redirect('/member/login');
+               res.send({ result: false });
             }
          }
       });
@@ -202,8 +210,7 @@ module.exports = function () {
       req.session.destroy(function () {
          req.session;
       });
-
-      res.redirect('../');
+      res.send({ result: 'delete' });
    });
 
    // localhost:3000/member/myPage [get] 방식으로 정보 불러오기
