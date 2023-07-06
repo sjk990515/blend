@@ -74,6 +74,7 @@ const Body = styled.div`
     .wrapper {
         width: 100%;
         padding-top: 70px;
+        padding-bottom: 50px;
     }
     `
 // 프사 영역
