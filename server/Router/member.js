@@ -1,9 +1,9 @@
 //express 로드
 const express = require('express');
-// const coolsms = require('coolsms-node-sdk');
+const coolsms = require('coolsms-node-sdk').default;
 
 // apiKey, apiSecret 설정
-// const messageService = new coolsms('NCSEZDM0KDIMDV92', 'XJ34ZHHYXV3WPGQXA4XQOGWEVDUX3GA0');
+const messageService = new coolsms('NCSEZDM0KDIMDV92', 'XJ34ZHHYXV3WPGQXA4XQOGWEVDUX3GA0');
 
 // Router() 변수에 대입
 const router = express.Router();
@@ -115,7 +115,7 @@ module.exports = function () {
    });
 
    // localhost:3000/member/smsAuth [post] Ajax sms인증
-   router.get('/smsAuth', async function (req, res) {
+   router.post('/smsAuth', async function (req, res) {
       //확인 후 난수 데이터 보낼줄 것
       // const abc = Object.keys(req.body)[0];
       // const aaa = JSON.parse(req.body);
@@ -125,7 +125,7 @@ module.exports = function () {
       let authNum = generateRandomCode(4);
       console.log(authNum);
       const phonetext = '[Blend]Blend에서 인증번호를 발송해드립니다. 당신의 인증번호는 [' + authNum + '] 입니다.';
-      const resNum = { auth_num: authNum };
+      const resNum = { auth_Num: authNum };
 
       console.log('## text : ' + phonetext);
 
@@ -148,16 +148,16 @@ module.exports = function () {
             console.log('## ID check : ' + result);
             if (result.length == 0) {
                // 2건 이상의 메시지를 발송할 때는 sendMany, 단일 건 메시지 발송은 sendOne을 이용해야 합니다.
-               //    messageService
-               //       .sendMany([
-               //          {
-               //             to: input_id,
-               //             from: '01062826010',
-               //             text: phonetext,
-               //          },
-               //       ])
-               //       .then(res => console.log(res))
-               //       .catch(err => console.error(err));
+               messageService
+                  .sendMany([
+                     {
+                        to: input_id,
+                        from: '01062826010',
+                        text: phonetext,
+                     },
+                  ])
+                  .then(res => console.log(res))
+                  .catch(err => console.error(err));
                res.json(resNum);
             } else {
                console.log('중복됨');
@@ -213,7 +213,7 @@ module.exports = function () {
       res.send({ result: 'delete' });
    });
 
-   // localhost:3000/member/myPage [get] 방식으로 정보 불러오기
+   // localhost:3000/member/myPage [get] mypage, 세션에 저장된 유저 정보 불러오기
    router.get('/myPage', function (req, res) {
       console.log(req.session.logined);
       res.render('mypage.ejs', {
@@ -221,14 +221,14 @@ module.exports = function () {
       });
    });
 
-   // localhost:3000/member/editView [get] 방식으로 수정 페이지 불러오기
+   // localhost:3000/member/editView [get] 회원정보 수정 페이지, 세션에 저장된 회원 정보 불러오기
    router.get('/editView', function (req, res) {
       res.render('edit.ejs', {
          data: req.session.logined,
       });
    });
 
-   // localhost:3000/member/edit [post] 회원정보 수정
+   // localhost:3000/member/edit [post] 회원정보 수정(DB 업데이트 및 세션 정보 수정)
    router.post('/edit', upload.single('_profile'), function (req, res) {
       console.log(req.body);
       const input_profile = req.file.filename;
@@ -239,6 +239,7 @@ module.exports = function () {
       const input_pass = req.body._pass;
       console.log(input_profile, input_id, input_name, input_birth, input_email, input_pass);
 
+      // 회원정보 업데이트 (DB에 UPDATE)
       const sql = `
        update member 
        set member_id = ?, 
@@ -264,6 +265,7 @@ module.exports = function () {
             console.log(err);
             res.send(err);
          } else {
+            // 정보 수정(update 성공 시)한 후 DB에 업데이트 된 로그인 정보 조회(select)
             const selectSql = `
                 select
                 *
@@ -282,6 +284,7 @@ module.exports = function () {
                   console.log(err);
                   res.send(err);
                } else {
+                  // 업데이트 된 DB 데이터를 세션에 새로 넣어준 후 myPage로 redirect
                   console.log('## checkLogin : ' + selectResult);
                   if (selectResult.length != 0) {
                      console.log('## result[0]: ' + selectResult[0]);
