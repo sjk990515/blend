@@ -228,7 +228,7 @@ const BestImg = styled.img`
 const RecommendDiv = styled.div`
     position: relative;
     height: 160px;
-    margin: 40px 20px 0;
+    margin: 40px 20px;
     padding: 20px;
     border-radius: 10px;
     border: 2px solid #432c20;

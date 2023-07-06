@@ -30,7 +30,8 @@ function SignUpComponent() {
     };
 
     const numberPostMutation = useMutation(
-        (bbb) => axios.post("http://localhost:4000/member/smsAuth", bbb),
+        (newNumber) =>
+            axios.post("http://localhost:4000/member/smsAuth", newNumber),
         {
             onSuccess: (response) => {
                 const result = response.data.auth_Num;
@@ -114,7 +115,7 @@ function SignUpComponent() {
                         />
                     ) : (
                         <IdInput
-                            type="text"
+                            type="number"
                             onChange={IdOnChange}
                             placeholder={
                                 loginMenu
@@ -229,6 +230,14 @@ const IdInput = styled.input`
     border-bottom: 1px solid #000;
     padding-bottom: 10px;
     text-indent: 5px;
+    ::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    ::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 `;
 const IdCheck = styled.p`
     position: absolute;

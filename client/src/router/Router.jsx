@@ -27,7 +27,7 @@ function Router() {
             <MobileWidthDiv>
                 <>
                     <Header />
-                    {/* <Menulayout /> */}
+                    <Menulayout />
                 </>
                 <Routes>
                     {/* <Route path="/background" element={<Background />} /> */}
@@ -58,6 +58,7 @@ const MobileWidthDiv = styled.div`
     overflow: hidden;
     margin: 0 auto;
     background: #e4e1e0;
+    /* margin-right: 20%; */
     padding-top: 70px;
-    box-shadow: 0px 0px 15px 2px #727272;
+    box-shadow: 0px 0px 15px 2px #000;
 `;

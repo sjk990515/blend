@@ -3,14 +3,23 @@ import { styled } from "styled-components";
 import BlendLogo from "../image/BlendLogo.png";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { displayNoneRecoil, menuAble } from "../recoil/atom";
+import { IoMdClose } from "react-icons/io";
 
 function Header() {
     //네비게이트
     const navigate = useNavigate();
+    const [disable, setDisable] = useRecoilState(menuAble);
+    const [displayNone, setDisplayNone] = useRecoilState(displayNoneRecoil);
 
     //로고에서 메인페이지로 네비게이트
     const smallLogoOnClick = () => {
         navigate("/");
+    };
+
+    const menuOnClick = () => {
+        setDisable(!disable);
     };
 
     return (
@@ -19,7 +28,11 @@ function Header() {
             <LogoImg src={BlendLogo} onClick={smallLogoOnClick} />
 
             {/* 햄버거 메뉴 */}
-            <RxHamburgerMenu className="menu" />
+            {disable ? (
+                <IoMdClose className="menu" onClick={menuOnClick} />
+            ) : (
+                <RxHamburgerMenu className="menu" onClick={menuOnClick} />
+            )}
         </HeaderDiv>
     );
 }
