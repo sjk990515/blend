@@ -2,14 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-
 function Send() {
     const navigate = useNavigate();
 
-
-    const SendCheck =()=>{
-        navigate("/sendcheck")
-    }
+    const SendCheck = () => {
+        navigate("/sendcheck");
+    };
 
 
     const Scan =()=>{
@@ -17,7 +15,6 @@ function Send() {
     }
 
     return (
-        
         <Body>
             <div className="Title">
                 <Phone>010-3302-1234</Phone>
@@ -25,7 +22,7 @@ function Send() {
             </div>
             <InputBox>
                 <Ibox placeholder="수량"></Ibox>
-                    <Bal> 나의 잔액은: 3000 </Bal>
+                <Bal> 나의 잔액은: 3000 </Bal>
                 <Ibox placeholder="주소 혹은 핸드폰 번호"></Ibox>
                 <Wrap>
                     <div className="ScanBtn">
@@ -36,8 +33,6 @@ function Send() {
             </InputBox>
             <Sendbtn onClick={SendCheck}>보내기</Sendbtn>
             <Cancel>취소</Cancel>
-      
-            
         </Body>
     );
 }
@@ -52,17 +47,16 @@ margin-top:-70px;
 `;
 
 const Phone = styled.div`
-font-size:26px;
-color:#F6F290;
-padding-top:114px;
-text-align:center;
-
+    font-size: 26px;
+    color: #f6f290;
+    padding-top: 114px;
+    text-align: center;
 `;
 
-const Addr =  styled(Phone)`
-font-size:14px;
-padding-top:10px;
-padding-bottom:102px;
+const Addr = styled(Phone)`
+    font-size: 14px;
+    padding-top: 10px;
+    padding-bottom: 102px;
 `;
 
 const Ibox = styled.input`
@@ -79,34 +73,31 @@ font-size:14px;
 }
 `;
 
-
 const InputBox = styled.div`
- width:320px;
- margin:0 auto;
-.ScanBtn {
-    text-align:left;
-}
-.notice{
-    color:#D44C3D;
-    font-size:14px;
-    margin-top:22px;
-    text-align:right;
-}
+    width: 320px;
+    margin: 0 auto;
+    .ScanBtn {
+        text-align: left;
+    }
+    .notice {
+        color: #d44c3d;
+        font-size: 14px;
+        margin-top: 22px;
+        text-align: right;
+    }
 `;
 
-
-
 const Bal = styled.div`
- padding:10px;
- color:#F6F290;
- font-weight:800px; 
- text-align:left;
- font-size:14px;
+    padding: 10px;
+    color: #f6f290;
+    font-weight: 800px;
+    text-align: left;
+    font-size: 14px;
 `;
 
 const Wrap = styled.div`
-display:flex;
-justify-content:space-between;
+    display: flex;
+    justify-content: space-between;
 `;
 
 const Scanbtn = styled.div`

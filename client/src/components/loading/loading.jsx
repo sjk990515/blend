@@ -18,7 +18,7 @@ function Loading() {
             <Beans className='bean3' src={bean3} alt="bean3" />
             <Beans className='bean4' src={bean4} alt="bean4" />
         </Wrapper>
-       <Load src={loadingimg}></Load>
+       
     </Body>
 
     
