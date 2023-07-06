@@ -77,7 +77,7 @@ function MyBeans() {
 export default MyBeans;
 
 const MyBeansWrap = styled.div`
-    min-height: 100vh;
+    height: 100vh;
     margin: -70px 20px 50px;
 `;
 const MyBeansTitle = styled.h2`

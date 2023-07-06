@@ -13,6 +13,12 @@ function SignUpComponent() {
     const [loginMenu, setLoginMenu] = useRecoilState(loginMenuRecoil);
     // 유저 로그인 메뉴
     const [phoneCheck, setPhoneCheck] = useState("");
+    // 휴대폰 인증번호
+    const [checkNumber, setCheckNumber] = useState("");
+    // 인증번호 input
+    const [checkNumberValue, setCheckNumberValue] = useState("");
+    // 인증 성공
+    const [checkSuccess, setCheckSuccess] = useState(false);
 
     // 패스워드 숨김 아이콘
     const passIconOnClick = () => {
@@ -24,24 +30,30 @@ function SignUpComponent() {
     };
 
     const numberPostMutation = useMutation(
-        (newNumber) =>
-            axios.post("http://localhost:4000/member/smsAuth", newNumber),
+        (bbb) => axios.post("http://localhost:4000/member/smsAuth", bbb),
         {
             onSuccess: (response) => {
-                const result = response.data;
+                const result = response.data.auth_Num;
                 console.log(result);
+                setCheckNumber(result);
                 // queryClient.invalidateQueries("comment");
             },
         }
     );
 
     const phoneMessage = () => {
+        // const bbb = new FormData();
+        // bbb.append("_id", phoneCheck);
+        alert("인증번호가 전송되었습니다");
+
         const newNumber = {
-            id: phoneCheck,
+            _id: phoneCheck,
         };
         // const aaa = JSON.stringify(newNumber);
 
         numberPostMutation.mutate(newNumber);
+
+        //시도 2
 
         //     fetch("http://localhost:4000/member/smsAuth", {
         //         method: "POST",
@@ -53,6 +65,34 @@ function SignUpComponent() {
         //         },
         //     }).then((response) => console.log(response));
         // };
+
+        //시도 2
+        // axios({
+        //     url: "http://localhost:4000/member/smsAuth",
+        //     method: "post",
+        //     data: bbb,
+        // }).then(function (res) {
+        //     console.log(res);
+        // });
+    };
+
+    const checkNumberOnClick = () => {
+        // checkNumber
+        // checkNumberValue
+
+        // checkNumberValue == checkNumber ? {} : {};
+
+        if (checkNumberValue == checkNumber) {
+            alert("인증 되었습니다.");
+            setCheckNumber("");
+            setCheckSuccess(true);
+        } else {
+            alert("인증 실패했습니다.");
+        }
+    };
+
+    const checkNumberOnChange = (e) => {
+        setCheckNumberValue(e.target.value);
     };
     return (
         <>
@@ -61,21 +101,54 @@ function SignUpComponent() {
                     {loginMenu ? "휴대폰 번호" : "사업자 번호"}
                 </InputText>
                 <Phonediv>
-                    <IdInput
-                        type="text"
-                        onChange={IdOnChange}
-                        placeholder={
-                            loginMenu
-                                ? "휴대폰 번호 입력(-없이)"
-                                : "사업자 번호 입력(-없이)"
-                        }
-                    />
+                    {checkNumber || checkSuccess ? (
+                        <IdInput
+                            type="text"
+                            onChange={IdOnChange}
+                            placeholder={
+                                loginMenu
+                                    ? "휴대폰 번호 입력(-없이)"
+                                    : "사업자 번호 입력(-없이)"
+                            }
+                            readOnly
+                        />
+                    ) : (
+                        <IdInput
+                            type="text"
+                            onChange={IdOnChange}
+                            placeholder={
+                                loginMenu
+                                    ? "휴대폰 번호 입력(-없이)"
+                                    : "사업자 번호 입력(-없이)"
+                            }
+                        />
+                    )}
                     {loginMenu ? (
-                        <IdCheck onClick={phoneMessage}>인증</IdCheck>
+                        checkSuccess ? (
+                            ""
+                        ) : (
+                            <IdCheck onClick={phoneMessage}>
+                                {checkNumber ? "재전송" : "인증"}
+                            </IdCheck>
+                        )
                     ) : (
                         ""
                     )}
                 </Phonediv>
+
+                {checkNumber ? (
+                    <Phonediv>
+                        <InputText>인증번호</InputText>
+                        <SignUpInput
+                            type="text"
+                            placeholder="인증번호 입력"
+                            onChange={checkNumberOnChange}
+                        />
+                        <IdCheck onClick={checkNumberOnClick}>확인</IdCheck>
+                    </Phonediv>
+                ) : (
+                    ""
+                )}
 
                 <InputText>{loginMenu ? "이름" : "가맹점 이름"}</InputText>
                 <SignUpInput type="text" placeholder="이름 입력" />

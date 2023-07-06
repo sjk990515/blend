@@ -9,6 +9,11 @@ function Send() {
         navigate("/sendcheck");
     };
 
+
+    const Scan =()=>{
+        navigate("/scan")
+    }
+
     return (
         <Body>
             <div className="Title">
@@ -21,7 +26,7 @@ function Send() {
                 <Ibox placeholder="주소 혹은 핸드폰 번호"></Ibox>
                 <Wrap>
                     <div className="ScanBtn">
-                        <Scan>스캔</Scan>
+                    <Scanbtn onClick={Scan}>스캔</Scanbtn> 
                     </div>
                     <div className="notice">수량과 주소를 확인하세요.</div>
                 </Wrap>
@@ -35,10 +40,10 @@ function Send() {
 export default Send;
 
 const Body = styled.div`
-    background-color: #432c20;
-    text-align: center;
-    margin-top: -70px;
-    min-height: 100vh;
+background-color:#432C20;
+text-align:center;
+min-height:100vh;
+margin-top:-70px;
 `;
 
 const Phone = styled.div`
@@ -64,7 +69,7 @@ text-indent:10px;
 color:#f2f2f2;
 font-size:14px;
 ::placeholder{
-    14px;
+   font-size:14px;
 }
 `;
 
@@ -95,28 +100,35 @@ const Wrap = styled.div`
     justify-content: space-between;
 `;
 
-const Scan = styled.button`
-    width: 96px;
-    height: 40px;
-    border-radius: 30px;
-    background-color: #f6f290;
-    border: 0;
-    text-align: center;
-    margin-top: 10px;
-    color: #432c20;
-    font-size: 14px;
-    font-weight: 800;
-    margin-bottom: 154px;
+const Scanbtn = styled.div`
+width:96px;
+height:40px;
+border-radius:30px;
+background-color:#F6F290;
+border:0;
+text-align:center;
+margin-top:10px;
+color:#432C20;
+font-size:14px;
+font-weight:800;
+margin-bottom:154px;
+line-height:40px;
+cursor:pointer;
 `;
 
-const Sendbtn = styled(Scan)`
-    width: 110px;
-    height: 46px;
-    color: #432c20;
-    font-weight: 800;
-    font-size: 16px;
-    margin-bottom: 26px;
-    cursor: pointer;
+const Sendbtn = styled.div`
+width:110px;
+height:46px;
+color:#432C20;
+font-weight:800;
+font-size:16px;
+cursor: pointer;
+background-color:#F6F290;
+border-radius:30px;
+text-align:center;
+line-height:46px;
+margin:0 auto;
+margin-bottom:26px;
 `;
 
 const Cancel = styled.div`

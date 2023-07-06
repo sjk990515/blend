@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import bestImg1 from "../../image/bestImg1.png";
 import bestImg2 from "../../image/bestImg2.png";
 import bestImg3 from "../../image/bestImg3.png";
+import bestImg4 from "../../image/bestImg4.png";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 
@@ -100,7 +101,7 @@ function MainPage() {
                     <BestImg src={bestImg1} />
                     <BestImg src={bestImg2} />
                     <BestImg src={bestImg3} />
-                    <BestImg src={bestImg2} />
+                    <BestImg src={bestImg4} />
                 </Slider>
             </BestBeans>
 
@@ -211,6 +212,7 @@ const BestBeans = styled.div`
         width: 140px;
         margin: 0 auto;
         padding-left: 20px;
+        margin-right: 15px;
         padding-bottom: 10px;
     }
 `;
