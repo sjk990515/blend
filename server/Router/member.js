@@ -93,33 +93,46 @@ module.exports = function () {
             values
             (?,?,?,?,?,?,?)
         `;
-      const values = [input_id, input_pass, input_name, input_birth, input_email, input_wallet, input_auth];
+        const values = [
+            input_id,
+            input_pass,
+            input_name,
+            input_birth,
+            input_email,
+            input_wallet,
+            input_auth,
+        ];
 
-      connection.query(sql, values, function (err, result) {
-         if (err) {
-            console.log(err);
-            res.send(err);
-         } else {
-            console.log(result);
-            res.json({ message: 'Y' });
-         }
-      });
-   });
+        connection.query(sql, values, function (err, result) {
+            if (err) {
+                console.log(err);
+                res.send(err);
+            } else {
+                console.log(result);
+                res.json({ message: "Y" });
+            }
+        });
+    });
 
-   // localhost:3000/member/smsAuth [post] Ajax sms인증
-   router.post('/smsAuth', async function (req, res) {
-      //확인 후 난수 데이터 보낼줄 것
-      console.log(req.body);
-      const input_id = req.body._id;
+    // localhost:3000/member/smsAuth [post] Ajax sms인증
+    router.post("/smsAuth", async function (req, res) {
+        //확인 후 난수 데이터 보낼줄 것
+        // const abc = Object.keys(req.body)[0];
+        // const aaa = JSON.parse(req.body);
+        console.log(req.body);
+        const input_id = req.body._id;
 
-      let authNum = generateRandomCode(4);
-      console.log(authNum);
-      const phonetext = '[Blend]Blend에서 인증번호를 발송해드립니다. 당신의 인증번호는 [' + authNum + '] 입니다.';
-      const resNum = { auth_Num: authNum };
+        let authNum = generateRandomCode(4);
+        console.log(authNum);
+        const phonetext =
+            "[Blend]Blend에서 인증번호를 발송해드립니다. 당신의 인증번호는 [" +
+            authNum +
+            "] 입니다.";
+        const resNum = { auth_Num: authNum };
 
-      console.log('## text : ' + phonetext);
+        console.log("## text : " + phonetext);
 
-      const SQL = `
+        const SQL = `
         select
         *
         from
