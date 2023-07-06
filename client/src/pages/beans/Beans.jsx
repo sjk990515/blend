@@ -7,6 +7,29 @@ import { useNavigate } from "react-router-dom";
 import Background from "../../layout/Background";
 
 function Beans() {
+    const ranks = [
+        {
+            rank:1,
+            balance: 358332906
+        },
+        {
+            rank:2,
+            balance: 25833290
+        },
+        {
+            rank:3,
+            balance: 11583329
+        },
+        {
+            rank:4,
+            balance: 1583329
+        },
+        {
+            rank:5,
+            balance: 1083335
+        }
+    ];
+        
     return (
         <Body>
             <Wrapper>
@@ -40,10 +63,15 @@ function Beans() {
                         <RankingLogoImg src={ranking}></RankingLogoImg>
                     </div>
                     <div className="ranking-article-area">
-                        <RankingArticle>
-                            <RankTxt>1.</RankTxt>
-                            <TokenBalanceTxt>34,203,594</TokenBalanceTxt>
-                        </RankingArticle>
+                        { ranks.map((i)=>{
+                            return(
+                                // 링크 이동 어케 하징
+                                <RankingArticle >
+                                    <RankTxt>{i.rank}.</RankTxt>
+                                    <TokenBalanceTxt>{i.balance}</TokenBalanceTxt>
+                                </RankingArticle>
+                            );
+                        })}
                     </div>
                 </RankingArea>
             </Wrapper>
@@ -136,7 +164,7 @@ const BackgroundBeansImg = styled.img`
 
 const RankingArea = styled.div`
     padding: 25px;
-    margin-top: 65px;
+    margin-top: 50px;
 `
 
 const RankingLogoImg = styled.img`
