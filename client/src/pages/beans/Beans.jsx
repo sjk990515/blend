@@ -7,6 +7,10 @@ import { useNavigate } from "react-router-dom";
 import Background from "../../layout/Background";
 
 function Beans() {
+    // 네비게이트
+    const navigate = useNavigate();
+
+    // X버튼(닫기) 클릭시 메인페이지로 네비게이트
     const ranks = [
         {
             rank:1,
@@ -29,6 +33,30 @@ function Beans() {
             balance: 1083335
         }
     ];
+
+    function hh() {
+        let color = null;
+        for (let i= 0; i< ranks.length; i++) {
+            let rank = ranks[i].rank;
+            console.log('랭크반복문', rank)
+        }
+        
+        // if(rank == 1){
+        //     color = '#F06A24'
+        // }
+        // if(rank == 2) {
+        //     color = '#6DBE75'
+        // }
+        // if(rank == 3) {
+        //     color = '#F6F290'
+        // }
+    }
+
+    console.log("dgDggDS   ",hh())
+
+    const DetailOnclick = () => {
+        navigate("/beans/detail/"+ranks[0].rank);
+    };
         
     return (
         <Body>
@@ -64,10 +92,11 @@ function Beans() {
                     </div>
                     <div className="ranking-article-area">
                         { ranks.map((i)=>{
+                            let h = null;
                             return(
                                 // 클릭 이동 어케 하징
-                                <RankingArticle >
-                                    <RankTxt>{i.rank}.</RankTxt>
+                                <RankingArticle onClick={DetailOnclick}>
+                                    <RankTxt color={i.rank}>{i.rank}.</RankTxt>
                                     <TokenBalanceTxt>{i.balance}</TokenBalanceTxt>
                                 </RankingArticle>
                             );
@@ -109,6 +138,7 @@ const BeansBoardDiv = styled.div`
     backdrop-filter: blur(6px);
     background: rgb(246,242,144);
     background: linear-gradient(143deg, rgba(246,242,144,0.6) 0%, rgba(231,229,183,0.2259497549019608) 51%, rgba(217,217,217,0) 100%);
+    box-shadow: 0px 4px 7px 0 #797979;
 `
 
 const TitleArea = styled.div`
@@ -169,7 +199,8 @@ const RankingArea = styled.div`
 
 const RankingLogoImg = styled.img`
     width: 30%;
-    margin-bottom: 15px;
+    margin-left: 3px;
+    margin-bottom: 10px;
 `
 
 const RankingArticle = styled.div`
@@ -190,7 +221,7 @@ const RankTxt = styled.span`
 
 const TokenBalanceTxt = styled.span`
     width: 50%;
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 800;
     color: #F6F290;
     text-align: right;
