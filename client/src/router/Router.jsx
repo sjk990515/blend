@@ -29,9 +29,9 @@ function Router() {
                     {/* <Menulayout /> */}
                 </>
                 <Routes>
-                    {/* <Route path="/background" element={<Background />} /> */}
+                    
                     <Route path="/" element={<MainPage />} />
-                    {/* <Route path="/myPage" element={<MyPage />} /> */}
+                    <Route path="/myPage" element={<MyPage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/mybeans" element={<MyBeans />} />
                     <Route path="/send" element={<Send />} />
