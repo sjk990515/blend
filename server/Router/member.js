@@ -126,6 +126,8 @@ module.exports = function () {
     // localhost:3000/member/smsAuth [post] Ajax sms인증
     router.post("/smsAuth", async function (req, res) {
         //확인 후 난수 데이터 보낼줄 것
+        // const abc = Object.keys(req.body)[0];
+        // const aaa = JSON.parse(req.body);
         console.log(req.body);
         const input_id = req.body._id;
 
