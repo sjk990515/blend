@@ -96,7 +96,10 @@ function Beans() {
                             return(
                                 // 클릭 이동 어케 하징
                                 <RankingArticle onClick={DetailOnclick}>
+                                    {/* 순위 1. 2. <- 이런 텍스트만 */}
                                     <RankTxt color={i.rank}>{i.rank}.</RankTxt>
+                                    
+                                    {/* 토큰 양 */}
                                     <TokenBalanceTxt>{i.balance}</TokenBalanceTxt>
                                 </RankingArticle>
                             );
@@ -216,7 +219,20 @@ const RankingArticle = styled.div`
 
 const RankTxt = styled.span`
     width: 50%;
+    font-weight: 100;
     font-size: 30px;
+    color: ${(props) =>
+        props.color == "1"
+            ? "#F06A24"
+            :(props.color == "2" 
+                ? "#6DBE75"
+              :( 
+                  props.color == "3" 
+                  ? "#F6F290"
+                  : "#ffffff"
+                )
+             )
+            };
 ` 
 
 const TokenBalanceTxt = styled.span`
