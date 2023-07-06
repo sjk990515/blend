@@ -54,8 +54,8 @@ app.get('/', function (req, res) {
    }
 });
 
-//const main = require("./Router/main.js");
-//app.use("/main",main);
+// const main = require('./Router/main.js');
+// app.use('/main', main);
 
 const member = require('./Router/member.js')();
 app.use('/member', member);

@@ -1,8 +1,9 @@
 //express 로드
 const express = require('express');
+// const coolsms = require('coolsms-node-sdk');
 
 // apiKey, apiSecret 설정
-const messageService = new coolsms('NCSEZDM0KDIMDV92', 'XJ34ZHHYXV3WPGQXA4XQOGWEVDUX3GA0');
+// const messageService = new coolsms('NCSEZDM0KDIMDV92', 'XJ34ZHHYXV3WPGQXA4XQOGWEVDUX3GA0');
 
 // Router() 변수에 대입
 const router = express.Router();
@@ -138,16 +139,16 @@ module.exports = function () {
             console.log('## ID check : ' + result);
             if (result.length == 0) {
                // 2건 이상의 메시지를 발송할 때는 sendMany, 단일 건 메시지 발송은 sendOne을 이용해야 합니다.
-               messageService
-                  .sendMany([
-                     {
-                        to: input_id,
-                        from: '01062826010',
-                        text: phonetext,
-                     },
-                  ])
-                  .then(res => console.log(res))
-                  .catch(err => console.error(err));
+               //    messageService
+               //       .sendMany([
+               //          {
+               //             to: input_id,
+               //             from: '01062826010',
+               //             text: phonetext,
+               //          },
+               //       ])
+               //       .then(res => console.log(res))
+               //       .catch(err => console.error(err));
                res.json(resNum);
             } else {
                console.log('중복됨');
