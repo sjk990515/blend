@@ -27,13 +27,16 @@ function Router() {
             <MobileWidthDiv>
                 <>
                     <Header />
-                    {/* <Menulayout /> */}
+                    <Menulayout />
                 </>
                 <Routes>
                     {/* <Route path="/background" element={<Background />} /> */}
                     <Route path="/" element={<MainPage />} />
                     <Route path="/myPage" element={<MyPage />} />
-                    <Route path="/myPage/update" element={<MyPageUpdateForm />} />
+                    <Route
+                        path="/myPage/update"
+                        element={<MyPageUpdateForm />}
+                    />
                     <Route path="/login" element={<Login />} />
                     <Route path="/mybeans" element={<MyBeans />} />
                     <Route path="/send" element={<Send />} />
@@ -51,11 +54,11 @@ function Router() {
 
 export default Router;
 const MobileWidthDiv = styled.div`
-
     max-width: 430px;
     overflow: hidden;
     margin: 0 auto;
     background: #e4e1e0;
+    /* margin-right: 20%; */
     padding-top: 70px;
-    box-shadow: 0px 0px 15px 2px #727272;
+    box-shadow: 0px 0px 15px 2px #000;
 `;

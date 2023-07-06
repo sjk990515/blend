@@ -1,58 +1,61 @@
 //express 로드
-const express = require('express');
-const coolsms = require('coolsms-node-sdk').default;
+const express = require("express");
+const coolsms = require("coolsms-node-sdk").default;
 
 // apiKey, apiSecret 설정
-const messageService = new coolsms('NCSEZDM0KDIMDV92', 'XJ34ZHHYXV3WPGQXA4XQOGWEVDUX3GA0');
+const messageService = new coolsms(
+    "NCSEZDM0KDIMDV92",
+    "XJ34ZHHYXV3WPGQXA4XQOGWEVDUX3GA0"
+);
 
 // Router() 변수에 대입
 const router = express.Router();
 
-const token = require('../Token/kip7.js');
+const token = require("../Token/kip7.js");
 
-const mysql = require('mysql2');
+const mysql = require("mysql2");
 const connection = mysql.createConnection({
-   host: process.env.host,
-   port: process.env.port,
-   user: process.env.user,
-   password: process.env.password,
-   database: process.env.database,
+    host: process.env.host,
+    port: process.env.port,
+    user: process.env.user,
+    password: process.env.password,
+    database: process.env.database,
 });
 
 // moment 모듈 로드
-const moment = require('moment');
+const moment = require("moment");
 let date = moment();
 
 // 파일 업로드
-const multer = require('multer');
+const multer = require("multer");
 
 const storage = multer.diskStorage({
-   destination: function (req, file, cb) {
-      cb(null, 'public/upload/');
-   },
-   filename: function (req, file, cb) {
-      cb(null, file.originalname);
-   },
+    destination: function (req, file, cb) {
+        cb(null, "public/upload/");
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    },
 });
 
 const upload = multer({
-   storage: storage,
+    storage: storage,
 });
 
 // 난수생성기
 function generateRandomCode(n) {
-   let str = '';
-   for (let i = 0; i < n; i++) {
-      str += Math.floor(Math.random() * 10);
-   }
-   return str;
+    let str = "";
+    for (let i = 0; i < n; i++) {
+        str += Math.floor(Math.random() * 10);
+    }
+    return str;
 }
 
 //토큰 생성
 //token.create_token('Beans','BNS',0,1000000000)
 
 module.exports = function () {
-   // 기본경로 : localhost:3000/member
+    // 기본경로 : localhost:3000/member
 
    // localhost:3000/member 요청 시
    //    router.get("/", async function (req, res) {});
@@ -62,8 +65,8 @@ module.exports = function () {
    //        res.render("join.ejs");
    //    });
 
-   // member table column
-   /*
+    // member table column
+    /*
     MEMBER_NUM,            // PK, auto increment
     MEMBER_ID,
     MEMBER_PASSWORD,
@@ -138,32 +141,32 @@ module.exports = function () {
         MEMBER_ID = ?
         `;
 
-      const values = [input_id];
+        const values = [input_id];
 
-      connection.query(SQL, values, function (err, result) {
-         if (err) {
-            console.log(err);
-            res.send(err);
-         } else {
-            console.log('## ID check : ' + result);
-            if (result.length == 0) {
-               // 2건 이상의 메시지를 발송할 때는 sendMany, 단일 건 메시지 발송은 sendOne을 이용해야 합니다.
-               messageService
-                  .sendMany([
-                     {
-                        to: input_id,
-                        from: '01062826010',
-                        text: phonetext,
-                     },
-                  ])
-                  .then(res => console.log(res))
-                  .catch(err => console.error(err));
-               res.json(resNum);
+        connection.query(SQL, values, function (err, result) {
+            if (err) {
+                console.log(err);
+                res.send(err);
             } else {
-               console.log('중복됨');
-               res.json({ auth_Num: '0' });
+                console.log("## ID check : " + result);
+                if (result.length == 0) {
+                    // 2건 이상의 메시지를 발송할 때는 sendMany, 단일 건 메시지 발송은 sendOne을 이용해야 합니다.
+                    messageService
+                        .sendMany([
+                            {
+                                to: input_id,
+                                from: "01062826010",
+                                text: phonetext,
+                            },
+                        ])
+                        .then((res) => console.log(res))
+                        .catch((err) => console.error(err));
+                    res.json(resNum);
+                } else {
+                    console.log("중복됨");
+                    res.json({ auth_Num: "0" });
+                }
             }
-         }
       });
    });
    // localhost:3000/member/login [get] 로그인 등록
@@ -187,6 +190,7 @@ module.exports = function () {
         and
         MEMBER_PASSWORD = ?
         `;
+
 
       const values = [input_id, input_pass];
 

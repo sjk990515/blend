@@ -21,11 +21,15 @@ function LoginComponent() {
         setSignUp(true);
     };
 
+    const aaa = (e) => {
+        e.preventDefault();
+    };
+
     return (
         <>
             <LoginTextH2>로그인 하세요</LoginTextH2>
 
-            <LoginForm>
+            <LoginForm onSubmit={aaa}>
                 <IdInput
                     type="text"
                     placeholder={
