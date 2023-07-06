@@ -7,7 +7,7 @@ import GlobalStyles from "../GlobalStyles";
 import { styled } from "styled-components";
 import Header from "../layout/Header";
 import Login from "../pages/login/Login";
-
+import Loading from "../components/loading/loading";
 import Send from "../pages/send/Send";
 import Scan from "../pages/send/Scan";
 import SendCheck from "../pages/send/SendCheck";
@@ -22,13 +22,14 @@ function Router() {
     return (
         <BrowserRouter>
             <GlobalStyles />
-            {/* <Background /> */}
+            <Background />
             <MobileWidthDiv>
                 <>
                     <Header />
                     {/* <Menulayout /> */}
                 </>
                 <Routes>
+                    {/* <Route path="/background" element={<Background />} /> */}
                     <Route path="/" element={<MainPage />} />
                     {/* <Route path="/myPage" element={<MyPage />} /> */}
                     <Route path="/login" element={<Login />} />
@@ -48,6 +49,7 @@ function Router() {
 
 export default Router;
 const MobileWidthDiv = styled.div`
+
     max-width: 430px;
     overflow: hidden;
     margin-left: 55%;
