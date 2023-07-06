@@ -238,6 +238,7 @@ const RecommendDiv = styled.div`
 const RecommendH2 = styled.h2`
     font-size: 16px;
     font-weight: 900;
+    line-height: 1.3;
 `;
 const RecommendTextP = styled.p`
     font-size: 12px;

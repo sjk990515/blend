@@ -9,15 +9,13 @@ import { BiLogoTwitter } from "react-icons/bi";
 import { BiLogoInstagram } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { displayNoneRecoil, menuAble } from "../recoil/atom";
+import { menuAble } from "../recoil/atom";
 
 function Menulayout() {
     const userLogin = true;
     // 네비게이트
     const navigate = useNavigate();
     const [disable, setDisable] = useRecoilState(menuAble);
-
-    const [displayNone, setDisplayNone] = useRecoilState(displayNoneRecoil);
 
     // X버튼(닫기) 클릭시 메인페이지로 네비게이트
     const closeOnClick = () => {
@@ -30,6 +28,7 @@ function Menulayout() {
     // X버튼(닫기) 클릭시 메인페이지로 네비게이트
     const loginOnClick = () => {
         navigate("/login");
+        setDisable(true);
     };
 
     // 로그아웃 클릭
@@ -38,37 +37,43 @@ function Menulayout() {
     };
 
     // Beans 메뉴 클릭
-    const beansOnClick = () => {
-        navigate("/beans");
-    };
+    // const beansOnClick = () => {
+    //     navigate("/beans");
+    //     setDisable(false);
+    // };
 
     // Mypage 메뉴 클릭
     const myPageOnClick = () => {
         navigate("/mypage");
+        setDisable(false);
     };
 
     // Notice 메뉴 클릭
-    const noticeOnClick = () => {
-        navigate("/notice");
-    };
+    // const noticeOnClick = () => {
+    //     navigate("/notice");
+    //     setDisable(false);
+    // };
 
     // Shop 메뉴 클릭
     const shopOnClick = () => {
         navigate("/shop");
+        setDisable(false);
     };
 
     // 토큰 보내기 버튼 클릭
     const sendOnClick = () => {
         navigate("/send");
+        setDisable(false);
     };
 
     // 토큰 받기 버튼 클릭
     const recieveOnClick = () => {
         navigate("/recieve");
+        setDisable(false);
     };
 
     return (
-        <Body disable={disable ? 1 : 0} displayNone={displayNone ? 1 : 0}>
+        <Body disable={disable ? 1 : 0}>
             <>
                 <div className="wrapper">
                     {/* 로고와 메뉴 닫기 버튼 영역 */}
@@ -144,13 +149,11 @@ function Menulayout() {
 
                     {/* 메뉴 영역 */}
                     <MenuArea>
-                        <MenuArticle onClick={beansOnClick}>Beans</MenuArticle>
+                        <MenuArticle>Beans</MenuArticle>
                         <MenuArticle onClick={myPageOnClick}>
                             Mypage
                         </MenuArticle>
-                        <MenuArticle onClick={noticeOnClick}>
-                            Notice
-                        </MenuArticle>
+                        <MenuArticle>Notice</MenuArticle>
                         <MenuArticle onClick={shopOnClick}>Shop</MenuArticle>
                     </MenuArea>
                 </div>

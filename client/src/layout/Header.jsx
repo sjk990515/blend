@@ -4,18 +4,18 @@ import BlendLogo from "../image/BlendLogo.png";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { displayNoneRecoil, menuAble } from "../recoil/atom";
+import { menuAble } from "../recoil/atom";
 import { IoMdClose } from "react-icons/io";
 
 function Header() {
     //네비게이트
     const navigate = useNavigate();
     const [disable, setDisable] = useRecoilState(menuAble);
-    const [displayNone, setDisplayNone] = useRecoilState(displayNoneRecoil);
 
     //로고에서 메인페이지로 네비게이트
     const smallLogoOnClick = () => {
         navigate("/");
+        setDisable(false);
     };
 
     const menuOnClick = () => {
@@ -49,7 +49,6 @@ const HeaderDiv = styled.div`
     max-width: 430px;
     background: #432c20;
     height: 70px;
-
     .menu {
         font-size: 30px;
         color: #f6f290;
