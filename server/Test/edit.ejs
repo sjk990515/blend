@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Document</title>
+   </head>
+   <body>
+      <h1>My Page - Edit</h1>
+      <form action="/member/edit" method="post" enctype="multipart/form-data">
+         <span id="basic1">profile</span>
+         <input type="file" name="_profile" value="<%=data.MEMBER_PROFILE%>" aria-describedby="basic1" />
+
+         <span id="basic2">id</span>
+         <input type="text" name="_id" value="<%=data.MEMBER_ID%>" aria-describedby="basic2" />
+
+         <span id="basic3">name</span>
+         <input type="text" name="_name" value="<%=data.MEMBER_NAME%>" aria-describedby="basic3" />
+
+         <span id="basic4">birth</span>
+         <input type="text" name="_birth" value="<%=data.MEMBER_BIRTH%>" aria-describedby="basic4" />
+
+         <span id="basic5">email</span>
+         <input type="text" name="_email" value="<%=data.MEMBER_EMAIL%>" aria-describedby="basic5" />
+
+         <span id="basic6">password</span>
+         <input type="password" name="_pass" value="<%=data.MEMBER_PASSWORD%>" aria-describedby="basic6" />
+
+         <input type="submit" value="수정하기" class="btn-primary" />
+      </form>
+   </body>
+</html>
