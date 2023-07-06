@@ -24,26 +24,48 @@ function SignUpComponent() {
     };
 
     const numberPostMutation = useMutation(
-        (newNumber) => axios.post("http://localhost:4000", newNumber),
+        (bbb) => axios.post("http://localhost:4000/member/smsAuth", bbb),
         {
-            onSuccess: () => {
-                // (response) => {
-                //     const result = response.data;
-                //     console.log("Mutation successful. Result:", result);
-                // };
+            onSuccess: (response) => {
+                const result = response.data;
+                console.log(result);
                 // queryClient.invalidateQueries("comment");
             },
         }
     );
 
     const phoneMessage = () => {
+        const bbb = new FormData();
+        bbb.append("_id", phoneCheck);
         const newNumber = {
-            phoneCheck,
+            _id: phoneCheck,
         };
+        const aaa = JSON.stringify(newNumber);
 
-        numberPostMutation.mutate(newNumber);
+        numberPostMutation.mutate(aaa);
+
+        //시도 2
+
+        //     fetch("http://localhost:4000/member/smsAuth", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: {
+        //             id: phoneCheck,
+        //         },
+        //     }).then((response) => console.log(response));
+        // };
+
+        //시도 2
+        // axios({
+        //     url: "http://localhost:4000/member/smsAuth",
+        //     method: "post",
+        //     data: bbb,
+        // }).then(function (res) {
+        //     console.log(res);
+        // });
     };
-
     return (
         <>
             <SignUpForm>

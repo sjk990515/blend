@@ -16,12 +16,14 @@ import Receive from "../pages/receive/Receive";
 import ReceiveDone from "../pages/receive/ReceiveDone";
 import MyBeans from "../pages/mainPage/MyBeans";
 import Beans from "../pages/beans/Beans";
+import Background from "../layout/Background";
 
 function Router() {
     return (
         <BrowserRouter>
+            <GlobalStyles />
+            {/* <Background /> */}
             <MobileWidthDiv>
-                <GlobalStyles />
                 <>
                     <Header />
                     {/* <Menulayout /> */}
@@ -48,7 +50,8 @@ export default Router;
 const MobileWidthDiv = styled.div`
     max-width: 430px;
     overflow: hidden;
-    margin: 0 auto;
+    margin-left: 55%;
     background: #e4e1e0;
-    margin-top: 70px;
+    padding-top: 70px;
+    box-shadow: 0px 0px 15px 2px #727272;
 `;
