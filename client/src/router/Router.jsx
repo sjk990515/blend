@@ -17,6 +17,7 @@ import Receive from "../pages/receive/Receive";
 import ReceiveDone from "../pages/receive/ReceiveDone";
 import MyBeans from "../pages/mainPage/MyBeans";
 import Beans from "../pages/beans/Beans";
+import BeansDetail from "../pages/beans/BeansDetail";
 import Background from "../layout/Background";
 
 function Router() {
@@ -43,6 +44,7 @@ function Router() {
                     <Route path="/receive" element={<Receive />} />
                     <Route path="/receivedone" element={<ReceiveDone />} />
                     <Route path="/beans" element={<Beans />} />
+                    <Route path="/beans/detail" element={<BeansDetail />} />
                 </Routes>
             </MobileWidthDiv>
         </BrowserRouter>
