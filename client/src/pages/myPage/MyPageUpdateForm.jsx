@@ -8,9 +8,9 @@ function MyPageUpdateForm() {
     // 네비게이트
     const navigate = useNavigate();
 
-    // X버튼(닫기) 클릭시 메인페이지로 네비게이트
-    const mypageUpdateOnClick = () => {
-        navigate("/mypage");
+    // 휴대폰 인증 버튼 클릭
+    const authPhoneOnClick = () => {
+        navigate("/checkPhone");
     };
 
     return(
@@ -26,27 +26,24 @@ function MyPageUpdateForm() {
 
                 {/* 회원 휴대폰번호(아이디) */}
                 <S.UserArea>
+                    {/* 번호 데이터 받아서 바꿔야함 */}
                     <span>010-3302-1234</span>
                     <span>님</span>
                     <AuthPhoneArea>
                         <p className="txt">휴대폰 인증을 해주세요!</p>
-                        <AuthPhoneBtn>휴대폰인증</AuthPhoneBtn>
+                        <AuthPhoneBtn onClick={authPhoneOnClick}>휴대폰인증</AuthPhoneBtn>
                     </AuthPhoneArea>
                 </S.UserArea>
 
                 <FormArea>
-                    <form action="/mypage/update" method="post">
-                        <Input type="text" defaultValue={"블렌드"}></Input>
-                        <Input type="Date" value={"2023-07-05"}></Input>
-                        <Input type="text" defaultValue={"blend@gmail.com"}></Input>
-                        <Input type="password" defaultValue={"0dgoajei"}></Input>
-                        <UpdateDoneBtn onClick={ mypageUpdateOnClick }>수정완료</UpdateDoneBtn>
+                    <form action="/mypage/updatepro" method="get">
+                        <Input type="text" name="name" defaultValue={"블렌드"}></Input>
+                        <Input type="Date" name="date" defaultValue={"2023-07-05"}></Input>
+                        <Input type="text" name="email" defaultValue={"blend@gmail.com"}></Input>
+                        <Input type="password" name="password" defaultValue={"0dgoajei"}></Input>
+                        <UpdateDoneBtn>수정완료</UpdateDoneBtn>
                     </form>
                 </FormArea>
-
-                {/* 버튼 */}
-                <S.BtnArea>
-                </S.BtnArea>
             </div>
         </S.Body>
     );
@@ -96,7 +93,9 @@ const Input = styled.input`
     border-radius: 5px;
     outline: none;
 `
-const UpdateDoneBtn = styled.button`
+const UpdateDoneBtn = styled.button.attrs({
+    type: 'submit'
+})`
  margin-top: 55px;
  border: none;
  width: 60%;
