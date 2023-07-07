@@ -10,13 +10,17 @@ import bestImg3 from "../../image/bestImg3.png";
 import bestImg4 from "../../image/bestImg4.png";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 function MainPage() {
     const navigate = useNavigate();
     // slide 세팅
     const [noticeSlide, setNoticeSlide] = useState(0);
     //임시 로그인
-    const loginTrue =false;
+
+    const loginTrue = sessionStorage.getItem("login");
+    // const loginTrue = true;
 
     const beansSettings = {
         autoplay: true,
@@ -47,10 +51,25 @@ function MainPage() {
     const loginOnClick = () => {
         navigate("/login");
     };
-
+    // 유저
     const beansCountOnClick = () => {
         navigate("/mybeans");
     };
+
+    // 유저 로그인 정보 불러오기
+    const getUserData = async () => {
+        const response = await axios.get(
+            "http://localhost:4000/member/session"
+        );
+        // setFriendAllRecoil(response?.data);
+        return response;
+    };
+    const { isLoading, isError, data, error } = useQuery(
+        "userData",
+        getUserData
+    );
+
+    console.log(data);
 
     return (
         <MainWrapDiv>
