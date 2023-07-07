@@ -43,7 +43,8 @@ export default SendCheck;
 const Body = styled.div`
 background-color:#432C20;
 text-align:center;
-height:100vh;
+min-height:100vh;
+margin-top:-70px;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -141,7 +142,7 @@ width:100px;
 height:100px;
 line-height:100px;
 position:absolute;
-top:20px; left:20px;
+top:17px; left:18px;
 `;
 
 
