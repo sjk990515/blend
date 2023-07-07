@@ -15,6 +15,23 @@ function Beans() {
         navigate("/beans/detail/"+props);
     };
 
+    /* 랭크된 유저 정보 불러오기
+    const getUserData = async () => {
+        const response = await axios.get(
+           // "__주소__"
+        );
+        // setFriendAllRecoil(response?.data);
+        return response;
+    };
+    const { isLoading, isError, data, error } = useQuery(
+        // "userData",  사용할 key
+        // getUserData  위의 함수를 사용하겠단 말
+    );
+
+    // console.log(data) 데이터는 data에 담김
+    */
+
+    // 더미 데이터
     const ranks = [
         {
             rank:1,

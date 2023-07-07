@@ -1,16 +1,33 @@
 import React from "react";
 import styled from "styled-components";
 import blend from "../../image/blendlogo_for_beansdetail.png";
-import { useParams } from "react-router-dom";
+/*
+    useParam 사용??
+*/
 
-function BeansDetail() {
-
-    // 상단 네모에 보이는 주소
+function BeansDetail(props) {
+    // 상단 네모에 보이는 주소 (더미 data)
     let userAddress = '0x8798dfbbD786B81486eD8762b25Af961011Db528';
-    // 상단 네모에 보이는 토큰 보유량
+    // 상단 네모에 보이는 토큰 보유량 (더미 data)
     let userBalance = 3458935093;
 
-    /* 거래 내역에 보이는 주소
+    /* 해당 유저의 거래 정보 불러오기
+    const getUserData = async () => {
+        const response = await axios.get(
+           // "__주소__"
+        );
+        // setFriendAllRecoil(response?.data);
+        return response;
+    };
+    const { isLoading, isError, data, error } = useQuery(
+        // "userData",  사용할 key
+        // getUserData  위의 함수를 사용하겠단 말
+    );
+
+    // console.log(data) 데이터는 data에 담김
+    */
+
+    /* 거래 내역에 보이는 주소 (더미 data)
        추후 order by 생각하기? */
     const transferData = [
         {
