@@ -3,7 +3,13 @@ import styled from "styled-components";
 import blend from "../../image/blendlogo_for_beansdetail.png";
 
 function BeansDetail() {
-    // 추후 order by 생각하기?
+    // 상단 네모에 보이는 주소
+    let userAddress = '0x8798dfbbD786B81486eD8762b25Af961011Db528';
+    // 상단 네모에 보이는 토큰 보유량
+    let userBalance = 3458935093;
+
+    /* 거래 내역에 보이는 주소
+       추후 order by 생각하기? */
     const transferData = [
         {
             id: 1,
@@ -59,12 +65,12 @@ function BeansDetail() {
                         <AddressArea>
                             <Label>주소</Label>
                             {/* 데이터 받아서 넣기 */}
-                            <UserAddress>0x8798dfbbD786B81486eD8762b25Af961011Db528</UserAddress>
+                            <UserAddress>{userAddress.substring(0,6)}...{userAddress.slice(-6)}</UserAddress>
                         </AddressArea>
                         <BalanceArea>
                             <Label>보유량</Label>
                             {/* 데이터 받아서 넣기 */}
-                            <UserBalance>3458935093</UserBalance>
+                            <UserBalance>{userBalance.toLocaleString()}</UserBalance>
                         </BalanceArea>
                     </UserInfoArea>
                 </SquareDiv>
@@ -175,7 +181,7 @@ const Label = styled.span`
     font-weight: 800;
 `
 
-const UserAddress = styled.span`
+const UserAddress = styled.div`
     width: 80%;
     text-align: right;
     font-size: 22px;
