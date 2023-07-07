@@ -3,14 +3,23 @@ import { styled } from "styled-components";
 import BlendLogo from "../image/BlendLogo.png";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { menuAble } from "../recoil/atom";
+import { IoMdClose } from "react-icons/io";
 
 function Header() {
     //네비게이트
     const navigate = useNavigate();
+    const [disable, setDisable] = useRecoilState(menuAble);
 
     //로고에서 메인페이지로 네비게이트
     const smallLogoOnClick = () => {
         navigate("/");
+        setDisable(false);
+    };
+
+    const menuOnClick = () => {
+        setDisable(!disable);
     };
 
     return (
@@ -19,7 +28,11 @@ function Header() {
             <LogoImg src={BlendLogo} onClick={smallLogoOnClick} />
 
             {/* 햄버거 메뉴 */}
-            <RxHamburgerMenu className="menu" />
+            {disable ? (
+                <IoMdClose className="menu" onClick={menuOnClick} />
+            ) : (
+                <RxHamburgerMenu className="menu" onClick={menuOnClick} />
+            )}
         </HeaderDiv>
     );
 }
@@ -36,7 +49,6 @@ const HeaderDiv = styled.div`
     max-width: 430px;
     background: #432c20;
     height: 70px;
-
     .menu {
         font-size: 30px;
         color: #f6f290;

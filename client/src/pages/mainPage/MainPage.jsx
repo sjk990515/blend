@@ -10,13 +10,16 @@ import bestImg3 from "../../image/bestImg3.png";
 import bestImg4 from "../../image/bestImg4.png";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 function MainPage() {
     const navigate = useNavigate();
     // slide 세팅
     const [noticeSlide, setNoticeSlide] = useState(0);
     //임시 로그인
-    const loginTrue = true;
+    const loginTrue = sessionStorage.getItem("login");
+    // const loginTrue = true;
 
     const beansSettings = {
         autoplay: true,
@@ -47,10 +50,25 @@ function MainPage() {
     const loginOnClick = () => {
         navigate("/login");
     };
-
+    // 유저
     const beansCountOnClick = () => {
         navigate("/mybeans");
     };
+
+    // 유저 로그인 정보 불러오기
+    const getUserData = async () => {
+        const response = await axios.get(
+            "http://localhost:4000/member/session"
+        );
+        // setFriendAllRecoil(response?.data);
+        return response;
+    };
+    const { isLoading, isError, data, error } = useQuery(
+        "userData",
+        getUserData
+    );
+
+    console.log(data);
 
     return (
         <MainWrapDiv>
@@ -228,7 +246,7 @@ const BestImg = styled.img`
 const RecommendDiv = styled.div`
     position: relative;
     height: 160px;
-    margin: 40px 20px 0;
+    margin: 40px 20px;
     padding: 20px;
     border-radius: 10px;
     border: 2px solid #432c20;
@@ -238,6 +256,7 @@ const RecommendDiv = styled.div`
 const RecommendH2 = styled.h2`
     font-size: 16px;
     font-weight: 900;
+    line-height: 1.3;
 `;
 const RecommendTextP = styled.p`
     font-size: 12px;
