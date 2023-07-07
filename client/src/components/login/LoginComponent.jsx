@@ -46,10 +46,10 @@ function LoginComponent() {
             axios.post("http://localhost:4000/member/checkLogin", newUser),
         {
             onSuccess: (response) => {
-                const result = response.data.result;
+                const result = response.data;
                 console.log(result);
-                sessionStorage.setItem("login", true);
-                navigator("/");
+                // sessionStorage.setItem("login", true);
+                // navigator("/");
             },
         }
     );
