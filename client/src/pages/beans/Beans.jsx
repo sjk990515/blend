@@ -10,7 +10,11 @@ function Beans() {
     // 네비게이트
     const navigate = useNavigate();
 
-    // X버튼(닫기) 클릭시 메인페이지로 네비게이트
+    // 해당 지갑의 거래 내역으로 이동
+    const DetailOnclick = () => {
+        navigate("/beans/detail/"+ranks[0].rank);
+    };
+
     const ranks = [
         {
             rank:1,
@@ -34,30 +38,6 @@ function Beans() {
         }
     ];
 
-    function hh() {
-        let color = null;
-        for (let i= 0; i< ranks.length; i++) {
-            let rank = ranks[i].rank;
-            console.log('랭크반복문', rank)
-        }
-        
-        // if(rank == 1){
-        //     color = '#F06A24'
-        // }
-        // if(rank == 2) {
-        //     color = '#6DBE75'
-        // }
-        // if(rank == 3) {
-        //     color = '#F6F290'
-        // }
-    }
-
-    console.log("dgDggDS   ",hh())
-
-    const DetailOnclick = () => {
-        navigate("/beans/detail/"+ranks[0].rank);
-    };
-        
     return (
         <Body>
             <Wrapper>
