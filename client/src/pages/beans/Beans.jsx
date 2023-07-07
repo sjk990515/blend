@@ -72,7 +72,6 @@ function Beans() {
                     </div>
                     <div className="ranking-article-area">
                         { ranks.map((i)=>{
-                            let h = null;
                             return(
                                 // 해당 순위 article 클릭 시 해당 지갑 주소로 이동
                                 <RankingArticle onClick={() => DetailOnclick(i.rank)}>
