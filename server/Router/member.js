@@ -50,20 +50,20 @@ function generateRandomCode(n) {
     }
     return str;
 }
-
+const aaaa = "";
 //토큰 생성
 //token.create_token('Beans','BNS',0,1000000000)
 
 module.exports = function () {
     // 기본경로 : localhost:3000/member
 
-   // localhost:3000/member 요청 시
-   //    router.get("/", async function (req, res) {});
+    // localhost:3000/member 요청 시
+    //    router.get("/", async function (req, res) {});
 
-   // localhost:3000/member/join [get] 회원가입 폼
-   //    router.get("/join", async function (req, res) {
-   //        res.render("join.ejs");
-   //    });
+    // localhost:3000/member/join [get] 회원가입 폼
+    //    router.get("/join", async function (req, res) {
+    //        res.render("join.ejs");
+    //    });
 
     // member table column
     /*
@@ -74,19 +74,23 @@ module.exports = function () {
     MEMBER_WALLET
     MEMBER_PROFILE          // 기본 아이콘 path defualt 설정
     */
-   // localhost:3000/member/joinSet [post] 회원가입 등록
-   router.post('/joinSet', async function (req, res) {
-      try {
-         const input_id = req.body._id;
-         const input_pass = req.body._pass;
-         const input_name = req.body._name;
-         const input_birth = req.body._birth;
-         const input_email = req.body._email;
-         const input_wallet = await token.create_wallet();
-         const input_auth = 1;
-         console.log('## joinSet input_Data : ' + input_id, input_pass, input_birth);
+    // localhost:3000/member/joinSet [post] 회원가입 등록
+    router.post("/joinSet", async function (req, res) {
+        try {
+            const input_id = req.body._id;
+            const input_pass = req.body._pass;
+            const input_name = req.body._name;
+            const input_birth = req.body._birth;
+            const input_email = req.body._email;
+            const input_wallet = await token.create_wallet();
+            const input_auth = 1;
+            console.log(
+                "## joinSet input_Data : " + input_id,
+                input_pass,
+                input_birth
+            );
 
-         const sql = `
+            const sql = `
             insert
             into
             member
@@ -101,38 +105,49 @@ module.exports = function () {
             values
             (?,?,?,?,?,?,?)
         `;
-         const values = [input_id, input_pass, input_name, input_birth, input_email, input_wallet, input_auth];
+            const values = [
+                input_id,
+                input_pass,
+                input_name,
+                input_birth,
+                input_email,
+                input_wallet,
+                input_auth,
+            ];
 
-         connection.query(sql, values, function (err, result) {
-            if (err) {
-               console.log(err);
-               res.send(err);
-            } else {
-               console.log(result);
-               res.json({ message: 'Y' });
-            }
-         });
-      } catch (e) {
-         console.error(e);
-      }
-   });
+            connection.query(sql, values, function (err, result) {
+                if (err) {
+                    console.log(err);
+                    res.send(err);
+                } else {
+                    console.log(result);
+                    res.json({ message: "Y" });
+                }
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    });
 
-   // localhost:3000/member/smsAuth [post] Ajax sms인증
-   router.post('/smsAuth', async function (req, res) {
-      //확인 후 난수 데이터 보낼줄 것
-      // const abc = Object.keys(req.body)[0];
-      // const aaa = JSON.parse(req.body);
-      console.log(req.body);
-      const input_id = req.body._id;
+    // localhost:3000/member/smsAuth [post] Ajax sms인증
+    router.post("/smsAuth", async function (req, res) {
+        //확인 후 난수 데이터 보낼줄 것
+        // const abc = Object.keys(req.body)[0];
+        // const aaa = JSON.parse(req.body);
+        console.log(req.body);
+        const input_id = req.body._id;
 
-      let authNum = generateRandomCode(4);
-      console.log(authNum);
-      const phonetext = '[Blend]Blend에서 인증번호를 발송해드립니다. 당신의 인증번호는 [' + authNum + '] 입니다.';
-      const resNum = { auth_Num: authNum };
+        let authNum = generateRandomCode(4);
+        console.log(authNum);
+        const phonetext =
+            "[Blend]Blend에서 인증번호를 발송해드립니다. 당신의 인증번호는 [" +
+            authNum +
+            "] 입니다.";
+        const resNum = { auth_Num: authNum };
 
-      console.log('## text : ' + phonetext);
+        console.log("## text : " + phonetext);
 
-      const SQL = `
+        const SQL = `
         select
         *
         from
@@ -167,20 +182,29 @@ module.exports = function () {
                     res.json({ auth_Num: "0" });
                 }
             }
-      });
-   });
-   // localhost:3000/member/login [get] 로그인 등록
-   //    router.get("/login", async function (req, res) {
-   //        res.render("login.ejs");
-   //    });
+        });
+    });
+    // localhost:3000/member/login [get] 로그인 등록
+    //    router.get("/login", async function (req, res) {
+    //        res.render("login.ejs");
+    //    });
+    router.get("/session", function (req, res) {
+        console.log(aaa);
+        if (!req.session.logined) {
+            res.send({ result: false });
+        } else {
+            console.log(req.session);
+            res.send({ user: aaa, result: true }); // 리액트에 맞게수정 -> res.send({ 'user' : req.session.logined})
+        }
+    });
 
-   // localhost:3000/member/checkLogin [post] 로그인 유효성검사
-   router.post('/checkLogin', function (req, res) {
-      const input_id = req.body._id;
-      const input_pass = req.body._pass;
-      console.log('## checkLogin : ' + input_id, input_pass);
+    // localhost:3000/member/checkLogin [post] 로그인 유효성검사
+    router.post("/checkLogin", function (req, res) {
+        const input_id = req.body._id;
+        const input_pass = req.body._pass;
+        console.log("## checkLogin : " + input_id, input_pass);
 
-      const sql = `
+        const sql = `
         select
         *
         from
@@ -191,60 +215,71 @@ module.exports = function () {
         MEMBER_PASSWORD = ?
         `;
 
+        const values = [input_id, input_pass];
 
-      const values = [input_id, input_pass];
-
-      connection.query(sql, values, function (err, result) {
-         if (err) {
-            console.log(err);
-            res.send(err);
-         } else {
-            console.log('## checkLogin : ' + result);
-            if (result.length != 0) {
-               req.session.logined = result[0];
-               res.send({ result: true }); // 메인으로 가는 경로 정해지면 바꿔주세요
+        connection.query(sql, values, function (err, result) {
+            if (err) {
+                console.log(err);
+                res.send(err);
             } else {
-               res.send({ result: false });
+                console.log("## checkLogin : " + result);
+                if (result.length != 0) {
+                    req.session.logined = result[0];
+                    aaa = req.session.logined;
+                    console.log(req.session);
+                    res.send({
+                        user: req.session.logined,
+                        result: true,
+                    }); // 메인으로 가는 경로 정해지면 바꿔주세요
+                } else {
+                    res.send({ result: false });
+                }
             }
-         }
-      });
-   });
+        });
+    });
 
-   router.get('/logout', async function (req, res) {
-      req.session.destroy(function () {
-         req.session;
-      });
-      res.send({ result: 'delete' });
-   });
+    router.get("/logout", async function (req, res) {
+        req.session.destroy(function () {
+            req.session;
+        });
+        res.send({ result: "delete" });
+    });
 
-   // localhost:3000/member/myPage [get] mypage, 세션에 저장된 유저 정보 불러오기
-   router.get('/myPage', function (req, res) {
-      console.log(req.session.logined);
-      res.render('mypage.ejs', {
-         data: req.session.logined,
-      });
-   });
+    // localhost:3000/member/myPage [get] mypage, 세션에 저장된 유저 정보 불러오기
+    router.get("/myPage", function (req, res) {
+        console.log(req.session.logined);
+        res.render("mypage.ejs", {
+            data: req.session.logined,
+        });
+    });
 
-   // localhost:3000/member/editView [get] 회원정보 수정 페이지, 세션에 저장된 회원 정보 불러오기
-   router.get('/editView', function (req, res) {
-      res.render('edit.ejs', {
-         data: req.session.logined,
-      });
-   });
+    // localhost:3000/member/editView [get] 회원정보 수정 페이지, 세션에 저장된 회원 정보 불러오기
+    router.get("/editView", function (req, res) {
+        res.render("edit.ejs", {
+            data: req.session.logined,
+        });
+    });
 
-   // localhost:3000/member/edit [post] 회원정보 수정(DB 업데이트 및 세션 정보 수정)
-   router.post('/edit', upload.single('_profile'), function (req, res) {
-      console.log(req.body);
-      const input_profile = req.file.filename;
-      const input_id = req.body._id;
-      const input_name = req.body._name;
-      const input_birth = req.body._birth;
-      const input_email = req.body._email;
-      const input_pass = req.body._pass;
-      console.log(input_profile, input_id, input_name, input_birth, input_email, input_pass);
+    // localhost:3000/member/edit [post] 회원정보 수정(DB 업데이트 및 세션 정보 수정)
+    router.post("/edit", upload.single("_profile"), function (req, res) {
+        console.log(req.body);
+        const input_profile = req.file.filename;
+        const input_id = req.body._id;
+        const input_name = req.body._name;
+        const input_birth = req.body._birth;
+        const input_email = req.body._email;
+        const input_pass = req.body._pass;
+        console.log(
+            input_profile,
+            input_id,
+            input_name,
+            input_birth,
+            input_email,
+            input_pass
+        );
 
-      // 회원정보 업데이트 (DB에 UPDATE)
-      const sql = `
+        // 회원정보 업데이트 (DB에 UPDATE)
+        const sql = `
        update member 
        set member_id = ?, 
        member_password = ?, 
@@ -254,23 +289,23 @@ module.exports = function () {
        member_profile = ? 
        where member_num = ?;
        `;
-      const values = [
-         input_id,
-         input_pass,
-         input_name,
-         input_birth,
-         input_email,
-         input_profile,
-         req.session.logined.MEMBER_NUM,
-      ];
+        const values = [
+            input_id,
+            input_pass,
+            input_name,
+            input_birth,
+            input_email,
+            input_profile,
+            req.session.logined.MEMBER_NUM,
+        ];
 
-      connection.query(sql, values, function (err, result) {
-         if (err) {
-            console.log(err);
-            res.send(err);
-         } else {
-            // 정보 수정(update 성공 시)한 후 DB에 업데이트 된 로그인 정보 조회(select)
-            const selectSql = `
+        connection.query(sql, values, function (err, result) {
+            if (err) {
+                console.log(err);
+                res.send(err);
+            } else {
+                // 정보 수정(update 성공 시)한 후 DB에 업데이트 된 로그인 정보 조회(select)
+                const selectSql = `
                 select
                 *
                 from
@@ -281,27 +316,31 @@ module.exports = function () {
                 MEMBER_PASSWORD = ?
                 `;
 
-            const selectValues = [input_id, input_pass];
+                const selectValues = [input_id, input_pass];
 
-            connection.query(selectSql, selectValues, async function (err, selectResult) {
-               if (err) {
-                  console.log(err);
-                  res.send(err);
-               } else {
-                  // 업데이트 된 DB 데이터를 세션에 새로 넣어준 후 myPage로 redirect
-                  console.log('## checkLogin : ' + selectResult);
-                  if (selectResult.length != 0) {
-                     console.log('## result[0]: ' + selectResult[0]);
-                     req.session.logined = selectResult[0];
-                     res.redirect('/member/myPage');
-                  } else {
-                     res.redirect('../');
-                  }
-               }
-            });
-         }
-      });
-   });
+                connection.query(
+                    selectSql,
+                    selectValues,
+                    async function (err, selectResult) {
+                        if (err) {
+                            console.log(err);
+                            res.send(err);
+                        } else {
+                            // 업데이트 된 DB 데이터를 세션에 새로 넣어준 후 myPage로 redirect
+                            console.log("## checkLogin : " + selectResult);
+                            if (selectResult.length != 0) {
+                                console.log("## result[0]: " + selectResult[0]);
+                                req.session.logined = selectResult[0];
+                                res.redirect("/member/myPage");
+                            } else {
+                                res.redirect("../");
+                            }
+                        }
+                    }
+                );
+            }
+        });
+    });
 
-   return router;
+    return router;
 };
