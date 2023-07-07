@@ -12,5 +12,5 @@ export const loginMenuRecoil = atom({
 
 export const menuAble = atom({
     key: "menuAble",
-    default: true,
+    default: false,
 });
