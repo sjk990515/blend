@@ -3,10 +3,11 @@ import styled from "styled-components";
 import blend from "../../image/blendlogo_for_beansdetail.png";
 
 function BeansDetail() {
+    // 추후 order by 생각하기?
     const transferData = [
         {
             id: 1,
-            address: '0x8798dfbbD62b25Af968',
+            address: '0x8798dfbbD786B81486eD8762b25Af961011Db5281Db528',
             date: '2022-07-07',
             time: '22:30:32',
             kind: 'plus',
@@ -14,7 +15,7 @@ function BeansDetail() {
         },
         {
             id: 2,
-            address: '0x8798dfbbD786B81Db528',
+            address: '0x8798dfbbD786B81486eD8762b25Af961011Db528',
             date: '2022-07-07',
             time: '20:30:48',
             kind: 'minus',
@@ -22,7 +23,7 @@ function BeansDetail() {
         },
         {
             id: 3,
-            address: '0x8798dfbbD785Af961011Db528',
+            address: '0x8798dfbbD786B81486eD8762b25Af961011Db528',
             date: '2022-07-06',
             time: '12:30:45',
             kind: 'minus',
@@ -30,7 +31,7 @@ function BeansDetail() {
         },
         {
             id: 4,
-            address: '0x8798dfbbD7862b25ADb528',
+            address: '0x8798dfbbD786B81486eD8762b25Af961011Db528',
             date: '2022-07-05',
             time: '15:30:48',
             kind: 'plus',
@@ -38,7 +39,7 @@ function BeansDetail() {
         },
         {
             id: 5,
-            address: '0x8798dfbf961011Db528',
+            address: '0x8798dfbbD786B81486eD8762b25Af961011Db528',
             date: '2022-07-05',
             time: '11:30:48',
             kind: 'plus',
@@ -85,7 +86,7 @@ function BeansDetail() {
 
                                 <AddressAndAmountDiv>
                                     {/* 거래된 주소 */}
-                                    <TransferAddress>{i.address}</TransferAddress>
+                                    <TransferAddress>{i.address.substring(0,6)}...{i.address.slice(-6)}</TransferAddress>
 
                                     {/* 토큰거래양 앞의 +, - 기호 */}
                                     <SignAndAmountDiv>
