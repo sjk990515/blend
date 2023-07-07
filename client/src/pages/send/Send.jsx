@@ -58,6 +58,8 @@ const Phone = styled.div`
 `;
 
 const Addr = styled(Phone)`
+    margin:0 auto;
+    width:50%;
     font-size: 14px;
     padding-top: 10px;
     padding-bottom: 102px;

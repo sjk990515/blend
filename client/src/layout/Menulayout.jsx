@@ -8,117 +8,165 @@ import { BiLogoGmail } from "react-icons/bi";
 import { BiLogoTwitter } from "react-icons/bi";
 import { BiLogoInstagram } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { menuAble } from "../recoil/atom";
 
 function Menulayout() {
-     // 네비게이트
-     const navigate = useNavigate();
+    const userLogin = true;
+    // 네비게이트
+    const navigate = useNavigate();
+    const [disable, setDisable] = useRecoilState(menuAble);
 
-     // X버튼(닫기) 클릭시 메인페이지로 네비게이트
-     const closeOnClick = () => {
-         navigate("/");
-     };
-     
-     // X버튼(닫기) 클릭시 메인페이지로 네비게이트
-     const loginOnClick = () => {
-         navigate("/login");
-     };
-     
-     // 로그아웃 클릭
-     const logoutOnClick = () => {
-         navigate("/logout");
-     };
+    // X버튼(닫기) 클릭시 메인페이지로 네비게이트
+    const closeOnClick = () => {
+        setDisable(true);
+        // console.log(disable);
+        // navigate("/");
+        // setDisplayNone
+    };
 
-     // Beans 메뉴 클릭
-     const beansOnClick = () => {
-         navigate("/beans");
-     };
-     
-     // Mypage 메뉴 클릭
-     const myPageOnClick = () => {
-         navigate("/mypage");
-     };
+    // X버튼(닫기) 클릭시 메인페이지로 네비게이트
+    const loginOnClick = () => {
+        navigate("/login");
+        setDisable(true);
+    };
 
-     // Notice 메뉴 클릭
-     const noticeOnClick = () => {
-         navigate("/notice");
-     };
+    // 로그아웃 클릭
+    const logoutOnClick = () => {
+        navigate("/logout");
+    };
 
-     // Shop 메뉴 클릭
-     const shopOnClick = () => {
-         navigate("/shop");
-     };
+    // Beans 메뉴 클릭
+    // const beansOnClick = () => {
+    //     navigate("/beans");
+    //     setDisable(false);
+    // };
 
-     // 토큰 보내기 버튼 클릭
-     const sendOnClick = () => {
-         navigate("/send");
-     };
-     
-     // 토큰 받기 버튼 클릭
-     const recieveOnClick = () => {
-         navigate("/recieve");
-     };
+    // Mypage 메뉴 클릭
+    const myPageOnClick = () => {
+        navigate("/mypage");
+        setDisable(false);
+    };
+
+    // Notice 메뉴 클릭
+    // const noticeOnClick = () => {
+    //     navigate("/notice");
+    //     setDisable(false);
+    // };
+
+    // Shop 메뉴 클릭
+    const shopOnClick = () => {
+        navigate("/shop");
+        setDisable(false);
+    };
+
+    // 토큰 보내기 버튼 클릭
+    const sendOnClick = () => {
+        navigate("/send");
+        setDisable(false);
+    };
+
+    // 토큰 받기 버튼 클릭
+    const recieveOnClick = () => {
+        navigate("/recieve");
+        setDisable(false);
+    };
 
     return (
-        <Body>
-           <div className="wrapper"> 
-            {/* 로고와 메뉴 닫기 버튼 영역 */}
-            <LogoArea>
-                {/* BLEND 로고 */}
-                <LogoImg src={logo}></LogoImg>
+        <Body disable={disable ? 1 : 0}>
+            <>
+                <div className="wrapper">
+                    {/* 로고와 메뉴 닫기 버튼 영역 */}
+                    {/* <LogoArea> */}
+                    {/* BLEND 로고 */}
+                    {/* <LogoImg src={logo}></LogoImg> */}
 
-                {/* 메뉴 닫기 */}
-                <AiOutlineClose className="close-btn" onClick={closeOnClick}></AiOutlineClose>
-            </LogoArea>
-            
-            {/* 유저 정보 영역 */}
-            <UserArea>
-                {/* 로그인 안 했을 때 보여질 컴포넌트 */}
-                <NoLogin>
-                    <div className="login-area">
-                        <span className="info">로그인 해주세요.</span>
-                        <p className="go-login" onClick={loginOnClick}>로그인 하러가기</p>
-                    </div>
+                    {/* 메뉴 닫기 */}
+                    {/* <AiOutlineClose
+                        className="close-btn"
+                        onClick={closeOnClick}
+                    ></AiOutlineClose> */}
+                    {/* </LogoArea> */}
 
-                    {/* 커피콩 이미지 */}
-                    <div className="img-area">
-                        <BeanImg src={bean_img}></BeanImg>
-                    </div>
-                </NoLogin>
+                    {/* 유저 정보 영역 */}
+                    <UserArea>
+                        {userLogin ? (
+                            <>
+                                {/* 로그인 했을 때 보여질 컴포넌트 */}
+                                <Logined>
+                                    <div className="user-info">
+                                        <p className="user-phone-area">
+                                            <span className="user-phone">
+                                                010-1111-2222
+                                            </span>
+                                            <span className="user-nim">님</span>
+                                        </p>
+                                        <div className="user-token-area">
+                                            <span className="user-token">
+                                                3,100
+                                            </span>
+                                            <span className="user-token-name">
+                                                BEANS
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="btn-area">
+                                        <TokenSendBtn onClick={sendOnClick}>
+                                            토큰보내기
+                                        </TokenSendBtn>
+                                        <TokenReceiveBtn
+                                            onClick={recieveOnClick}
+                                        >
+                                            토큰받기
+                                        </TokenReceiveBtn>
+                                    </div>
+                                </Logined>
+                            </>
+                        ) : (
+                            <>
+                                {/* 로그인 안 했을 때 보여질 컴포넌트 */}
+                                <NoLogin>
+                                    <div className="login-area">
+                                        <span className="info">
+                                            로그인 해주세요.
+                                        </span>
+                                        <p
+                                            className="go-login"
+                                            onClick={loginOnClick}
+                                        >
+                                            로그인 하러가기
+                                        </p>
+                                    </div>
 
-                {/* 로그인 했을 때 보여질 컴포넌트 */}
-                <Logined>
-                    <div className="user-info">
-                        <p className="user-phone-area">
-                            <span className="user-phone">010-1111-2222</span>
-                            <span className="user-nim">님</span>
-                        </p>
-                        <div className="user-token-area">
-                            <span className="user-token">3,100</span>
-                            <span className="user-token-name">BEANS</span>
-                        </div>
-                    </div>
-                    <div className="btn-area">
-                        <TokenSendBtn onClick={sendOnClick}>토큰보내기</TokenSendBtn>
-                        <TokenReceiveBtn onClick={recieveOnClick}>토큰받기</TokenReceiveBtn>
-                    </div>
-                </Logined>    
-            </UserArea>
+                                    {/* 커피콩 이미지 */}
+                                    <div className="img-area">
+                                        <BeanImg src={bean_img}></BeanImg>
+                                    </div>
+                                </NoLogin>
+                            </>
+                        )}
+                    </UserArea>
 
-            {/* 메뉴 영역 */}
-            <MenuArea>
-                <MenuArticle onClick={beansOnClick}>Beans</MenuArticle>
-                <MenuArticle onClick={myPageOnClick}>Mypage</MenuArticle>
-                <MenuArticle onClick={noticeOnClick}>Notice</MenuArticle>
-                <MenuArticle onClick={shopOnClick}>Shop</MenuArticle>
+                    {/* 메뉴 영역 */}
+                    <MenuArea>
+                        <MenuArticle>Beans</MenuArticle>
+                        <MenuArticle onClick={myPageOnClick}>
+                            Mypage
+                        </MenuArticle>
+                        <MenuArticle>Notice</MenuArticle>
+                        <MenuArticle onClick={shopOnClick}>Shop</MenuArticle>
+                    </MenuArea>
+                </div>
+            </>
 
+            <FooterArea>
                 <div className="cs-logo-area">
                     <BiLogoGmail className="icon"></BiLogoGmail>
                     <BiLogoTwitter className="icon"></BiLogoTwitter>
                     <BiLogoInstagram className="icon"></BiLogoInstagram>
                 </div>
                 <LogoutArea onClick={logoutOnClick}>LOGOUT</LogoutArea>
-            </MenuArea>
-            </div>
+            </FooterArea>
         </Body>
     );
 }
@@ -131,38 +179,43 @@ const Wrap = styled.div`
 
 // 전체 감쌈
 const Body = styled.div`
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-around; */
+    transition: 0.5s ease;
     overflow: hidden;
-    height:100vh;
-    width:100vw;    
+    height: 100vh;
+    width: 100vw;
     max-width: 430px;
     position: fixed;
-    top: 0;
-    background-color: #E4E1E0;
-    z-index: 999999999;
+    /* right: 20%; */
+    background-color: #432c20;
+    z-index: 9999999;
+    visibility: ${(props) => (props.disable ? "visible" : "hidden")};
+    opacity: ${(props) => (props.disable ? "1" : "0")};
     justify-content: center;
     align-items: center;
-
     .wrapper {
         width: 100%;
         position: absolute;
     }
-`
+`;
 
 // 상단 (로고랑 닫기 버튼 영역)
 const LogoArea = styled.div`
     padding-left: 20px;
-    display:flex;
+    display: flex;
     height: 57px;
-    border-bottom: 1px solid #432C20;
-    width:100%;
+    border-bottom: 1px solid #e4e1e0;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
 
     /* X 버튼 (메뉴 닫기) */
-    .close-btn{
+    .close-btn {
         margin-right: 23px;
         font-size: 25px;
-        color: #432C20;
+        color: #e4e1e0;
         cursor: pointer;
     }
 `;
@@ -174,39 +227,37 @@ const LogoImg = styled.img`
 // 사용자 영역 (로그인 해주세요..)
 const UserArea = styled.div`
     width: 100%;
-    padding: 50px 0 80px 20px;
+    padding: 50px 0 40px 20px;
     position: relative;
-    `;
+`;
 
 const NoLogin = styled.div`
-    display: none;
-
     .login-area {
         position: absolute;
     }
-    
+
     .info {
-        color: #432C20;
+        color: #e4e1e0;
         font-size: 30px;
         font-weight: 600;
     }
-    
-    .go-login{
-        color: #432C20;
+
+    .go-login {
+        color: #e4e1e0;
         padding-top: 17px;
         padding-left: 2px;
         cursor: pointer;
-        &:hover{
+        &:hover {
             font-weight: 600;
             //text-decoration: underline;
         }
     }
-    
+
     .img-area {
         width: 100%;
         text-align: right;
     }
-`
+`;
 
 const BeanImg = styled.img`
     padding-right: 18px;
@@ -215,7 +266,7 @@ const BeanImg = styled.img`
 
 const Logined = styled.div`
     /* padding-bottom: 80px; */
-    color: #432C20;
+    color: #e4e1e0;
     /* display: none; */
 
     .user-phone-area {
@@ -232,7 +283,7 @@ const Logined = styled.div`
     }
 
     .user-token-area {
-        border-bottom: 1px solid #432C20;
+        border-bottom: 1px solid #e4e1e0;
         /* text-decoration: underline; */
         width: 166px;
     }
@@ -254,12 +305,12 @@ const Logined = styled.div`
         align-items: center;
         justify-content: center;
     }
-`
+`;
 
 // 토큰 보내기 버튼
 const TokenSendBtn = styled.button`
-    background-color: #432C20;
-    color: #F6F290;
+    background-color: #e4e1e0;
+    color: #000;
     font-size: 14px;
     font-weight: 600;
     width: 60%;
@@ -268,47 +319,54 @@ const TokenSendBtn = styled.button`
     border-radius: 30px;
     margin-right: 13px;
     cursor: pointer;
-`
+`;
 
 // 토큰 받기 버튼
 const TokenReceiveBtn = styled(TokenSendBtn)`
-    background-color: #F6F290;
-    color: #432C20;
-    border: 1px solid #432C20;
+    background-color: #f6f290;
+    color: #000;
+    /* border: 1px solid #000; */
 `;
 
 // 메뉴 영역
 const MenuArea = styled.div`
     text-align: center;
-
-
-    // 메일, 트위터, 인스타 영역
-    .cs-logo-area {
-        padding-top: 115px;
-        font-size: 28px;
-    }
-
-    // 메일, 트위터, 인스타 로고
-    .icon {
-        color: #432C20;
-        margin-right: 5px;
-    }
-`
+`;
 
 // 개별 메뉴 영역
 const MenuArticle = styled.div`
     height: 62px;
-    border-bottom: 1px solid #432C20;
-    color: #432C20;
+    border-bottom: 1px solid #e4e1e0;
+    color: #e4e1e0;
     line-height: 62px;
     font-size: 26px;
     cursor: pointer;
-`
+`;
 
 const LogoutArea = styled.div`
     margin-top: 12px;
     font-weight: 900;
     font-size: 12px;
-    color: #432C20;
+    color: #e4e1e0;
     cursor: pointer;
-`
+`;
+const FooterArea = styled.div`
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    // 메일, 트위터, 인스타 영역
+    .cs-logo-area {
+        /* position: fixed; */
+        padding-top: 70%;
+        /* bottom: 0; */
+        font-size: 28px;
+    }
+
+    // 메일, 트위터, 인스타 로고
+    .icon {
+        color: #e4e1e0;
+        margin-right: 5px;
+    }
+`;

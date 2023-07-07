@@ -38,7 +38,6 @@ async function create_token(_name, _symbol,_decimal,_amount){
         keyring.address,
         keyringContainer
     )
-
     const addr = kip7._address;
 
     console.log("address : " + addr);
@@ -48,7 +47,7 @@ async function create_token(_name, _symbol,_decimal,_amount){
     }
 
     const data = JSON.stringify(kip7_address)
-    fs.writeFIleSync('./Token/kip7.json',data)
+    fs.writeFileSync('./Token/kip7.json',data)
     return "토큰 발행 완료"
 }
 
@@ -85,7 +84,7 @@ async function balance_of(_address){
 
 // 지갑을 생성
 async function create_wallet(){
-    const wallet = await caver.kas.wallet.createAcoount();
+    const wallet = await caver.kas.wallet.createAccount();
     console.log("##create wallet : "+wallet);
     return wallet.address
 }

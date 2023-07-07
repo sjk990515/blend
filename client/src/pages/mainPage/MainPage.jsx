@@ -228,7 +228,7 @@ const BestImg = styled.img`
 const RecommendDiv = styled.div`
     position: relative;
     height: 160px;
-    margin: 40px 20px 0;
+    margin: 40px 20px;
     padding: 20px;
     border-radius: 10px;
     border: 2px solid #432c20;
@@ -238,6 +238,7 @@ const RecommendDiv = styled.div`
 const RecommendH2 = styled.h2`
     font-size: 16px;
     font-weight: 900;
+    line-height: 1.3;
 `;
 const RecommendTextP = styled.p`
     font-size: 12px;
