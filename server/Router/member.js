@@ -225,6 +225,7 @@ module.exports = function () {
                 console.log("## checkLogin : " + result);
                 if (result.length != 0) {
                     req.session.logined = result[0];
+                    console.log("aaa" + req.sessionID);
                     aaa = req.session.logined;
                     console.log(req.session);
                     res.send({

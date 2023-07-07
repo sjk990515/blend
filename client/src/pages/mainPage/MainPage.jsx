@@ -18,6 +18,7 @@ function MainPage() {
     // slide 세팅
     const [noticeSlide, setNoticeSlide] = useState(0);
     //임시 로그인
+
     const loginTrue = sessionStorage.getItem("login");
     // const loginTrue = true;
 
