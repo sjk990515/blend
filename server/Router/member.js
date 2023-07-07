@@ -47,7 +47,7 @@ function generateRandomCode(n) {
    }
    return str;
 }
-
+const aaaa = '';
 //토큰 생성
 //token.create_token('Beans','BNS',0,1000000000)
 
@@ -170,6 +170,15 @@ module.exports = function () {
    //    router.get("/login", async function (req, res) {
    //        res.render("login.ejs");
    //    });
+   router.get('/session', function (req, res) {
+      console.log(aaa);
+      if (!req.session.logined) {
+         res.send({ result: false });
+      } else {
+         console.log(req.session);
+         res.send({ user: aaa, result: true }); // 리액트에 맞게수정 -> res.send({ 'user' : req.session.logined})
+      }
+   });
 
    // localhost:3000/member/checkLogin [post] 로그인 유효성검사
    router.post('/checkLogin', function (req, res) {
@@ -198,7 +207,13 @@ module.exports = function () {
             console.log('## checkLogin : ' + result);
             if (result.length != 0) {
                req.session.logined = result[0];
-               res.send({ result: true }); // 메인으로 가는 경로 정해지면 바꿔주세요
+               console.log('aaa' + req.sessionID);
+               aaa = req.session.logined;
+               console.log(req.session);
+               res.send({
+                  user: req.session.logined,
+                  result: true,
+               }); // 메인으로 가는 경로 정해지면 바꿔주세요
             } else {
                res.send({ result: false });
             }
@@ -216,8 +231,7 @@ module.exports = function () {
    // localhost:3000/member/myPage [get] mypage, 세션에 저장된 유저 정보 불러오기
    router.get('/myPage', function (req, res) {
       console.log(req.session.logined);
-      // TODO 리액트 연결하면서 코드 수정 필요  → 일단 json 파일로 보내기
-      res.json({
+      res.render('mypage.ejs', {
          data: req.session.logined,
       });
    });
@@ -268,7 +282,6 @@ module.exports = function () {
             res.send(err);
          } else {
             // 정보 수정(update 성공 시)한 후 DB에 업데이트 된 로그인 정보 조회(select)
-            // TODO session을 잘 사용하고 있지 못한 것 같다... 조금 더 간단하게 세션 정보를 업데이트 할 수 있는 방법을 찾아보면 좋을 것 같다
             const selectSql = `
                 select
                 *
@@ -288,13 +301,13 @@ module.exports = function () {
                   res.send(err);
                } else {
                   // 업데이트 된 DB 데이터를 세션에 새로 넣어준 후 myPage로 redirect
-                  console.log('## selectResult : ' + selectResult);
+                  console.log('## checkLogin : ' + selectResult);
                   if (selectResult.length != 0) {
-                     console.log('## selectResult[0]: ' + selectResult[0]);
+                     console.log('## result[0]: ' + selectResult[0]);
                      req.session.logined = selectResult[0];
                      res.redirect('/member/myPage');
                   } else {
-                     res.redirect('../'); // TODO 업데이트 실패 시 돌아갈 경로 지정? 필요한가? else는 어떤 경우지? err랑 뭐가 다르지?!
+                     res.redirect('../');
                   }
                }
             });

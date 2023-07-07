@@ -1,17 +1,27 @@
 import React from 'react'
-import { useNavigate } from "react-router-dom";
+
 import styled from "styled-components";
-import loadingimg from "../../image/loading.png";
+import loading from "../../image/loading.png";
 import bean1 from "../../image/bean1.png";
 import bean2 from "../../image/bean2.png";
 import bean3 from "../../image/bean3.png";
 import bean4 from "../../image/bean4.png";
+import { useNavigate } from "react-router-dom";
 
 
 
 function Loading() {
+  const navigate = useNavigate();
+
+
+  const Main =()=>{
+    navigate("/loading")
+}
   return (
+
+
     <Body>
+      <Load src={loading}></Load>
         <Wrapper>
             <Beans className='bean1' src={bean1} alt="bean1" />
             <Beans className='bean2' src={bean2} alt="bean2" />

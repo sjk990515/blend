@@ -17,21 +17,25 @@ function Send() {
     return (
         <Body>
             <div className="Title">
+                {/* 내정보 폰번호,주소 */}
                 <Phone>010-3302-1234</Phone>
                 <Addr>0x0000000000</Addr>
             </div>
-            <InputBox>
-                <Ibox placeholder="수량"></Ibox>
+            <InputBox >
+                {/* 수량,주소혹은 핸드폰번호 입력창 */}
+                <Ibox type="number" placeholder="수량"></Ibox>
+                {/* 내 잔액 확인 */}
                 <Bal> 나의 잔액은: 3000 </Bal>
-                <Ibox placeholder="주소 혹은 핸드폰 번호"></Ibox>
+                <Ibox type="number" placeholder="주소 혹은 핸드폰 번호"></Ibox>
                 <Wrap>
                     <div className="ScanBtn">
                     <Scanbtn onClick={Scan}>스캔</Scanbtn> 
                     </div>
                     <div className="notice">수량과 주소를 확인하세요.</div>
                 </Wrap>
+                <Sendbtn onClick={SendCheck}>보내기</Sendbtn>
             </InputBox>
-            <Sendbtn onClick={SendCheck}>보내기</Sendbtn>
+          
             <Cancel>취소</Cancel>
         </Body>
     );
@@ -54,12 +58,15 @@ const Phone = styled.div`
 `;
 
 const Addr = styled(Phone)`
+    margin:0 auto;
+    width:50%;
     font-size: 14px;
     padding-top: 10px;
     padding-bottom: 102px;
 `;
 
 const Ibox = styled.input`
+
 width:322px;
 height:60px;
 border-radius:30px;
@@ -71,9 +78,18 @@ font-size:14px;
 ::placeholder{
    font-size:14px;
 }
+::-webkit-inner-spin-button{
+  -webkit-appearance: none; 
+  margin: 0; 
+  }
+  ::-webkit-outer-spin-button{
+  -webkit-appearance: none; 
+  margin: 0; 
+  }    
+
 `;
 
-const InputBox = styled.div`
+const InputBox = styled.form`
     width: 320px;
     margin: 0 auto;
     .ScanBtn {

@@ -79,7 +79,7 @@ function SignUpComponent() {
         //     }).then((response) => console.log(response));
         // };
 
-        //시도 2
+        //시도 3
         // axios({
         //     url: "http://localhost:4000/member/smsAuth",
         //     method: "post",
@@ -132,12 +132,65 @@ function SignUpComponent() {
     };
 
     // 회원가입 정보 전송
-    const signUpCheckInputOnClick = () => {
-        const signUpData = {};
-    };
+    const signUpPostMutation = useMutation(
+        (newUser) =>
+            axios.post("http://localhost:4000/member/joinSet", newUser),
+        {
+            onSuccess: (response) => {
+                const result = response.data.message;
+                console.log(result);
+            },
+        }
+    );
 
     // 회원가입 버튼
-    const signUpOnClick = () => {};
+    const signUpOnClick = (e) => {
+        e.preventDefault();
+        //회원가입 예외 처리
+        //문자열에 공백이 있는 경우
+        var blank_pattern = /[\s]/g;
+        // //공백만 입력된 경우
+        var only_blank_pattern = /^\s+|\s+$/g;
+        //특수문자가 있는 경우
+        var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+        //앞뒤 공백 제거
+        // aaa.replace(/^\s+|\s+$/gm,'')
+
+        if (!checkSuccess) {
+            alert("휴대폰 인증을 해야 합니다.");
+        } else if (
+            blank_pattern.test(nameInput) == true ||
+            blank_pattern.test(emailInput) == true ||
+            blank_pattern.test(passInput) == true ||
+            blank_pattern.test(passCheckInput) == true
+        ) {
+            alert("공백이 입력되었습니다.");
+        } else if (
+            nameInput == "" ||
+            birthInput == "" ||
+            emailInput == "" ||
+            passInput == "" ||
+            passCheckInput == ""
+        ) {
+            alert("공백인 칸이 존재합니다.");
+        } else if (!emailInput.includes("@") || !emailInput.includes(".")) {
+            alert("이메일 형식이 아닙니다.");
+        } else if (passInput != passCheckInput) {
+            alert("비밀번호가 같지 않습니다.");
+        } else {
+            const newUser = {
+                _id: phoneCheck.trim(),
+                _pass: passInput.trim(),
+                _name: nameInput.trim(),
+                _birth: birthInput.trim(),
+                _email: emailInput.trim(),
+            };
+
+            console.log(newUser);
+
+            signUpPostMutation.mutate(newUser);
+        }
+    };
 
     return (
         <>
@@ -229,7 +282,7 @@ function SignUpComponent() {
                 {/* 이메일 */}
                 <InputText>이메일</InputText>
                 <SignUpInput
-                    type="text"
+                    type="email"
                     placeholder="이메일 입력"
                     onChange={emailInputOnChange}
                 />
@@ -261,9 +314,7 @@ function SignUpComponent() {
                 </PassBox>
 
                 {/* 회원가입 */}
-                <SignUpButton onClick={signUpCheckInputOnClick}>
-                    회원가입
-                </SignUpButton>
+                <SignUpButton onClick={signUpOnClick}>회원가입</SignUpButton>
             </SignUpForm>
         </>
     );
