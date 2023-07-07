@@ -25,6 +25,8 @@
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.4.4",
     "nodemon": "^2.0.22",
-    "qrcode": "^1.5.3"
+    "qrcode": "^1.5.3",
+    "truffle": "^5.10.2",
+    "truffle-hdwallet-provider-klaytn": "^1.4.2"
   }
 }

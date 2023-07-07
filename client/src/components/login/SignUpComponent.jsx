@@ -24,8 +24,8 @@ function SignUpComponent() {
     };
 
     const numberPostMutation = useMutation(
-        (newNumber) =>
-            axios.post("http://localhost:4000/member/smsAuth", newNumber),
+        (idData) =>
+            axios.get("http://localhost:4000/member/smsAuth", idData),
         {
             onSuccess: (response) => {
                 const result = response.data;
@@ -36,12 +36,12 @@ function SignUpComponent() {
     );
 
     const phoneMessage = () => {
-        const newNumber = {
-            id: phoneCheck,
+        const idData = {
+            idcheck: phoneCheck,
         };
         // const aaa = JSON.stringify(newNumber);
 
-        numberPostMutation.mutate(newNumber);
+        numberPostMutation.mutate(idData);
 
         //     fetch("http://localhost:4000/member/smsAuth", {
         //         method: "POST",
