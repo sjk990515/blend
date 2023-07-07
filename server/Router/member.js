@@ -1,61 +1,58 @@
 //express 로드
-const express = require("express");
-const coolsms = require("coolsms-node-sdk").default;
+const express = require('express');
+const coolsms = require('coolsms-node-sdk').default;
 
 // apiKey, apiSecret 설정
-const messageService = new coolsms(
-    "NCSEZDM0KDIMDV92",
-    "XJ34ZHHYXV3WPGQXA4XQOGWEVDUX3GA0"
-);
+const messageService = new coolsms('NCSEZDM0KDIMDV92', 'XJ34ZHHYXV3WPGQXA4XQOGWEVDUX3GA0');
 
 // Router() 변수에 대입
 const router = express.Router();
 
-const token = require("../Token/kip7.js");
+const token = require('../Token/kip7.js');
 
-const mysql = require("mysql2");
+const mysql = require('mysql2');
 const connection = mysql.createConnection({
-    host: process.env.host,
-    port: process.env.port,
-    user: process.env.user,
-    password: process.env.password,
-    database: process.env.database,
+   host: process.env.host,
+   port: process.env.port,
+   user: process.env.user,
+   password: process.env.password,
+   database: process.env.database,
 });
 
 // moment 모듈 로드
-const moment = require("moment");
+const moment = require('moment');
 let date = moment();
 
 // 파일 업로드
-const multer = require("multer");
+const multer = require('multer');
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "public/upload/");
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    },
+   destination: function (req, file, cb) {
+      cb(null, 'public/upload/');
+   },
+   filename: function (req, file, cb) {
+      cb(null, file.originalname);
+   },
 });
 
 const upload = multer({
-    storage: storage,
+   storage: storage,
 });
 
 // 난수생성기
 function generateRandomCode(n) {
-    let str = "";
-    for (let i = 0; i < n; i++) {
-        str += Math.floor(Math.random() * 10);
-    }
-    return str;
+   let str = '';
+   for (let i = 0; i < n; i++) {
+      str += Math.floor(Math.random() * 10);
+   }
+   return str;
 }
 
 //토큰 생성
 //token.create_token('Beans','BNS',0,1000000000)
 
 module.exports = function () {
-    // 기본경로 : localhost:3000/member
+   // 기본경로 : localhost:3000/member
 
    // localhost:3000/member 요청 시
    //    router.get("/", async function (req, res) {});
@@ -65,8 +62,8 @@ module.exports = function () {
    //        res.render("join.ejs");
    //    });
 
-    // member table column
-    /*
+   // member table column
+   /*
     MEMBER_NUM,            // PK, auto increment
     MEMBER_ID,
     MEMBER_PASSWORD,
@@ -141,32 +138,32 @@ module.exports = function () {
         MEMBER_ID = ?
         `;
 
-        const values = [input_id];
+      const values = [input_id];
 
-        connection.query(SQL, values, function (err, result) {
-            if (err) {
-                console.log(err);
-                res.send(err);
+      connection.query(SQL, values, function (err, result) {
+         if (err) {
+            console.log(err);
+            res.send(err);
+         } else {
+            console.log('## ID check : ' + result);
+            if (result.length == 0) {
+               // 2건 이상의 메시지를 발송할 때는 sendMany, 단일 건 메시지 발송은 sendOne을 이용해야 합니다.
+               messageService
+                  .sendMany([
+                     {
+                        to: input_id,
+                        from: '01062826010',
+                        text: phonetext,
+                     },
+                  ])
+                  .then(res => console.log(res))
+                  .catch(err => console.error(err));
+               res.json(resNum);
             } else {
-                console.log("## ID check : " + result);
-                if (result.length == 0) {
-                    // 2건 이상의 메시지를 발송할 때는 sendMany, 단일 건 메시지 발송은 sendOne을 이용해야 합니다.
-                    messageService
-                        .sendMany([
-                            {
-                                to: input_id,
-                                from: "01062826010",
-                                text: phonetext,
-                            },
-                        ])
-                        .then((res) => console.log(res))
-                        .catch((err) => console.error(err));
-                    res.json(resNum);
-                } else {
-                    console.log("중복됨");
-                    res.json({ auth_Num: "0" });
-                }
+               console.log('중복됨');
+               res.json({ auth_Num: '0' });
             }
+         }
       });
    });
    // localhost:3000/member/login [get] 로그인 등록
@@ -190,7 +187,6 @@ module.exports = function () {
         and
         MEMBER_PASSWORD = ?
         `;
-
 
       const values = [input_id, input_pass];
 
@@ -220,14 +216,16 @@ module.exports = function () {
    // localhost:3000/member/myPage [get] mypage, 세션에 저장된 유저 정보 불러오기
    router.get('/myPage', function (req, res) {
       console.log(req.session.logined);
-      res.render('mypage.ejs', {
+      // TODO 리액트 연결하면서 코드 수정 필요  → 일단 json 파일로 보내기
+      res.json({
          data: req.session.logined,
       });
    });
 
    // localhost:3000/member/editView [get] 회원정보 수정 페이지, 세션에 저장된 회원 정보 불러오기
    router.get('/editView', function (req, res) {
-      res.render('edit.ejs', {
+      res.json({
+         // TODO 리액트 연결하면서 코드 수정 필요 → 일단 json 파일로 보내기
          data: req.session.logined,
       });
    });
@@ -270,6 +268,7 @@ module.exports = function () {
             res.send(err);
          } else {
             // 정보 수정(update 성공 시)한 후 DB에 업데이트 된 로그인 정보 조회(select)
+            // TODO session을 잘 사용하고 있지 못한 것 같다... 조금 더 간단하게 세션 정보를 업데이트 할 수 있는 방법을 찾아보면 좋을 것 같다
             const selectSql = `
                 select
                 *
@@ -289,13 +288,13 @@ module.exports = function () {
                   res.send(err);
                } else {
                   // 업데이트 된 DB 데이터를 세션에 새로 넣어준 후 myPage로 redirect
-                  console.log('## checkLogin : ' + selectResult);
+                  console.log('## selectResult : ' + selectResult);
                   if (selectResult.length != 0) {
-                     console.log('## result[0]: ' + selectResult[0]);
+                     console.log('## selectResult[0]: ' + selectResult[0]);
                      req.session.logined = selectResult[0];
                      res.redirect('/member/myPage');
                   } else {
-                     res.redirect('../');
+                     res.redirect('../'); // TODO 업데이트 실패 시 돌아갈 경로 지정? 필요한가? else는 어떤 경우지? err랑 뭐가 다르지?!
                   }
                }
             });

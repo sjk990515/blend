@@ -53,7 +53,7 @@ contract Mileage {
     // 마일리지는 거래하는 함수
     // 오너만이 함수 실행이 호출이 가능하고 등록된 유저여야만 마일리지 교환이 가능
     // sender가 보유한 마일리지가 _amount보다 커야 교환이 가능
-    function trans_milage(
+    function trans_mileage(
         address _sender, 
         address _receiver, 
         uint _amount

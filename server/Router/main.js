@@ -30,12 +30,16 @@ module.exports = function () {
             console.log(err);
             res.send(err);
          } else {
-            console.log(result[0], result[1], result[2]);
-            res.json({
-               data1: result[0],
-               data2: result[1],
-               data3: result[2],
-            });
+            if (req.sessionID) {
+               console.log(req.session.logined);
+               console.log(result[0], result[1], result[2]);
+               res.json({
+                  data: req.session.logined,
+                  data1: result[0],
+                  data2: result[1],
+                  data3: result[2],
+               });
+            }
          }
       });
    });

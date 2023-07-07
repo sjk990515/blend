@@ -63,8 +63,8 @@ app.use('/member', member);
 //const token = require("./Router/token.js")()
 //app.use("/token",token)
 
-//const trade = require("./Router/trade.js")()
-//app.use("/trade",trade)
+const trade = require('./Router/trade.js')();
+app.use('/trade', trade);
 
 const server = app.listen(port, function () {
    console.log(port, 'Server Start');
