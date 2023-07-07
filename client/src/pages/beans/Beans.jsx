@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import beans from "../../image/beans_for_beansboard.png";
 import beansDashboard from "../../image/beansDashboard.png";
-import ranking from "../../image/ranking.png";
+import rankingLogo from "../../image/ranking.png";
 import { useNavigate } from "react-router-dom";
 import Background from "../../layout/Background";
 
@@ -68,7 +68,7 @@ function Beans() {
                 </BackgroundArea>
                 <RankingArea>
                     <div className="logo-area">
-                        <RankingLogoImg src={ranking}></RankingLogoImg>
+                        <RankingLogoImg src={rankingLogo}></RankingLogoImg>
                     </div>
                     <div className="ranking-article-area">
                         { ranks.map((i)=>{

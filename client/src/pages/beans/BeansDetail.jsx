@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import blend from "../../image/blendlogo_for_beansdetail.png";
+import { useParams } from "react-router-dom";
 
 function BeansDetail() {
+
     // 상단 네모에 보이는 주소
     let userAddress = '0x8798dfbbD786B81486eD8762b25Af961011Db528';
     // 상단 네모에 보이는 토큰 보유량
