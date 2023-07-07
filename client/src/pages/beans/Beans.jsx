@@ -11,8 +11,8 @@ function Beans() {
     const navigate = useNavigate();
 
     // 해당 지갑의 거래 내역으로 이동
-    const DetailOnclick = () => {
-        navigate("/beans/detail/"+ranks[0].rank);
+    const DetailOnclick = (props) => {
+        navigate("/beans/detail/"+props);
     };
 
     const ranks = [
@@ -74,13 +74,13 @@ function Beans() {
                         { ranks.map((i)=>{
                             let h = null;
                             return(
-                                // 클릭 이동 어케 하징
-                                <RankingArticle onClick={DetailOnclick}>
+                                // 해당 순위 article 클릭 시 해당 지갑 주소로 이동
+                                <RankingArticle onClick={() => DetailOnclick(i.rank)}>
                                     {/* 순위 1. 2. <- 이런 텍스트만 */}
                                     <RankTxt color={i.rank}>{i.rank}.</RankTxt>
                                     
                                     {/* 토큰 양 */}
-                                    <TokenBalanceTxt>{i.balance}</TokenBalanceTxt>
+                                    <TokenBalanceTxt>{i.balance.toLocaleString()}</TokenBalanceTxt>
                                 </RankingArticle>
                             );
                         })}

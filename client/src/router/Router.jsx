@@ -47,7 +47,7 @@ function Router() {
                     <Route path="/receive" element={<Receive />} />
                     <Route path="/receivedone" element={<ReceiveDone />} />
                     <Route path="/beans" element={<Beans />} />
-                    <Route path="/beans/detail" element={<BeansDetail />} />
+                    <Route path="/beans/detail/:rank" element={<BeansDetail />} />
                 </Routes>
             </MobileWidthDiv>
         </BrowserRouter>
