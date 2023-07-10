@@ -1,4 +1,4 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import profile_img from "../../image/profile_for_my.png"
@@ -14,14 +14,20 @@ function MyPageUpdateForm(props) {
 
     // 로그인한 유저 정보 (세션에 저장된 데이터)
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
+
+    const userName = loginTrue.sessionName;
+    const userBirth = loginTrue.sessionBirth;
+    const userEmail = loginTrue.sessionEmail;
+    const userPass = loginTrue.sessionPass;
+
     // 이름 input
-    const [nameInput, setNameInput] = useState(loginTrue.sessionName);
+    const [nameInput, setNameInput] = useState(userName);
     // 생일 input
-    const [birthInput, setBirthInput] = useState(loginTrue.sessionBirth);
+    const [birthInput, setBirthInput] = useState(userBirth);
     // 이메일 input
-    const [emailInput, setEmailInput] = useState(loginTrue.sessionEmail);
+    const [emailInput, setEmailInput] = useState(userEmail);
     // 비밀번호 input
-    const [passInput, setPassInput] = useState(loginTrue.sessionPass);
+    const [passInput, setPassInput] = useState(userPass);
 
     // 휴대폰 인증 버튼 클릭
     const authPhoneOnClick = () => {
@@ -48,16 +54,20 @@ function MyPageUpdateForm(props) {
     // form submit 막기
     const userUpdateOnSubmit = (e) => {
         e.preventDefault();
+        // updateDoneClick();
     };
 
     // 마이페이지 수정 정보 전송 [post]
     const userUpdateMutation = useMutation(
         (updateData) =>
-            axios.post("http://localhost:4000/member/edit", "ggg"),
+        axios.post("http://localhost:4000/member/edit", updateData),
         {
             onSuccess : (response) => {
                 const result = response.data.result;
-                console.log(result)
+                if(result){
+                    alert("수정되었습니다.")
+                    navigate("/mypage")
+                }
             },
         }
     )
@@ -109,24 +119,24 @@ function MyPageUpdateForm(props) {
                 </S.UserArea>
 
                 {/* 수정폼 */}
-                <FormArea>
-                    <form onSubmit={userUpdateOnSubmit}>
-                        <Input type="hidden" name="_num"
+                <FormArea onSubmit={userUpdateOnSubmit}>
+                    {/* <form onSubmit={userUpdateOnSubmit}> */}
+                        <Input type="hidden"
                                 defaultValue={loginTrue.sessionNum}>
                         </Input>
-                        <Input type="text" name="_name"
+                        <Input type="text"
                                 onChange={nameOnChange}
                                 defaultValue={nameInput}>
                         </Input>
-                        <Input type="Date" name="_birth"
+                        <Input type="Date"
                                 onChange={birthOnChange}
                                 defaultValue={birthInput}>
                         </Input>
-                        <Input type="text" name="_email"
+                        <Input type="text"
                                 onChange={emailOnChange}
                                 defaultValue={emailInput}>
                         </Input>
-                        <Input type="password" name="_pass"
+                        <Input type="password"
                                 onChange={passOnChange}
                                 placeholder="비밀번호 수정">
                         </Input>
@@ -136,7 +146,7 @@ function MyPageUpdateForm(props) {
                                 수정완료
                             </UpdateDoneBtn>
                         </div>
-                    </form>
+                    {/* </form> */}
                 </FormArea>
             </S.Wrapper>
         </S.Body>
@@ -169,7 +179,7 @@ const AuthPhoneBtn = styled.button`
     padding: 2px 14px 2px 14px;
 `
 
-const FormArea = styled.div`
+const FormArea = styled.form`
     padding: 20px;
     text-align: center;
     /* margin-top: 5px; */
