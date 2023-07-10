@@ -13,6 +13,21 @@ function MyPageUpdateForm() {
         navigate("/checkPhone");
     };
 
+    const userData = [{
+        MEMBER_NUM : 1,
+        MEMBER_ID : '01033332222',
+        MEMBER_NAME : '김블렌드',
+        MEMBER_BIRTH: "2022-07-06",
+        MEMBER_EMAIL : "blend@gmail.com",
+        MEMBER_PROFILE : "profile.png",
+        MEMBER_PASSWORD : "0dgoajei"
+    }]
+
+    const userId = userData[0].MEMBER_ID;
+    const phoneStart = userId.substring(0,3);
+    const phoneMiddle = userId.substring(3,7);
+    const phoneLast = userId.substring(7,11);
+
     return(
         <S.Body>
             <S.Wrapper>
@@ -27,7 +42,7 @@ function MyPageUpdateForm() {
                 {/* 회원 휴대폰번호(아이디) */}
                 <S.UserArea>
                     {/* 번호 데이터 받아서 바꿔야함 */}
-                    <span>010-3302-1234</span>
+                    <span>{phoneStart}-{phoneMiddle}-{phoneLast}</span>
                     <span>님</span>
                     <AuthPhoneArea>
                         <p className="txt">휴대폰 인증을 해주세요!</p>
@@ -36,11 +51,12 @@ function MyPageUpdateForm() {
                 </S.UserArea>
 
                 <FormArea>
+                    {/* 추후 post로 바꿔야됨!! */}
                     <form action="/mypage/updatepro" method="get">
-                        <Input type="text" name="name" defaultValue={"블렌드"}></Input>
-                        <Input type="Date" name="date" defaultValue={"2023-07-05"}></Input>
-                        <Input type="text" name="email" defaultValue={"blend@gmail.com"}></Input>
-                        <Input type="password" name="password" defaultValue={"0dgoajei"}></Input>
+                        <Input type="text" name="name" defaultValue={userData[0].MEMBER_NAME}></Input>
+                        <Input type="Date" name="date" defaultValue={userData[0].MEMBER_BIRTH}></Input>
+                        <Input type="text" name="email" defaultValue={userData[0].MEMBER_EMAIL}></Input>
+                        <Input type="password" name="password" defaultValue={userData[0].MEMBER_PASSWORD}></Input>
                         <div className="btn">
                         <UpdateDoneBtn>수정완료</UpdateDoneBtn>
                         </div>
