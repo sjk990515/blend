@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import smallBeans from "../../image/smallBeans.png";
 import Slider from "react-slick";
@@ -12,14 +12,16 @@ import { useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import { useQuery } from "react-query";
 import axios from "axios";
+import Session from "react-session-api";
+import { useRecoilState } from "recoil";
+import { loginDataRecoil } from "../../recoil/atom";
 
 function MainPage() {
     const navigate = useNavigate();
     // slide 세팅
     const [noticeSlide, setNoticeSlide] = useState(0);
-    //임시 로그인
-    const loginTrue = sessionStorage.getItem("login");
-    // const loginTrue = true;
+    // 로그인 정보
+    const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
 
     const beansSettings = {
         autoplay: true,
@@ -56,19 +58,44 @@ function MainPage() {
     };
 
     // 유저 로그인 정보 불러오기
-    const getUserData = async () => {
-        const response = await axios.get(
-            "http://localhost:4000/member/session"
-        );
-        // setFriendAllRecoil(response?.data);
-        return response;
-    };
-    const { isLoading, isError, data, error } = useQuery(
-        "userData",
-        getUserData
-    );
+    // const getUserData = async () => {
+    //     const response = await axios.get(
+    //         "http://localhost:4000/member/session"
+    //     );
+    //     // setFriendAllRecoil(response?.data);
+    //     return response;
+    // };
+    // const { isLoading, isError, data, error } = useQuery(
+    //     "userData",
+    //     getUserData
+    // );
 
-    console.log(data);
+    // useEffect(() => {
+    //     // 로그인 확인
+    //     const sessionId = sessionStorage?.getItem("id");
+    //     const sessionprofile = sessionStorage?.getItem("profile");
+    //     const sessionAuth = sessionStorage?.getItem("auth");
+    //     const sessionEmail = sessionStorage?.getItem("email");
+    //     const sessionNum = sessionStorage?.getItem("num");
+    //     const sessionName = sessionStorage?.getItem("name");
+    //     const sessionWallet = sessionStorage?.getItem("wallet");
+    //     const sessionBirth = sessionStorage?.getItem("birth");
+
+    //     if (sessionId) {
+    //         const loginData = {
+    //             sessionId,
+    //             sessionprofile,
+    //             sessionAuth,
+    //             sessionEmail,
+    //             sessionNum,
+    //             sessionName,
+    //             sessionWallet,
+    //             sessionBirth,
+    //         };
+
+    //         setLoginTrue(loginData);
+    //     }
+    // }, []);
 
     return (
         <MainWrapDiv>
@@ -78,7 +105,7 @@ function MainPage() {
                     {loginTrue ? "안녕하세요!" : "로그인 해주세요"}
                 </BeanTitle>
                 {loginTrue ? (
-                    <BeanSubTitle>김김김님</BeanSubTitle>
+                    <BeanSubTitle>{loginTrue.sessionName}님</BeanSubTitle>
                 ) : (
                     <BeanSubTitle onClick={loginOnClick}>
                         로그인 하러 가기 &gt;

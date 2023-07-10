@@ -14,3 +14,8 @@ export const menuAble = atom({
     key: "menuAble",
     default: false,
 });
+
+export const loginDataRecoil = atom({
+    key: "loginDataRecoil",
+    default: false,
+});
