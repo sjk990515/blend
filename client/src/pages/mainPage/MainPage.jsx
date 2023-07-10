@@ -15,11 +15,13 @@ import axios from "axios";
 import Session from "react-session-api";
 import { useRecoilState } from "recoil";
 import { loginDataRecoil } from "../../recoil/atom";
+import Loading from "../../components/loading/Loading";
 
 function MainPage() {
     const navigate = useNavigate();
     // slide 세팅
     const [noticeSlide, setNoticeSlide] = useState(0);
+    const [aaaa, setAaaa] = useState(true);
 
     // 로그인 정보
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
@@ -58,108 +60,90 @@ function MainPage() {
         navigate("/mybeans");
     };
 
-    // 유저 로그인 정보 불러오기
-    // const getUserData = async () => {
-    //     const response = await axios.get(
-    //         "http://localhost:4000/member/session"
-    //     );
-    //     // setFriendAllRecoil(response?.data);
-    //     return response;
-    // };
-    // const { isLoading, isError, data, error } = useQuery(
-    //     "userData",
-    //     getUserData
-    // );
-
-    // useEffect(() => {
-    //     // 로그인 확인
-    //     const sessionId = sessionStorage?.getItem("id");
-    //     const sessionprofile = sessionStorage?.getItem("profile");
-    //     const sessionAuth = sessionStorage?.getItem("auth");
-    //     const sessionEmail = sessionStorage?.getItem("email");
-    //     const sessionNum = sessionStorage?.getItem("num");
-    //     const sessionName = sessionStorage?.getItem("name");
-    //     const sessionWallet = sessionStorage?.getItem("wallet");
-    //     const sessionBirth = sessionStorage?.getItem("birth");
-
-    //     if (sessionId) {
-    //         const loginData = {
-    //             sessionId,
-    //             sessionprofile,
-    //             sessionAuth,
-    //             sessionEmail,
-    //             sessionNum,
-    //             sessionName,
-    //             sessionWallet,
-    //             sessionBirth,
-    //         };
-    //         setLoginTrue(loginData);
-    //     }
-    // }, []);
+    useEffect(() => {
+        setTimeout(() => setAaaa(false), 1000);
+    }, []);
 
     return (
-        <MainWrapDiv>
-            {/* Bean박스 */}
-            <BeanBox>
-                <BeanTitle>
-                    {loginTrue ? "안녕하세요!" : "로그인 해주세요"}
-                </BeanTitle>
-                {loginTrue ? (
-                    <BeanSubTitle>{loginTrue.sessionName}님</BeanSubTitle>
-                ) : (
-                    <BeanSubTitle onClick={loginOnClick}>
-                        로그인 하러 가기 &gt;
-                    </BeanSubTitle>
-                )}
+        <>
+            {aaaa ? (
+                <Loading />
+            ) : (
+                <MainWrapDiv>
+                    {/* Bean박스 */}
+                    <BeanBox>
+                        <BeanTitle>
+                            {loginTrue ? "안녕하세요!" : "로그인 해주세요"}
+                        </BeanTitle>
+                        {loginTrue ? (
+                            <BeanSubTitle>
+                                {loginTrue.sessionName}님
+                            </BeanSubTitle>
+                        ) : (
+                            <BeanSubTitle onClick={loginOnClick}>
+                                로그인 하러 가기 &gt;
+                            </BeanSubTitle>
+                        )}
 
-                <BeansImg src={smallBeans}></BeansImg>
-                <BeansSmallImg src={smallBeans}></BeansSmallImg>
+                        <BeansImg src={smallBeans}></BeansImg>
+                        <BeansSmallImg src={smallBeans}></BeansSmallImg>
 
-                {loginTrue ? (
-                    <BeansCount onClick={beansCountOnClick}>
-                        3100 <BeansCountSpan>&nbsp; BEANS</BeansCountSpan>
-                        <IoIosArrowForward />
-                    </BeansCount>
-                ) : (
-                    <></>
-                )}
-            </BeanBox>
+                        {loginTrue ? (
+                            <BeansCount onClick={beansCountOnClick}>
+                                3100{" "}
+                                <BeansCountSpan>&nbsp; BEANS</BeansCountSpan>
+                                <IoIosArrowForward />
+                            </BeansCount>
+                        ) : (
+                            <></>
+                        )}
+                    </BeanBox>
 
-            {/* 공지 */}
-            <NoticeTitleDiv>
-                <NoticeTitleH2>Notice</NoticeTitleH2>
+                    {/* 공지 */}
+                    <NoticeTitleDiv>
+                        <NoticeTitleH2>Notice</NoticeTitleH2>
 
-                <NoticeCount>{noticeSlide + 1}/3</NoticeCount>
-            </NoticeTitleDiv>
-            <NoticeSlide>
-                <Slider {...beansSettings} afterChange={handleSlideChange}>
-                    <SliderText>안녕안녕안녕안녕11</SliderText>
-                    <SliderText>안녕안녕안녕안녕22</SliderText>
-                    <SliderText>안녕안녕안녕안녕33</SliderText>
-                </Slider>
-            </NoticeSlide>
+                        <NoticeCount>{noticeSlide + 1}/3</NoticeCount>
+                    </NoticeTitleDiv>
+                    <NoticeSlide>
+                        <Slider
+                            {...beansSettings}
+                            afterChange={handleSlideChange}
+                        >
+                            <SliderText>안녕안녕안녕안녕11</SliderText>
+                            <SliderText>안녕안녕안녕안녕22</SliderText>
+                            <SliderText>안녕안녕안녕안녕33</SliderText>
+                        </Slider>
+                    </NoticeSlide>
 
-            {/* best  제품 */}
-            <BestBeansTitle> 요즘 뜨고 있는 Best beans ! </BestBeansTitle>
-            <BestBeans>
-                <Slider {...bestSettings}>
-                    <BestImg src={bestImg1} />
-                    <BestImg src={bestImg2} />
-                    <BestImg src={bestImg3} />
-                    <BestImg src={bestImg4} />
-                </Slider>
-            </BestBeans>
+                    {/* best  제품 */}
+                    <BestBeansTitle>
+                        {" "}
+                        요즘 뜨고 있는 Best beans !{" "}
+                    </BestBeansTitle>
+                    <BestBeans>
+                        <Slider {...bestSettings}>
+                            <BestImg src={bestImg1} />
+                            <BestImg src={bestImg2} />
+                            <BestImg src={bestImg3} />
+                            <BestImg src={bestImg4} />
+                        </Slider>
+                    </BestBeans>
 
-            {/* 추천 원두 */}
-            <RecommendDiv>
-                <RecommendH2>
-                    좋아할 만한 맞춤 원두 <br /> 추천 해드릴까요?
-                </RecommendH2>
-                <RecommendTextP>어떤 원두가 나한테 맞을까?</RecommendTextP>
+                    {/* 추천 원두 */}
+                    <RecommendDiv>
+                        <RecommendH2>
+                            좋아할 만한 맞춤 원두 <br /> 추천 해드릴까요?
+                        </RecommendH2>
+                        <RecommendTextP>
+                            어떤 원두가 나한테 맞을까?
+                        </RecommendTextP>
 
-                <RecommendButton>좋아요!</RecommendButton>
-            </RecommendDiv>
-        </MainWrapDiv>
+                        <RecommendButton>좋아요!</RecommendButton>
+                    </RecommendDiv>
+                </MainWrapDiv>
+            )}
+        </>
     );
 }
 

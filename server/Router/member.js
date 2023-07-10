@@ -47,6 +47,9 @@ function generateRandomCode(n) {
    }
    return str;
 }
+const aaaa = '';
+//토큰 생성
+//token.create_token('Beans','BNS',0,1000000000)
 
 // 컨트렉트 연동
 
@@ -140,7 +143,6 @@ module.exports = function () {
          console.error(e);
       }
    });
-
    // localhost:3000/member/smsAuth [post] Ajax sms인증
    router.post('/smsAuth', async function (req, res) {
       //확인 후 난수 데이터 보낼줄 것
@@ -198,7 +200,8 @@ module.exports = function () {
    //        res.render("login.ejs");
    //    });
    router.post('/session', function (req, res) {
-      console.log('## sessionID : ' + req.sessionID);
+      //   console.log(aaa);
+      console.log(req.sessionID);
       if (!req.session.logined) {
          res.send({ result: false });
       } else {
@@ -291,15 +294,15 @@ module.exports = function () {
 
       // 회원정보 업데이트 (DB에 UPDATE)
       const sql = `
-       update member 
-       set member_id = ?, 
-       member_password = ?, 
-       member_name = ?, 
-       member_birth = ?, 
-       member_email = ?, 
-       member_profile = ? 
-       where member_num = ?;
-       `;
+     update member 
+     set member_id = ?, 
+     member_password = ?, 
+     member_name = ?, 
+     member_birth = ?, 
+     member_email = ?, 
+     member_profile = ? 
+     where member_num = ?;
+     `;
       const values = [input_id, input_pass, input_name, input_birth, input_email, input_profile, req.body.MEMBER_NUM];
 
       connection.query(sql, values, function (err, result) {
@@ -309,15 +312,15 @@ module.exports = function () {
          } else {
             // 정보 수정(update 성공 시)한 후 DB에 업데이트 된 로그인 정보 조회(select)
             const selectSql = `
-                select
-                *
-                from
-                member
-                where
-                MEMBER_ID = ?
-                and
-                MEMBER_PASSWORD = ?
-                `;
+              select
+              *
+              from
+              member
+              where
+              MEMBER_ID = ?
+              and
+              MEMBER_PASSWORD = ?
+              `;
 
             const selectValues = [input_id, input_pass];
 
