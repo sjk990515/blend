@@ -1,4 +1,4 @@
-const Milege = artifacts.require('Milege')
+const Mileage = artifacts.require('Mileage')
 
 module.exports = function(deployer){
     deployer.deploy(Mileage)

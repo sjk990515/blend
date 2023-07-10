@@ -41,6 +41,7 @@ app.use(
         resave: false,
         saveUninitialized: true,
         cookie: {
+            secure: false,
             maxAge: 300000, // 1000당 1초
             httpOnly: true,
             sameSite: "none",
@@ -58,8 +59,8 @@ app.use("/main", main);
 const member = require("./Router/member.js")();
 app.use("/member", member);
 
-//const token = require("./Router/token.js")()
-//app.use("/token",token)
+const token = require("./Router/token.js")()
+app.use("/token",token)
 
 //const trade = require("./Router/trade.js")()
 //app.use("/trade",trade)

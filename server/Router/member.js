@@ -50,7 +50,32 @@ function generateRandomCode(n) {
     }
     return str;
 }
-const aaaa = "";
+
+
+// 컨트렉트 연동
+
+// baobab network에 배포된 컨트렉트를 연동하기 위한 모듈을 로드
+const Caver = require('caver-js');
+
+//컨트렉트의 정보 로드
+const contract_info = require('../build/contracts/Mileage.json');
+
+// baobab 네트워크 주소를 입력
+const caver = new Caver('https://api.baobab.klaytn.net:8651');
+
+// 배포된 컨트렉트를 연동
+const smartcontract = new caver.klay.Contract(contract_info.abi, contract_info.networks['1001'].address);
+
+// 수수료를 지불할 지갑을 등록
+const account = caver.klay.accounts.createWithAccountKey(process.env.public_key, process.env.private_key);
+
+caver.klay.accounts.wallet.add(account);
+
+
+
+
+
+
 //토큰 생성
 //token.create_token('Beans','BNS',0,1000000000)
 
@@ -84,6 +109,21 @@ module.exports = function () {
             const input_email = req.body._email;
             const input_wallet = await token.create_wallet();
             const input_auth = 1;
+            
+
+            // 지갑 주소를 컨트랙트에 등록
+            const addContract = await smartcontract
+                                        .methods
+                                        .add_user(input_wallet)
+                                        .send(
+                                            {
+                                                from : account.address,
+                                                gas  : 2000000
+                                            }
+                                        );
+            console.log(addContract);
+            
+
             console.log(
                 "## joinSet input_Data : " + input_id,
                 input_pass,
@@ -189,8 +229,7 @@ module.exports = function () {
     //        res.render("login.ejs");
     //    });
     router.post("/session", function (req, res) {
-        //   console.log(aaa);
-        console.log(req.sessionID);
+        console.log("## sessionID : " + req.sessionID)
         if (!req.session.logined) {
             res.send({ result: false });
         } else {
