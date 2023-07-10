@@ -1,45 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import profile_img from "../../image/profile_for_my.png"
 import * as S from "../myPage/Mypage.js"
 import axios from "axios";
 import { useMutation } from "react-query";
+import { useRecoilState } from "recoil";
+import { loginDataRecoil } from "../../recoil/atom"
 
 function MyPageUpdateForm(props) {
     // 네비게이트
     const navigate = useNavigate();
 
+    // 로그인한 유저 정보 (세션에 저장된 데이터)
+    const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
+
+    //아이디 input
+    const [idInput, setIdInput] = useState(loginTrue.sessionId);
+    // 이름 input
+    const [nameInput, setNameInput] = useState(loginTrue.sessionName);
+    // 생일 input
+    const [birthInput, setBirthInput] = useState(loginTrue.sessionBirth);
+    // 이메일 input
+    const [emailInput, setEmailInput] = useState(loginTrue.sessionEmail);
+    // 비밀번호 input
+    const [passInput, setPassInput] = useState(loginTrue.sessionPass);
+
     // 휴대폰 인증 버튼 클릭
     const authPhoneOnClick = () => {
         navigate("/checkPhone");
     };
-
-    // 더미 데이터
-    const userData = [{
-        MEMBER_NUM : 1,
-        MEMBER_ID : '01033332222',
-        MEMBER_NAME : '김블렌드',
-        MEMBER_BIRTH: "2022-07-06",
-        MEMBER_EMAIL : "blend@gmail.com",
-        MEMBER_PROFILE : "profile.png",
-        MEMBER_PASSWORD : "0dgoajei"
-        }
-    ]
-
-    // 파라미터 사용
-    let { num } = useParams();
-
-    //아이디 input
-    const [idInput, setIdInput] = useState(userData[0].MEMBER_ID);
-    // 이름 input
-    const [nameInput, setNameInput] = useState(userData[0].MEMBER_NAME);
-    // 생일 input
-    const [birthInput, setBirthInput] = useState(userData[0].MEMBER_BIRTH);
-    // 이메일 input
-    const [emailInput, setEmailInput] = useState(userData[0].MEMBER_EMAIL);
-    // 비밀번호 input
-    const [passInput, setPassInput] = useState(userData[0].MEMBER_PASSWORD);
 
     // 이름 onchange
     const nameOnChange = (e) => {
@@ -63,7 +53,7 @@ function MyPageUpdateForm(props) {
         e.preventDefault();
     };
 
-    // 마이페이지 수정 정보 전송
+    // 마이페이지 수정 정보 전송 [post]
     const userUpdatePostMutation = useMutation(
         (userUpdate) =>
             axios.post("http://localhost:4000/member/edit", userUpdate),
@@ -94,7 +84,7 @@ function MyPageUpdateForm(props) {
         }
     };
     
-    const userId = userData[0].MEMBER_ID;
+    const userId = loginTrue.sessionId;
     const phoneStart = userId.substring(0,3);
     const phoneMiddle = userId.substring(3,7);
     const phoneLast = userId.substring(7,11);
@@ -141,7 +131,7 @@ function MyPageUpdateForm(props) {
                         </Input>
                         <Input type="password" name="_password"
                                 onChange={passOnChange}
-                                defaultValue={passInput}>
+                                placeholder="비밀번호 수정">
                         </Input>
                         {/* 수정하기 버튼 */}
                         <div className="btn">
