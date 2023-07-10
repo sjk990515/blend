@@ -12,21 +12,18 @@ function MyPage() {
     // 로그인한 유저 정보 (세션에 저장된 데이터)
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
 
+    // 유저의 핸드폰번호에 '-' 기호 붙이기 위해 자르는 작업
     const userId = loginTrue.sessionId;
     const phoneStart = userId.substring(0,3);
     const phoneMiddle = userId.substring(3,7);
     const phoneLast = userId.substring(7,11);
 
-    // 마이페이지 수정폼
-    // const [mypageform, setMypageForm] = useRecoilState(myPageRecoil);
+    // 회원번호
+    const userNum = loginTrue.sessionNum;
 
-    // const goUpdateForm = () => {
-    //     setMypageForm(true);
-    // };
-
-    // X버튼(닫기) 클릭시 메인페이지로 네비게이트
-    const mypageUpdateFormOnClick = (props) => {
-        navigate("/mypage/update/"+props); // 추후 MEMBER_NUM 넘기도록
+    // 수정하기 클릭시 수정폼으로 이동 (회원번호 가지고감)
+    const mypageUpdateFormOnClick = () => {
+        navigate("/mypage/update/"+userNum); // 추후 MEMBER_NUM 넘기도록
     };
 
     return (
@@ -51,7 +48,7 @@ function MyPage() {
                     <UserInfoArticle>
                         <span>이름</span>
                         {/* 데이터 받아서 넣을 곳 */}
-                        <span className="user-name input">{loginTrue.sessionId}</span>
+                        <span className="user-name input">{loginTrue.sessionName}</span>
                     </UserInfoArticle>
 
                     {/* 생일 */}
@@ -72,10 +69,11 @@ function MyPage() {
                 {/* 버튼 */}
                 <BtnArea>
                     {/* 추후 MEMBER_NUM 넘기도록 할 것?? */}
-                    <GotoUpdateFormBtn onClick={()=> mypageUpdateFormOnClick(loginTrue.sessionNum)}>수정하기</GotoUpdateFormBtn>
+                    {/* <Link to={`/mypage/update/${loginTrue.sessionNum}`} key={loginTrue.sessionNum}>
+                        수정하기
+                    </Link> */}
+                    <GotoUpdateFormBtn onClick={()=> mypageUpdateFormOnClick({userNum})}>수정하기</GotoUpdateFormBtn>
                 </BtnArea>
-
-                {/* {mypageform ? <MyPageUpdateComponet /> : <LoginComponent />} */}
             </div>
         </Body>
     );
