@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import profile_img from "../../image/profile_for_my.png"
 import * as S from "../myPage/Mypage.js"
+import axios from "axios";
+import { useMutation } from "react-query";
 
 function MyPageUpdateForm() {
     // 네비게이트
@@ -13,6 +15,7 @@ function MyPageUpdateForm() {
         navigate("/checkPhone");
     };
 
+    // 더미 데이터
     const userData = [{
         MEMBER_NUM : 1,
         MEMBER_ID : '01033332222',
@@ -23,6 +26,70 @@ function MyPageUpdateForm() {
         MEMBER_PASSWORD : "0dgoajei"
     }]
 
+    //아이디 input
+    const [idInput, setIdInput] = useState(userData[0].MEMBER_ID);
+    // 이름 input
+    const [nameInput, setNameInput] = useState(userData[0].MEMBER_NAME);
+    // 생일 input
+    const [birthInput, setBirthInput] = useState(userData[0].MEMBER_BIRTH);
+    // 이메일 input
+    const [emailInput, setEmailInput] = useState(userData[0].MEMBER_EMAIL);
+    // 비밀번호 input
+    const [passInput, setPassInput] = useState(userData[0].MEMBER_PASSWORD);
+
+    // 이름 onchange
+    const nameOnChange = (e) => {
+        setNameInput(e.target.value)
+    }
+    // 생일 onchange
+    const birthOnChange = (e) => {
+        setBirthInput(e.target.value)
+    }
+    // 이메일 onchange
+    const emailOnChange = (e) => {
+        setEmailInput(e.target.value)
+    }
+    // 패스워드 onchange
+    const passOnChange = (e) => {
+        setPassInput(e.target.value)
+    }
+
+    // form submit 막기
+    const userUpdateOnSubmit = (e) => {
+        e.preventDefault();
+    };
+
+    // 마이페이지 수정 정보 전송
+    const userUpdatePostMutation = useMutation(
+        (userUpdate) =>
+            axios.post("http://localhost:4000/member/edit", userUpdate),
+        {
+            onSuccess : (response) => {
+                const result = response.data.result;
+                console.log(result);
+            },
+        }
+    )
+
+    // 수정완료 클릭
+    const updateDoneClick = () => {
+        if (nameInput == "" || birthInput == "" ||
+            emailInput == "" || passInput == "") {
+            alert("빈칸이 존재합니다.");
+        } else {
+            const updateData = {
+                id : idInput,
+                name : nameInput,
+                birth : birthInput,
+                email : emailInput,
+                pass : passInput
+            };
+
+            console.log(updateData)
+            userUpdatePostMutation.mutate(updateData);
+        }
+    };
+    
     const userId = userData[0].MEMBER_ID;
     const phoneStart = userId.substring(0,3);
     const phoneMiddle = userId.substring(3,7);
@@ -50,15 +117,33 @@ function MyPageUpdateForm() {
                     </AuthPhoneArea>
                 </S.UserArea>
 
+                {/* 수정폼 */}
                 <FormArea>
-                    {/* 추후 post로 바꿔야됨!! */}
-                    <form action="/mypage/updatepro" method="get">
-                        <Input type="text" name="name" defaultValue={userData[0].MEMBER_NAME}></Input>
-                        <Input type="Date" name="date" defaultValue={userData[0].MEMBER_BIRTH}></Input>
-                        <Input type="text" name="email" defaultValue={userData[0].MEMBER_EMAIL}></Input>
-                        <Input type="password" name="password" defaultValue={userData[0].MEMBER_PASSWORD}></Input>
+                    <form onSubmit={userUpdateOnSubmit}>
+                        <Input type="hidden" name="_id"
+                                value={idInput}>
+                        </Input>
+                        <Input type="text" name="_name"
+                                onChange={nameOnChange}
+                                defaultValue={nameInput}>
+                        </Input>
+                        <Input type="Date" name="_birth"
+                                onChange={birthOnChange}
+                                defaultValue={birthInput}>
+                        </Input>
+                        <Input type="text" name="_email"
+                                onChange={emailOnChange}
+                                defaultValue={emailInput}>
+                        </Input>
+                        <Input type="password" name="_password"
+                                onChange={passOnChange}
+                                defaultValue={passInput}>
+                        </Input>
+                        {/* 수정하기 버튼 */}
                         <div className="btn">
-                        <UpdateDoneBtn>수정완료</UpdateDoneBtn>
+                            <UpdateDoneBtn onClick={updateDoneClick}>
+                                수정완료
+                            </UpdateDoneBtn>
                         </div>
                     </form>
                 </FormArea>
@@ -116,16 +201,14 @@ const Input = styled.input`
     border-radius: 5px;
     outline: none;
 `
-const UpdateDoneBtn = styled.button.attrs({
-    type: 'submit'
-})`
- margin-top: 55px;
- border: none;
- width: 60%;
- padding: 16px 0 16px 0;
- background-color: #432C20;
- color: #F6F290;
- font-size: 16px;
- border-radius: 30px;
- cursor: pointer;
+const UpdateDoneBtn = styled.button`
+    margin-top: 55px;
+    border: none;
+    width: 60%;
+    padding: 16px 0 16px 0;
+    background-color: #432C20;
+    color: #F6F290;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
 `
