@@ -1,22 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import profile_img from "../../image/profile_for_my.png"
-import MyPageUpdateComponet from "../../components/mypage/MyPageUpdateComponet";
-import LoginComponent from "../../components/login/LoginComponent";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { myPageRecoil } from "../../recoil/atom";
 
 function MyPage() {
     // 네비게이트
     const navigate = useNavigate();
 
     // 마이페이지 수정폼
-    const [mypageform, setMypageForm] = useRecoilState(myPageRecoil);
+    // const [mypageform, setMypageForm] = useRecoilState(myPageRecoil);
 
-    const goUpdateForm = () => {
-        setMypageForm(true);
-    };
+    // const goUpdateForm = () => {
+    //     setMypageForm(true);
+    // };
 
     // X버튼(닫기) 클릭시 메인페이지로 네비게이트
     const mypageUpdateFormOnClick = () => {
@@ -81,7 +78,7 @@ function MyPage() {
                 {/* 버튼 */}
                 <BtnArea>
                     {/* 추후 MEMBER_NUM 넘기도록 할 것?? */}
-                    <GotoUpdateFormBtn onClick={mypageUpdateFormOnClick} mypageform={mypageform ? 1 : 0}>수정하기</GotoUpdateFormBtn>
+                    <GotoUpdateFormBtn onClick={mypageUpdateFormOnClick}>수정하기</GotoUpdateFormBtn>
                 </BtnArea>
 
                 {/* {mypageform ? <MyPageUpdateComponet /> : <LoginComponent />} */}
