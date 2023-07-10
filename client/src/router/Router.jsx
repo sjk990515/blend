@@ -24,13 +24,15 @@ function Router() {
         <BrowserRouter>
             <GlobalStyles />
             <Background />
+            
             <MobileWidthDiv>
+               
                 <>
                     <Header />
                     <Menulayout />
                 </>
                 <Routes>
-                    {/* <Route path="/background" element={<Background />} /> */}
+                    <Route path="/loading" element={<Loading />} />
                     <Route path="/" element={<MainPage />} />
                     <Route path="/myPage" element={<MyPage />} />
                     <Route
@@ -60,5 +62,6 @@ const MobileWidthDiv = styled.div`
     background: #e4e1e0;
     /* margin-right: 20%; */
     padding-top: 70px;
-    box-shadow: 0px 0px 15px 2px #000;
+    /* box-shadow: 0px 0px 15px 2px #727272; */
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 `;

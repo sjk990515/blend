@@ -20,6 +20,7 @@ function MainPage() {
     const navigate = useNavigate();
     // slide 세팅
     const [noticeSlide, setNoticeSlide] = useState(0);
+
     // 로그인 정보
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
 
