@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import profile_img from "../../image/profile_for_my.png"
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
 
 function MyPage() {
     // 네비게이트
