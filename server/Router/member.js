@@ -54,6 +54,34 @@ const aaaa = "";
 //토큰 생성
 //token.create_token('Beans','BNS',0,1000000000)
 
+// 컨트렉트 연동
+
+// baobab network에 배포된 컨트렉트를 연동하기 위한 모듈을 로드
+const Caver = require("caver-js");
+
+//컨트렉트의 정보 로드
+const contract_info = require("../build/contracts/Mileage.json");
+
+// baobab 네트워크 주소를 입력
+const caver = new Caver("https://api.baobab.klaytn.net:8651");
+
+// 배포된 컨트렉트를 연동
+const smartcontract = new caver.klay.Contract(
+    contract_info.abi,
+    contract_info.networks["1001"].address
+);
+
+// 수수료를 지불할 지갑을 등록
+const account = caver.klay.accounts.createWithAccountKey(
+    process.env.public_key,
+    process.env.private_key
+);
+
+caver.klay.accounts.wallet.add(account);
+
+//토큰 생성
+//token.create_token('Beans','BNS',0,1000000000)
+
 module.exports = function () {
     // 기본경로 : localhost:3000/member
 
@@ -84,6 +112,16 @@ module.exports = function () {
             const input_email = req.body._email;
             const input_wallet = await token.create_wallet();
             const input_auth = 1;
+
+            // 지갑 주소를 컨트랙트에 등록
+            const addContract = await smartcontract.methods
+                .add_user(input_wallet)
+                .send({
+                    from: account.address,
+                    gas: 2000000,
+                });
+            console.log(addContract);
+
             console.log(
                 "## joinSet input_Data : " + input_id,
                 input_pass,
@@ -128,7 +166,6 @@ module.exports = function () {
             console.error(e);
         }
     });
-
     // localhost:3000/member/smsAuth [post] Ajax sms인증
     router.post("/smsAuth", async function (req, res) {
         //확인 후 난수 데이터 보낼줄 것
@@ -245,18 +282,19 @@ module.exports = function () {
         res.send({ result: "delete" });
     });
 
-    // localhost:3000/member/myPage [get] mypage, 세션에 저장된 유저 정보 불러오기
+    // localhost:3000/member/myPage [get] mypage에 유저 정보 불러오기
     router.get("/myPage", function (req, res) {
-        console.log(req.session.logined);
-        res.render("mypage.ejs", {
-            data: req.session.logined,
+        const user_info = req.query.MEMBER_NUM;
+        res.json({
+            data: user_info,
         });
     });
 
     // localhost:3000/member/editView [get] 회원정보 수정 페이지, 세션에 저장된 회원 정보 불러오기
     router.get("/editView", function (req, res) {
-        res.render("edit.ejs", {
-            data: req.session.logined,
+        res.json({
+            // TODO 리액트 연결하면서 코드 수정 필요 → 일단 json 파일로 보내기
+            data: req.query.MEMBER_NUM,
         });
     });
 
@@ -280,15 +318,15 @@ module.exports = function () {
 
         // 회원정보 업데이트 (DB에 UPDATE)
         const sql = `
-       update member 
-       set member_id = ?, 
-       member_password = ?, 
-       member_name = ?, 
-       member_birth = ?, 
-       member_email = ?, 
-       member_profile = ? 
-       where member_num = ?;
-       `;
+     update member 
+     set member_id = ?, 
+     member_password = ?, 
+     member_name = ?, 
+     member_birth = ?, 
+     member_email = ?, 
+     member_profile = ? 
+     where member_num = ?;
+     `;
         const values = [
             input_id,
             input_pass,
@@ -296,7 +334,7 @@ module.exports = function () {
             input_birth,
             input_email,
             input_profile,
-            req.session.logined.MEMBER_NUM,
+            req.body.MEMBER_NUM,
         ];
 
         connection.query(sql, values, function (err, result) {
@@ -306,15 +344,15 @@ module.exports = function () {
             } else {
                 // 정보 수정(update 성공 시)한 후 DB에 업데이트 된 로그인 정보 조회(select)
                 const selectSql = `
-                select
-                *
-                from
-                member
-                where
-                MEMBER_ID = ?
-                and
-                MEMBER_PASSWORD = ?
-                `;
+              select
+              *
+              from
+              member
+              where
+              MEMBER_ID = ?
+              and
+              MEMBER_PASSWORD = ?
+              `;
 
                 const selectValues = [input_id, input_pass];
 
@@ -330,7 +368,7 @@ module.exports = function () {
                             console.log("## checkLogin : " + selectResult);
                             if (selectResult.length != 0) {
                                 console.log("## result[0]: " + selectResult[0]);
-                                req.session.logined = selectResult[0];
+                                req.body.MEMBER_NUM = selectResult[0];
                                 res.redirect("/member/myPage");
                             } else {
                                 res.redirect("../");
