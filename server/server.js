@@ -8,10 +8,11 @@ var bodyParser = require('body-parser');
 app.use(bodyParser());
 // app.use(express.json());
 
-const cors = require('cors');
+const cors = require("cors");
 const corsOptions = {
-   origin: true,
-   credentials: true,
+    origin: "http://localhost:3000",
+    methods: ["get", "post"],
+    credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -35,17 +36,18 @@ require('dotenv').config();
 const session = require('express-session');
 // session 설정
 app.use(
-   session({
-      secret: process.env.secret,
-      resave: false,
-      saveUninitialized: true,
-      cookie: {
-         httpOnly: true,
-         sameSite: 'none',
-         maxAge: 300000, // 1000당 1초
-         secure: true,
-      },
-   }),
+    session({
+        secret: process.env.secret,
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            secure: false,
+            maxAge: 300000, // 1000당 1초
+            httpOnly: true,
+            sameSite: "none",
+            secure: true,
+        },
+    })
 );
 
 // 외부의 js, css와 같은 정적 파일의 기본 경로를 설정
@@ -57,8 +59,8 @@ app.use('/main', main);
 const member = require('./Router/member.js')();
 app.use('/member', member);
 
-//const token = require("./Router/token.js")()
-//app.use("/token",token)
+const token = require("./Router/token.js")()
+app.use("/token",token)
 
 const trade = require('./Router/trade.js')();
 app.use('/trade', trade);
