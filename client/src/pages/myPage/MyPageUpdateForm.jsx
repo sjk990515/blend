@@ -14,9 +14,6 @@ function MyPageUpdateForm(props) {
 
     // 로그인한 유저 정보 (세션에 저장된 데이터)
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
-
-    //아이디 input
-    const [idInput, setIdInput] = useState(loginTrue.sessionId);
     // 이름 input
     const [nameInput, setNameInput] = useState(loginTrue.sessionName);
     // 생일 input
@@ -54,13 +51,13 @@ function MyPageUpdateForm(props) {
     };
 
     // 마이페이지 수정 정보 전송 [post]
-    const userUpdatePostMutation = useMutation(
-        (userUpdate) =>
-            axios.post("http://localhost:4000/member/edit", userUpdate),
+    const userUpdateMutation = useMutation(
+        (updateData) =>
+            axios.post("http://localhost:4000/member/edit", "ggg"),
         {
             onSuccess : (response) => {
                 const result = response.data.result;
-                console.log(result);
+                console.log(result)
             },
         }
     )
@@ -72,7 +69,7 @@ function MyPageUpdateForm(props) {
             alert("빈칸이 존재합니다.");
         } else {
             const updateData = {
-                id : idInput,
+                num : loginTrue.sessionNum,
                 name : nameInput,
                 birth : birthInput,
                 email : emailInput,
@@ -80,14 +77,14 @@ function MyPageUpdateForm(props) {
             };
 
             console.log(updateData)
-            userUpdatePostMutation.mutate(updateData);
+            userUpdateMutation.mutate(updateData);
         }
     };
     
-    const userId = loginTrue.sessionId;
-    const phoneStart = userId.substring(0,3);
-    const phoneMiddle = userId.substring(3,7);
-    const phoneLast = userId.substring(7,11);
+    const userId = loginTrue?.sessionId;
+    const phoneStart = userId?.substring(0,3);
+    const phoneMiddle = userId?.substring(3,7);
+    const phoneLast = userId?.substring(7,11);
 
     return(
         <S.Body>
@@ -114,8 +111,8 @@ function MyPageUpdateForm(props) {
                 {/* 수정폼 */}
                 <FormArea>
                     <form onSubmit={userUpdateOnSubmit}>
-                        <Input type="hidden" name="_id"
-                                value={idInput}>
+                        <Input type="hidden" name="_num"
+                                defaultValue={loginTrue.sessionNum}>
                         </Input>
                         <Input type="text" name="_name"
                                 onChange={nameOnChange}
@@ -129,7 +126,7 @@ function MyPageUpdateForm(props) {
                                 onChange={emailOnChange}
                                 defaultValue={emailInput}>
                         </Input>
-                        <Input type="password" name="_password"
+                        <Input type="password" name="_pass"
                                 onChange={passOnChange}
                                 placeholder="비밀번호 수정">
                         </Input>

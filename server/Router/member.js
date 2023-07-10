@@ -262,85 +262,123 @@ module.exports = function () {
 
     // localhost:3000/member/edit [post] 회원정보 수정(DB 업데이트 및 세션 정보 수정)
     router.post("/edit", upload.single("_profile"), function (req, res) {
-        console.log(req.body);
-        const input_profile = req.file.filename;
-        const input_id = req.body._id;
+        console.log("ddkdkdkdkdkdk");
+        
+        // const input_profile = req.file.filename;
+        // const input_id = req.body._id;
         const input_name = req.body._name;
         const input_birth = req.body._birth;
         const input_email = req.body._email;
         const input_pass = req.body._pass;
-        console.log(
-            input_profile,
-            input_id,
-            input_name,
-            input_birth,
-            input_email,
-            input_pass
-        );
+        const input_num = req.body._num;
+        // console.log(
+        //     input_name,
+        //     input_birth,
+        //     input_email,
+        //     input_pass
+        // );
 
         // 회원정보 업데이트 (DB에 UPDATE)
-        const sql = `
-       update member 
-       set member_id = ?, 
-       member_password = ?, 
-       member_name = ?, 
-       member_birth = ?, 
-       member_email = ?, 
-       member_profile = ? 
-       where member_num = ?;
-       `;
-        const values = [
-            input_id,
-            input_pass,
-            input_name,
-            input_birth,
-            input_email,
-            input_profile,
-            req.session.logined.MEMBER_NUM,
-        ];
+        // const sql = `
+        //     UPDATE
+        //     member
+        //     SET
+        //     MEMBER_PASSWORD = ?
+        //     MEMBER_NAME = ?, 
+        //     MEMBER_BIRTH = ?, 
+        //     MEMBER_EMAIL = ?, 
+        //     WHERE
+        //     MEMBER_NUM = ?
+        // `;
 
-        connection.query(sql, values, function (err, result) {
-            if (err) {
-                console.log(err);
-                res.send(err);
-            } else {
-                // 정보 수정(update 성공 시)한 후 DB에 업데이트 된 로그인 정보 조회(select)
-                const selectSql = `
-                select
-                *
-                from
-                member
-                where
-                MEMBER_ID = ?
-                and
-                MEMBER_PASSWORD = ?
-                `;
+        // const values = [
+        //     input_pass,
+        //     input_name,
+        //     input_birth,
+        //     input_email,
+        //     input_num
+        // ];
 
-                const selectValues = [input_id, input_pass];
+        // connection.query(sql, values, function (err, result) {
+        //     if (err) {
+        //         console.log(err);
+        //         res.send(err);
+        //     } else {
+        //         console.log(result)
+        //             res.redirect('/')
+        //         // 정보 수정(update 성공 시)한 후 DB에 업데이트 된 로그인 정보 조회(select)
+        //         // const selectSql = `
+        //         // select
+        //         // *
+        //         // from
+        //         // member
+        //         // where
+        //         // MEMBER_ID = ?
+        //         // and
+        //         // MEMBER_PASSWORD = ?
+        //         // `;
 
-                connection.query(
-                    selectSql,
-                    selectValues,
-                    async function (err, selectResult) {
-                        if (err) {
-                            console.log(err);
-                            res.send(err);
-                        } else {
-                            // 업데이트 된 DB 데이터를 세션에 새로 넣어준 후 myPage로 redirect
-                            console.log("## checkLogin : " + selectResult);
-                            if (selectResult.length != 0) {
-                                console.log("## result[0]: " + selectResult[0]);
-                                req.session.logined = selectResult[0];
-                                res.redirect("/member/myPage");
-                            } else {
-                                res.redirect("../");
-                            }
-                        }
-                    }
-                );
-            }
-        });
+        //         // const selectValues = [input_id, input_pass];
+
+        //         // connection.query(
+        //         //     selectSql,
+        //         //     selectValues,
+        //         //     async function (err, selectResult) {
+        //         //         if (err) {
+        //         //             console.log(err);
+        //         //             res.send(err);
+        //         //         } else {
+        //         //             // 업데이트 된 DB 데이터를 세션에 새로 넣어준 후 myPage로 redirect
+        //         //             console.log("## checkLogin : " + selectResult);
+        //         //             if (selectResult.length != 0) {
+        //         //                 console.log("## result[0]: " + selectResult[0]);
+        //         //                 req.session.logined = selectResult[0];
+        //         //                 res.redirect("/member/myPage");
+        //         //             } else {
+        //         //                 res.redirect("../");
+        //         //             }
+        //         //         }
+        //         //     }
+        //         // );
+        //     }
+        // });
     });
+
+    // router.post("/edit", (req, res)=>{
+    //     input_num = req.body._num;
+    //     input_name = req.body._name;
+    //     input_birth = req.body._birth;
+    //     input_email = req.body._email;
+    //     input_pass = req.body._pass;
+
+    //     console.log(input_num, input_name, input_birth, input_email, input_pass);
+
+    //     const sql =`
+    //     update member 
+    //     set
+    //         MEMBER_PASSWORD = ?, 
+    //         MEMBER_NAME = ?, 
+    //         MEMBER_BIRTH = ?, 
+    //         MEMBER_EMAIL = ?, 
+    //     where
+    //         MEMBER_NUM = ?
+    //     `
+
+    //     const values = [input_pass, input_name, input_birth, input_email, input_num]
+
+    //     connection.query(
+    //         sql,
+    //         values,
+    //         (err, result) => {
+    //             if(err) {
+    //                 console.log(err)
+    //             } else {
+    //                 console.log(result)
+    //                 res.redirect('/')
+    //             }
+    //         }
+    //     )
+    // })
 
     return router;
 };
