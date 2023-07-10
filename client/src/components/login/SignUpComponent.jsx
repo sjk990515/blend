@@ -60,7 +60,7 @@ function SignUpComponent() {
         };
         // const aaa = JSON.stringify(newNumber);
 
-        numberPostMutation.mutate(idData);
+        numberPostMutation.mutate(newNumber);
 
         //시도 2
 
