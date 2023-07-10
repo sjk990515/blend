@@ -6,7 +6,7 @@ const router = express.Router();
 // 컨트랙트의 정보 로드
 const contract_info = require('../build/contracts/Mileage.json');
 const contract_abi = contract_info.abi;
-const contract_address = contract_info.networks[1001].address;
+const contract_address = contract_info.networks['1001'].address;
 console.log('##컨트랙트 주소: ' + contract_address);
 
 // 컨트랙트가 배포된 네트워크 등록

@@ -31,10 +31,10 @@ module.exports = function () {
             res.send(err);
          } else {
             if (req.sessionID == req.sessionID.logined) {
-               console.log(req.session.logined);
+               console.log(req.query.MEMBER_NUM);
                console.log(result[0], result[1], result[2]);
                res.json({
-                  data: req.session.logined,
+                  data: req.query.MEMBER_NUM,
                   data1: result[0],
                   data2: result[1],
                   data3: result[2],
