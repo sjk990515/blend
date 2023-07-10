@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
 import profile_img from "../../image/profile_for_my.png"
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { loginDataRecoil } from "../../recoil/atom"
+import axios from "axios";
 
 function MyPage() {
     // 네비게이트
@@ -11,6 +12,14 @@ function MyPage() {
 
     // 로그인한 유저 정보 (세션에 저장된 데이터)
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
+
+    // 로그인되지 않았다면 메인으로 이동
+    useEffect(() => {
+        if (!loginTrue) {
+            alert("로그인이 필요합니다.");
+            navigate("/login");
+        }
+    }, [loginTrue]);
 
     // 유저의 핸드폰번호에 '-' 기호 붙이기 위해 자르는 작업
     const userId = loginTrue?.sessionId;
@@ -20,10 +29,9 @@ function MyPage() {
 
     // 회원번호
     const userNum = loginTrue.sessionNum;
-
     // 수정하기 클릭시 수정폼으로 이동 (회원번호 가지고감)
     const mypageUpdateFormOnClick = () => {
-        navigate("/mypage/update/"+userNum); // 추후 MEMBER_NUM 넘기도록
+        navigate("/mypage/update/"+userNum);
     };
 
     return (
