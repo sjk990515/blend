@@ -188,13 +188,14 @@ module.exports = function () {
     //    router.get("/login", async function (req, res) {
     //        res.render("login.ejs");
     //    });
-    router.get("/session", function (req, res) {
-        console.log(aaa);
+    router.post("/session", function (req, res) {
+        //   console.log(aaa);
+        console.log(req.sessionID);
         if (!req.session.logined) {
             res.send({ result: false });
         } else {
             console.log(req.session);
-            res.send({ user: aaa, result: true }); // 리액트에 맞게수정 -> res.send({ 'user' : req.session.logined})
+            res.send({ result: true }); // 리액트에 맞게수정 -> res.send({ 'user' : req.session.logined})
         }
     });
 
@@ -224,14 +225,12 @@ module.exports = function () {
             } else {
                 console.log("## checkLogin : " + result);
                 if (result.length != 0) {
-                    req.session.logined = result[0];
-                    console.log("aaa" + req.sessionID);
-                    aaa = req.session.logined;
-                    console.log(req.session);
+                    const user = result[0];
+                    delete user["MEMBER_PASSWORD"];
                     res.send({
-                        user: req.session.logined,
+                        user: user,
                         result: true,
-                    }); // 메인으로 가는 경로 정해지면 바꿔주세요
+                    });
                 } else {
                     res.send({ result: false });
                 }
