@@ -57,8 +57,8 @@ function Menulayout() {
     };
 
     // 토큰 받기 버튼 클릭
-    const recieveOnClick = () => {
-        navigate("/recieve");
+    const receiveOnClick = () => {
+        navigate("/receive");
         setDisable(false);
     };
 
@@ -105,7 +105,7 @@ function Menulayout() {
                                             토큰보내기
                                         </TokenSendBtn>
                                         <TokenReceiveBtn
-                                            onClick={recieveOnClick}
+                                            onClick={receiveOnClick}
                                         >
                                             토큰받기
                                         </TokenReceiveBtn>
