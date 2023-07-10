@@ -1,11 +1,15 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import profile1 from "../../image/profile1.png"
 
 
 function SendCheck() {
     const navigate = useNavigate();
+
+    const {state} = useLocation();
+
+    console.log(state);
 
 
     const SendDone =()=>{
@@ -23,8 +27,8 @@ function SendCheck() {
                 <Alertbx>
                    <Profile><ProfileImg src={profile1} alt="redbean"/></Profile>
                    <div className="text">
-                   <p>010-2222-1234님께</p>
-                   <p className="price">1000</p>
+                   <p>{state.user_name}님께</p>
+                   <p className="price">{state.amount}</p>
                    <p>BEANS를 이체합니다.</p>
                    </div>
                 </Alertbx>

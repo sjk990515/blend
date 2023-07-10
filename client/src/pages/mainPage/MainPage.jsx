@@ -69,6 +69,7 @@ function MainPage() {
         getUserData
     );
 
+    //받아온 데이터
     console.log(data);
 
     return (

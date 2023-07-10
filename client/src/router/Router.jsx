@@ -32,6 +32,7 @@ function Router() {
                     <Menulayout />
                 </>
                 <Routes>
+                
                     <Route path="/loading" element={<Loading />} />
                     <Route path="/" element={<MainPage />} />
                     <Route path="/myPage" element={<MyPage />} />
