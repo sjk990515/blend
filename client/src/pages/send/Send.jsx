@@ -69,7 +69,7 @@ function Send() {
                 </Wrap>
                 <Sendbtn onClick={SendCheck}>보내기</Sendbtn>
             </InputBox>
-          
+
             <Cancel>취소</Cancel>
         </Body>
     );
@@ -92,33 +92,33 @@ const Phone = styled.div`
 `;
 
 const Addr = styled(Phone)`
-    margin:0 auto;
-    width:50%;
+    margin: 0 auto;
+    width: 50%;
     font-size: 14px;
     padding-top: 10px;
     padding-bottom: 102px;
 `;
 
 const Ibox = styled.input`
-width:322px;
-height:60px;
-border-radius:30px;
-border:2px solid #F6F290;
-background-color:#432C20;
-text-indent:10px;
-color:#f2f2f2;
-font-size:14px;
-::placeholder{
-   font-size:14px;
-}
-::-webkit-inner-spin-button{
-  -webkit-appearance: none; 
-  margin: 0; 
-  }
-  ::-webkit-outer-spin-button{
-  -webkit-appearance: none; 
-  margin: 0; 
-  }    
+    width: 322px;
+    height: 60px;
+    border-radius: 30px;
+    border: 2px solid #f6f290;
+    background-color: #432c20;
+    text-indent: 10px;
+    color: #f2f2f2;
+    font-size: 14px;
+    ::placeholder {
+        font-size: 14px;
+    }
+    ::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    ::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 `;
 
 const InputBox = styled.form`
