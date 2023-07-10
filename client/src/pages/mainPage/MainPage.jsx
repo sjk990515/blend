@@ -58,7 +58,7 @@ function MainPage() {
 
     // 유저 로그인 정보 불러오기
     const getUserData = async () => {
-        const response = await axios.get(
+        const response = await axios.post(
             "http://localhost:4000/member/session"
         );
         // setFriendAllRecoil(response?.data);

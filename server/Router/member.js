@@ -240,6 +240,7 @@ module.exports = function () {
 
     // localhost:3000/member/checkLogin [post] 로그인 유효성검사
     router.post("/checkLogin", function (req, res) {
+        console.log(req.body)
         const input_id = req.body._id;
         const input_pass = req.body._pass;
         console.log("## checkLogin : " + input_id, input_pass);
@@ -377,7 +378,7 @@ module.exports = function () {
                 );
             }
         });
-    });
+    }); 
 
     return router;
 };

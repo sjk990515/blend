@@ -5,7 +5,7 @@ const app = express();
 // post로 데이터가 들어오면 json 형태로 변환
 var bodyParser = require("body-parser");
 
-app.use(bodyParser());
+app.use(bodyParser.json());
 // app.use(express.json());
 
 const cors = require("cors");
@@ -50,6 +50,7 @@ app.use("/main", main);
 
 const member = require("./Router/member.js")();
 app.use("/member", member);
+
 
 const token = require("./Router/token.js")()
 app.use("/token",token)
