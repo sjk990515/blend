@@ -93,7 +93,6 @@ function MainPage() {
     //             sessionWallet,
     //             sessionBirth,
     //         };
-
     //         setLoginTrue(loginData);
     //     }
     // }, []);
