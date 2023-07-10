@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import beans from "../../image/beans_for_beansboard.png";
 import beansDashboard from "../../image/beansDashboard.png";
@@ -14,6 +14,18 @@ function Beans() {
     const DetailOnclick = (props) => {
         navigate("/beans/detail/"+props);
     };
+
+    // const tokenAmount = useRef();
+
+    const [amount, setAmount] = useState(["43,928,748", "3,729,203", "482,091"])
+    // const count = 0
+
+    // useEffect(()=>{
+    //     let amounts = [...amount]
+    //     amounts[0] = "580302"
+    //     setAmount(amounts)
+        
+    // })
 
     /* 랭크된 유저 정보 불러오기
     const getUserData = async () => {
@@ -66,17 +78,17 @@ function Beans() {
                         <TokenInfoArticle>
                             <span className="lable">유통량</span>
                             {/* 데이터 받아서 넣기? */}
-                            <span className="token-balance">12,345,000</span>
+                            <span className="token-balance">{amount[0]}</span>
                         </TokenInfoArticle>
                         <TokenInfoArticle>
                             <span className="lable">소각량</span>
                             {/* 데이터 받아서 넣기? */}
-                            <span className="token-balance">45,000</span>
+                            <span className="token-balance">{amount[1]}</span>
                         </TokenInfoArticle>
                         <TokenInfoArticle>
                             <span className="lable">보유량</span>
                             {/* 데이터 받아서 넣기? */}
-                            <span className="token-balance">1,234,500</span>
+                            <span className="token-balance">{amount[2]}</span>
                         </TokenInfoArticle>
                     </TokenArea>
                 </BeansBoardDiv>
