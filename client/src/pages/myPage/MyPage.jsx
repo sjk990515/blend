@@ -7,18 +7,6 @@ function MyPage() {
     // 네비게이트
     const navigate = useNavigate();
 
-    // 마이페이지 수정폼
-    // const [mypageform, setMypageForm] = useRecoilState(myPageRecoil);
-
-    // const goUpdateForm = () => {
-    //     setMypageForm(true);
-    // };
-
-    // X버튼(닫기) 클릭시 메인페이지로 네비게이트
-    const mypageUpdateFormOnClick = () => {
-        navigate("/mypage/update"); // 추후 MEMBER_NUM 넘기도록
-    };
-
     // 마이페이지에 들어온 유저의 더미 데이터
     const userData = [{
         MEMBER_NUM : 1,
@@ -28,6 +16,18 @@ function MyPage() {
         MEMBER_EMAIL : "blend@gmail.com",
         MEMBER_PROFILE : "profile.png",
     }];
+
+    // 마이페이지 수정폼
+    // const [mypageform, setMypageForm] = useRecoilState(myPageRecoil);
+
+    // const goUpdateForm = () => {
+    //     setMypageForm(true);
+    // };
+
+    // X버튼(닫기) 클릭시 메인페이지로 네비게이트
+    const mypageUpdateFormOnClick = (props) => {
+        navigate("/mypage/update/"+props); // 추후 MEMBER_NUM 넘기도록
+    };
 
     const userId = userData[0].MEMBER_ID;
     const phoneStart = userId.substring(0,3);
@@ -77,7 +77,7 @@ function MyPage() {
                 {/* 버튼 */}
                 <BtnArea>
                     {/* 추후 MEMBER_NUM 넘기도록 할 것?? */}
-                    <GotoUpdateFormBtn onClick={mypageUpdateFormOnClick}>수정하기</GotoUpdateFormBtn>
+                    <GotoUpdateFormBtn onClick={()=> mypageUpdateFormOnClick(userData[0].MEMBER_NUM)}>수정하기</GotoUpdateFormBtn>
                 </BtnArea>
 
                 {/* {mypageform ? <MyPageUpdateComponet /> : <LoginComponent />} */}
