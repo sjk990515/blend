@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import profile_img from "../../image/profile_for_my.png"
 import * as S from "../myPage/Mypage.js"
 import axios from "axios";
 import { useMutation } from "react-query";
 
-function MyPageUpdateForm() {
+function MyPageUpdateForm(props) {
     // 네비게이트
     const navigate = useNavigate();
 
@@ -24,7 +24,11 @@ function MyPageUpdateForm() {
         MEMBER_EMAIL : "blend@gmail.com",
         MEMBER_PROFILE : "profile.png",
         MEMBER_PASSWORD : "0dgoajei"
-    }]
+        }
+    ]
+
+    // 파라미터 사용
+    let { num } = useParams();
 
     //아이디 input
     const [idInput, setIdInput] = useState(userData[0].MEMBER_ID);
@@ -202,7 +206,7 @@ const Input = styled.input`
     outline: none;
 `
 const UpdateDoneBtn = styled.button`
-    margin-top: 55px;
+    margin-top: 40px;
     border: none;
     width: 60%;
     padding: 16px 0 16px 0;
