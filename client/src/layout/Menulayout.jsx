@@ -9,20 +9,18 @@ import { BiLogoTwitter } from "react-icons/bi";
 import { BiLogoInstagram } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { menuAble } from "../recoil/atom";
+import { loginDataRecoil, menuAble } from "../recoil/atom";
 
 function Menulayout() {
-    const userLogin = true;
+    const [disable, setDisable] = useRecoilState(menuAble);
+    // 로그인 정보
+    const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
     // 네비게이트
     const navigate = useNavigate();
-    const [disable, setDisable] = useRecoilState(menuAble);
 
-    // X버튼(닫기) 클릭시 메인페이지로 네비게이트
+    // X버튼(닫기)
     const closeOnClick = () => {
         setDisable(true);
-        // console.log(disable);
-        // navigate("/");
-        // setDisplayNone
     };
 
     // X버튼(닫기) 클릭시 메인페이지로 네비게이트
@@ -33,26 +31,18 @@ function Menulayout() {
 
     // 로그아웃 클릭
     const logoutOnClick = () => {
-        navigate("/logout");
+        sessionStorage.clear();
+        setLoginTrue(false);
+        alert("로그아웃 되었습니다.");
+        navigate("/");
+        setDisable(false);
     };
-
-    // Beans 메뉴 클릭
-    // const beansOnClick = () => {
-    //     navigate("/beans");
-    //     setDisable(false);
-    // };
 
     // Mypage 메뉴 클릭
     const myPageOnClick = () => {
         navigate("/mypage");
         setDisable(false);
     };
-
-    // Notice 메뉴 클릭
-    // const noticeOnClick = () => {
-    //     navigate("/notice");
-    //     setDisable(false);
-    // };
 
     // Shop 메뉴 클릭
     const shopOnClick = () => {
@@ -90,14 +80,14 @@ function Menulayout() {
 
                     {/* 유저 정보 영역 */}
                     <UserArea>
-                        {userLogin ? (
+                        {loginTrue ? (
                             <>
                                 {/* 로그인 했을 때 보여질 컴포넌트 */}
                                 <Logined>
                                     <div className="user-info">
                                         <p className="user-phone-area">
                                             <span className="user-phone">
-                                                010-1111-2222
+                                                {loginTrue.sessionId}
                                             </span>
                                             <span className="user-nim">님</span>
                                         </p>
@@ -134,7 +124,7 @@ function Menulayout() {
                                             className="go-login"
                                             onClick={loginOnClick}
                                         >
-                                            로그인 하러가기
+                                            로그인 하러가기 &gt;
                                         </p>
                                     </div>
 
@@ -165,7 +155,11 @@ function Menulayout() {
                     <BiLogoTwitter className="icon"></BiLogoTwitter>
                     <BiLogoInstagram className="icon"></BiLogoInstagram>
                 </div>
-                <LogoutArea onClick={logoutOnClick}>LOGOUT</LogoutArea>
+                {loginTrue ? (
+                    <LogoutArea onClick={logoutOnClick}>LOGOUT</LogoutArea>
+                ) : (
+                    ""
+                )}
             </FooterArea>
         </Body>
     );
@@ -331,6 +325,8 @@ const TokenReceiveBtn = styled(TokenSendBtn)`
 // 메뉴 영역
 const MenuArea = styled.div`
     text-align: center;
+ 
+
 `;
 
 // 개별 메뉴 영역
@@ -341,6 +337,13 @@ const MenuArticle = styled.div`
     line-height: 62px;
     font-size: 26px;
     cursor: pointer;
+    @media (min-height:300px) and (max-height: 650px) {
+        line-height:22px;
+        font-size:22px;
+        font-weight:bold;
+        height:30px;
+        border-bottom:0;
+    }
 `;
 
 const LogoutArea = styled.div`

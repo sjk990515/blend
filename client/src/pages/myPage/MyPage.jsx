@@ -2,30 +2,51 @@ import React from "react";
 import styled from "styled-components";
 import profile_img from "../../image/profile_for_my.png"
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 
 function MyPage() {
     // 네비게이트
     const navigate = useNavigate();
 
+    // 마이페이지 수정폼
+    // const [mypageform, setMypageForm] = useRecoilState(myPageRecoil);
+
+    // const goUpdateForm = () => {
+    //     setMypageForm(true);
+    // };
+
     // X버튼(닫기) 클릭시 메인페이지로 네비게이트
     const mypageUpdateFormOnClick = () => {
-        navigate("/mypage/update");
+        navigate("/mypage/update"); // 추후 MEMBER_NUM 넘기도록
     };
+
+    // 마이페이지에 들어온 유저의 더미 데이터
+    const userData = [{
+        MEMBER_NUM : 1,
+        MEMBER_ID : '01033332222',
+        MEMBER_NAME : '김블렌드',
+        MEMBER_BIRTH: "2022-07-06",
+        MEMBER_EMAIL : "blend@gmail.com",
+        MEMBER_PROFILE : "profile.png",
+    }];
+
+    const userId = userData[0].MEMBER_ID;
+    const phoneStart = userId.substring(0,3);
+    const phoneMiddle = userId.substring(3,7);
+    const phoneLast = userId.substring(7,11);
 
     return (
         <Body>
             <div className="wrapper">
                 {/* 프사 영역 */}
-                <div className="profile-area">
-                    <ImgBorder>
-                        {/* 회원이 프사 수정하면 수정 필요 */}
-                        <ProfileImg src={profile_img}></ProfileImg>
-                    </ImgBorder>
-                </div>
+                <ImgBorder>
+                    {/* 회원이 프사 수정하면 수정 필요 */}
+                    <ProfileImg src={profile_img}></ProfileImg>
+                </ImgBorder>
 
                 {/* 회원 휴대폰번호(아이디) */}
                 <UserArea>
-                    <span>010-3302-1234</span>
+                    <span>{phoneStart}-{phoneMiddle}-{phoneLast}</span>
                     <span>님</span>
                 </UserArea>
 
@@ -36,28 +57,31 @@ function MyPage() {
                     <UserInfoArticle>
                         <span>이름</span>
                         {/* 데이터 받아서 넣을 곳 */}
-                        <span className="user-name input">블렌드</span>
+                        <span className="user-name input">{userData[0].MEMBER_NAME}</span>
                     </UserInfoArticle>
 
                     {/* 생일 */}
                     <UserInfoArticle>
                         <span>생일</span>
                         {/* 데이터 받아서 넣을 곳 */}
-                        <span className="user-birth input">2022/07/05</span>
+                        <span className="user-birth input">{userData[0].MEMBER_BIRTH}</span>
                     </UserInfoArticle>
 
                     {/* 이메일 */}
                     <UserInfoArticle>
                         <span>이메일</span>
                         {/* 데이터 받아서 넣을 곳 */}
-                        <span className="user-email input">blend@gmail.com</span>
+                        <span className="user-email input">{userData[0].MEMBER_EMAIL}</span>
                     </UserInfoArticle>
                 </UserInfoArea>
 
                 {/* 버튼 */}
                 <BtnArea>
-                    <GotoUpdateFormBtn onClick={ mypageUpdateFormOnClick }>수정하기</GotoUpdateFormBtn>
+                    {/* 추후 MEMBER_NUM 넘기도록 할 것?? */}
+                    <GotoUpdateFormBtn onClick={mypageUpdateFormOnClick}>수정하기</GotoUpdateFormBtn>
                 </BtnArea>
+
+                {/* {mypageform ? <MyPageUpdateComponet /> : <LoginComponent />} */}
             </div>
         </Body>
     );
@@ -66,26 +90,18 @@ function MyPage() {
 export default MyPage;
 
 const Body = styled.div`
-    height:100vh;
     max-width: 430px;
     display: flex;
-    /* top: 0; */
-    /* background-color: #E4E1E0; */
-    /* z-index: 999999999;  */
     justify-content: center;
     align-items: center;
     min-height:100vh;
     margin-top:-70px;
-
+    
     .wrapper {
-        position: absolute;
         width: 100%;
+        padding-top: 70px;
+        padding-bottom: 50px;
     }
-
-    .profile-area {
-        padding-top: 30px;
-    }
-
     `
 // 프사 영역
  // 겉 테두리
@@ -110,6 +126,7 @@ const UserArea = styled.div`
     padding-top: 30px;
     text-align: center;
     font-size: 20px;
+    width: 100%;
 `
 
 const UserInfoArea = styled.div`

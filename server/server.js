@@ -9,8 +9,13 @@ app.use(bodyParser.json());
 // app.use(express.json());
 
 const cors = require("cors");
+const corsOptions = {
+    origin: "http://localhost:3000",
+    methods: ["get", "post"],
+    credentials: true,
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 // port 번호
 const port = 4000;
@@ -34,10 +39,13 @@ app.use(
     session({
         secret: process.env.secret,
         resave: false,
-        saveUninitialized: false,
+        saveUninitialized: true,
         cookie: {
             secure: false,
             maxAge: 300000, // 1000당 1초
+            httpOnly: true,
+            sameSite: "none",
+            secure: true,
         },
     })
 );
