@@ -13,10 +13,10 @@ function MyPage() {
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
 
     // 유저의 핸드폰번호에 '-' 기호 붙이기 위해 자르는 작업
-    const userId = loginTrue.sessionId;
-    const phoneStart = userId.substring(0,3);
-    const phoneMiddle = userId.substring(3,7);
-    const phoneLast = userId.substring(7,11);
+    const userId = loginTrue?.sessionId;
+    const phoneStart = userId?.substring(0,3);
+    const phoneMiddle = userId?.substring(3,7);
+    const phoneLast = userId?.substring(7,11);
 
     // 회원번호
     const userNum = loginTrue.sessionNum;
