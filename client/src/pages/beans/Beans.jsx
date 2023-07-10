@@ -15,17 +15,7 @@ function Beans() {
         navigate("/beans/detail/"+props);
     };
 
-    // const tokenAmount = useRef();
-
     const [amount, setAmount] = useState(["43,928,748", "3,729,203", "482,091"])
-    // const count = 0
-
-    // useEffect(()=>{
-    //     let amounts = [...amount]
-    //     amounts[0] = "580302"
-    //     setAmount(amounts)
-        
-    // })
 
     /* 랭크된 유저 정보 불러오기
     const getUserData = async () => {
