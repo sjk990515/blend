@@ -27,6 +27,7 @@
         "mysql2": "^3.4.4",
         "nodemon": "^2.0.22",
         "qrcode": "^1.5.3",
-        "truffle-hdwallet-provider-klaytn": "^1.4.2"
+        "truffle-hdwallet-provider-klaytn": "^1.4.2",
+        "web3": "^4.0.2"
     }
 }

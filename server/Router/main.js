@@ -30,7 +30,7 @@ module.exports = function () {
             console.log(err);
             res.send(err);
          } else {
-            if (req.sessionID) {
+            if (req.sessionID == req.sessionID.logined) {
                console.log(req.session.logined);
                console.log(result[0], result[1], result[2]);
                res.json({
