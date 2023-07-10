@@ -1,19 +1,18 @@
 import styled from "styled-components";
 
 export const Body = styled.div` 
-    height:100vh;
     max-width: 430px;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height:100vh;
     margin-top:-70px;
-
-    .wrapper {
-        position: absolute;
-        width: 100%;
-    }
 `;
+
+export const Wrapper = styled.div`
+    width: 100%;
+    padding-top: 70px;
+`
 
 // 프사 영역
  // 겉 테두리
@@ -50,7 +49,8 @@ export const GotoUpdateFormBtn = styled.button`
  cursor: pointer;
 `
 export const UserArea = styled.div`
-padding-top: 30px;
-text-align: center;
-font-size: 20px;
+    padding-top: 30px;
+    text-align: center;
+    font-size: 20px;
+    width: 100%;
 `
