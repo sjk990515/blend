@@ -1,31 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useMutation } from "react-query";
+import axios from "axios";
 
 function Send() {
     const navigate = useNavigate();
+    const [AddrNumber,setAddrNumber] = useState("");
+    const [SendAmount,setSendAmount] = useState(0);
 
-    const SendCheck = () => {
-        navigate("/sendcheck");
+
+    const SendCheck = async () => {
+
+        // const { data:_  } = await axios.post('/_____주소_____', {
+        //     address_or_number: AddrNumber,
+        //     send_amount: SendAmount
+        // });
+
+        console.log(data)
+
+        // 서버에서 전달받아야 하는 값
+        const data = {
+            is_validate: true, // 검증 여부 (1. 유저 잔고보다 요청한 금액이 많거나 2. 받는 사람의 정보가 조회되지 않았을 경우 false)
+            to_user_name: '홍길동', // address_or_number의 유저 데이터의 이름
+            amount: 1000, // send_amount
+        };
+
+        navigate("/sendcheck", {
+            state : {
+                user_name:data.to_user_name,
+                amount: data.amount,
+            }
+        });
+
     };
 
-    const Scan = () => {
-        navigate("/scan");
+    const Scan =()=>{
+        navigate("/scan")
+    }
+    const AddrNumberOnChange = (e) => {
+        setAddrNumber(e.target.value);
+    };
+
+    const SendAmountOnchange = (e) => {
+        setSendAmount(e.target.value);
     };
 
     return (
         <Body>
             <div className="Title">
-                {/* 내정보 폰번호,주소 */}
+                {/* 내정보 폰번호 불러오기 */}
                 <Phone>010-3302-1234</Phone>
+                {/* 주소 불러오기 */}
                 <Addr>0x0000000000</Addr>
             </div>
-            <InputBox>
-                {/* 수량,주소혹은 핸드폰번호 입력창 */}
-                <Ibox type="number" placeholder="수량"></Ibox>
+            <InputBox >
+                {/* 수량*/}
+                <Ibox onChange={SendAmountOnchange} type="number" placeholder="수량"></Ibox>
                 {/* 내 잔액 확인 */}
                 <Bal> 나의 잔액은: 3000 </Bal>
-                <Ibox type="number" placeholder="주소 혹은 핸드폰 번호"></Ibox>
+                {/* 주소 혹은 핸드폰번호 */}
+                <Ibox onChange={AddrNumberOnChange} type="number" placeholder="주소 혹은 핸드폰 번호"></Ibox>
                 <Wrap>
                     <div className="ScanBtn">
                         <Scanbtn onClick={Scan}>스캔</Scanbtn>

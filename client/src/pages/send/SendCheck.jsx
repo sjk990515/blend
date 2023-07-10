@@ -1,14 +1,19 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import profile1 from "../../image/profile1.png";
 
 function SendCheck() {
     const navigate = useNavigate();
 
-    const SendDone = () => {
-        navigate("/senddone");
-    };
+    const {state} = useLocation();
+
+    console.log(state);
+
+
+    const SendDone =()=>{
+        navigate("/senddone")
+    }
 
     return (
         <Body>
