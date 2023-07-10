@@ -250,3 +250,4 @@ const TokenBalanceTxt = styled.span`
     color: #F6F290;
     text-align: right;
 `
+

@@ -9,29 +9,32 @@ function Send() {
         navigate("/sendcheck");
     };
 
-
-    const Scan =()=>{
-        navigate("/scan")
-    }
+    const Scan = () => {
+        navigate("/scan");
+    };
 
     return (
         <Body>
             <div className="Title">
+                {/* 내정보 폰번호,주소 */}
                 <Phone>010-3302-1234</Phone>
                 <Addr>0x0000000000</Addr>
             </div>
-            <InputBox>
-                <Ibox placeholder="수량"></Ibox>
+            <InputBox >
+                {/* 수량,주소혹은 핸드폰번호 입력창 */}
+                <Ibox type="number" placeholder="수량"></Ibox>
+                {/* 내 잔액 확인 */}
                 <Bal> 나의 잔액은: 3000 </Bal>
-                <Ibox placeholder="주소 혹은 핸드폰 번호"></Ibox>
+                <Ibox type="number" placeholder="주소 혹은 핸드폰 번호"></Ibox>
                 <Wrap>
                     <div className="ScanBtn">
-                    <Scanbtn onClick={Scan}>스캔</Scanbtn> 
+                        <Scanbtn onClick={Scan}>스캔</Scanbtn>
                     </div>
                     <div className="notice">수량과 주소를 확인하세요.</div>
                 </Wrap>
+                <Sendbtn onClick={SendCheck}>보내기</Sendbtn>
             </InputBox>
-            <Sendbtn onClick={SendCheck}>보내기</Sendbtn>
+          
             <Cancel>취소</Cancel>
         </Body>
     );
@@ -40,10 +43,10 @@ function Send() {
 export default Send;
 
 const Body = styled.div`
-background-color:#432C20;
-text-align:center;
-min-height:100vh;
-margin-top:-70px;
+    background-color: #432c20;
+    text-align: center;
+    min-height: 100vh;
+    margin-top: -70px;
 `;
 
 const Phone = styled.div`
@@ -54,6 +57,8 @@ const Phone = styled.div`
 `;
 
 const Addr = styled(Phone)`
+    margin:0 auto;
+    width:50%;
     font-size: 14px;
     padding-top: 10px;
     padding-bottom: 102px;
@@ -71,9 +76,17 @@ font-size:14px;
 ::placeholder{
    font-size:14px;
 }
+::-webkit-inner-spin-button{
+  -webkit-appearance: none; 
+  margin: 0; 
+  }
+  ::-webkit-outer-spin-button{
+  -webkit-appearance: none; 
+  margin: 0; 
+  }    
 `;
 
-const InputBox = styled.div`
+const InputBox = styled.form`
     width: 320px;
     margin: 0 auto;
     .ScanBtn {
@@ -101,34 +114,34 @@ const Wrap = styled.div`
 `;
 
 const Scanbtn = styled.div`
-width:96px;
-height:40px;
-border-radius:30px;
-background-color:#F6F290;
-border:0;
-text-align:center;
-margin-top:10px;
-color:#432C20;
-font-size:14px;
-font-weight:800;
-margin-bottom:154px;
-line-height:40px;
-cursor:pointer;
+    width: 96px;
+    height: 40px;
+    border-radius: 30px;
+    background-color: #f6f290;
+    border: 0;
+    text-align: center;
+    margin-top: 10px;
+    color: #432c20;
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 154px;
+    line-height: 40px;
+    cursor: pointer;
 `;
 
 const Sendbtn = styled.div`
-width:110px;
-height:46px;
-color:#432C20;
-font-weight:800;
-font-size:16px;
-cursor: pointer;
-background-color:#F6F290;
-border-radius:30px;
-text-align:center;
-line-height:46px;
-margin:0 auto;
-margin-bottom:26px;
+    width: 110px;
+    height: 46px;
+    color: #432c20;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #f6f290;
+    border-radius: 30px;
+    text-align: center;
+    line-height: 46px;
+    margin: 0 auto;
+    margin-bottom: 26px;
 `;
 
 const Cancel = styled.div`

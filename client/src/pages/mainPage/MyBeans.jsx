@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { styled } from "styled-components";
 import redCircle from "../../image/redCircle.png";
+import { useRecoilState } from "recoil";
+import { loginDataRecoil } from "../../recoil/atom";
+import { useNavigate } from "react-router-dom";
 
 function MyBeans() {
+    const navigator = useNavigate();
+    // 로그인 정보
+    const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
+
     //더미 데이터
     const aaa = [
         // SmsAuth
@@ -43,10 +50,18 @@ function MyBeans() {
         },
     ];
 
+    // 로그인 여부
+    useEffect(() => {
+        if (!loginTrue) {
+            alert("로그인 하세요");
+            navigator("/login");
+        }
+    }, [loginTrue]);
+
     return (
         <MyBeansWrap>
             <MyBeansTitle>안녕하세요!</MyBeansTitle>
-            <MyBeansSmallTitle>누구누구님</MyBeansSmallTitle>
+            <MyBeansSmallTitle>{loginTrue.sessionName}님</MyBeansSmallTitle>
 
             <CountBox>
                 <BoxText>나의 잔액</BoxText>

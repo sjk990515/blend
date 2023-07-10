@@ -25,13 +25,15 @@ function Router() {
         <BrowserRouter>
             <GlobalStyles />
             <Background />
+            
             <MobileWidthDiv>
+               
                 <>
                     <Header />
                     <Menulayout />
                 </>
                 <Routes>
-                    {/* <Route path="/background" element={<Background />} /> */}
+                    <Route path="/loading" element={<Loading />} />
                     <Route path="/" element={<MainPage />} />
                     <Route path="/myPage" element={<MyPage />} />
                     <Route
