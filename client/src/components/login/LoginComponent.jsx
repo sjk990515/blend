@@ -3,29 +3,74 @@ import { useRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { loginMenuRecoil, loginSignUp } from "../../recoil/atom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import axios from "axios";
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 
 function LoginComponent() {
+    const navigator = useNavigate();
     // 로그인 회원가입
     const [signUp, setSignUp] = useRecoilState(loginSignUp);
     // 비밀번호 온오프
     const [passIconOn, setPassIconOn] = useState(false);
     // 유저 로그인 메뉴
     const [loginMenu, setLoginMenu] = useRecoilState(loginMenuRecoil);
+    // 로그인 input
+    const [loginInput, setLoginInput] = useState("");
+    // 비밀번호 input
+    const [passInput, setPassInput] = useState("");
 
     // 패스워드 숨김 아이콘
     const passIconOnClick = () => {
         setPassIconOn(!passIconOn);
     };
-
+    // 회원가입 이동
     const signUpOnClick = () => {
         setSignUp(true);
     };
+    //로그인 form
+    const loginOnSubmit = (e) => {
+        e.preventDefault();
+    };
+    // 로그인 input
+    const loginInputOnChange = (e) => {
+        setLoginInput(e.target.value);
+    };
+    //  비밀번호 input
+    const passInputOnChagne = (e) => {
+        setPassInput(e.target.value);
+    };
+    // 로그인 정보 전송
+    const loginPostMutation = useMutation(
+        (newUser) =>
+            axios.post("http://localhost:4000/member/checkLogin", newUser),
+        {
+            onSuccess: (response) => {
+                const result = response.data.result;
+                console.log(result);
+                sessionStorage.setItem("login", true);
+                navigator("/");
+            },
+        }
+    );
+    // 로그인 클릭
+    const loginOnClick = () => {
+        if (loginInput == "" || passInput == "") {
+            alert("빈칸이 존재합니다.");
+        } else {
+            const loginData = {
+                _id: loginInput,
+                _pass: passInput,
+            };
 
+            loginPostMutation.mutate(loginData);
+        }
+    };
     return (
         <>
             <LoginTextH2>로그인 하세요</LoginTextH2>
 
-            <LoginForm>
+            <LoginForm onSubmit={loginOnSubmit}>
                 <IdInput
                     type="text"
                     placeholder={
@@ -33,18 +78,20 @@ function LoginComponent() {
                             ? "휴대폰 번호 입력(-없이)"
                             : "사업자 번호 입력(-없이)"
                     }
+                    onChange={loginInputOnChange}
                 />
                 <PassBox>
                     <PassInput
                         type={passIconOn ? "text" : "password"}
                         placeholder="비밀번호 입력"
+                        onChange={passInputOnChagne}
                     />
                     <PassIcon onClick={passIconOnClick}>
                         {passIconOn ? <AiFillEye /> : <AiFillEyeInvisible />}
                     </PassIcon>
                 </PassBox>
 
-                <LoginButton>로그인</LoginButton>
+                <LoginButton onClick={loginOnClick}>로그인</LoginButton>
             </LoginForm>
 
             <ButtonSpanFlex>
