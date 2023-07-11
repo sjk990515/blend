@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import styled from "styled-components";
-import profile_img from "../../image/profile_for_my.png"
+import profile_img from "../../image/profile_for_my.png";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { loginDataRecoil } from "../../recoil/atom"
@@ -37,7 +37,8 @@ function MyPage(props) {
 
                 {/* 회원 휴대폰번호(아이디) */}
                 <UserArea>
-                    <span>{phoneStart}-{phoneMiddle}-{phoneLast}</span>
+                    {/* <span>{phoneStart}-{phoneMiddle}-{phoneLast}</span> */}
+                    <span>{loginTrue.sessionId}</span>
                     <span>님</span>
                 </UserArea>
 
@@ -48,7 +49,9 @@ function MyPage(props) {
                     <UserInfoArticle>
                         <span>이름</span>
                         {/* 데이터 받아서 넣을 곳 */}
-                        <span className="user-name input">{loginTrue.sessionName}</span>
+                        <span className="user-name input">
+                            {loginTrue.sessionName}
+                        </span>
                     </UserInfoArticle>
 
                     {/* 생일 */}
@@ -87,31 +90,31 @@ const Body = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height:100vh;
-    margin-top:-70px;
-    
+    min-height: 100vh;
+    margin-top: -70px;
+
     .wrapper {
         width: 100%;
         padding-top: 100px;
         padding-bottom: 50px;
     }
-    `
+`;
 // 프사 영역
- // 겉 테두리
+// 겉 테두리
 const ImgBorder = styled.div`
     width: 140px;
     height: 140px;
     border-radius: 100%;
-    border: 2px solid #432C20;
+    border: 2px solid #432c20;
     position: relative;
     margin: 0 auto;
-    `
- // 프사
+`;
+// 프사
 const ProfileImg = styled.img`
     position: absolute;
     width: 100px;
     height: 100px;
-    top:17px;
+    top: 17px;
     left: 18px;
 `;
 
@@ -120,18 +123,18 @@ const UserArea = styled.div`
     text-align: center;
     font-size: 20px;
     width: 100%;
-`
+`;
 
 const UserInfoArea = styled.div`
     padding-top: 70px;
     padding-left: 20px;
-    
+
     .user-info-txt {
         font-weight: 700;
         font-size: 16px;
         padding-left: 2px;
     }
-`
+`;
 
 const UserInfoArticle = styled.div`
     font-size: 14px;
@@ -141,7 +144,7 @@ const UserInfoArticle = styled.div`
     width: 95%;
     height: 55px;
     line-height: 55px;
-    border: 1px solid #432C20;
+    border: 1px solid #432c20;
     border-radius: 5px;
 
     .input {
@@ -152,20 +155,20 @@ const UserInfoArticle = styled.div`
     .user-email {
         padding-left: 67px;
     }
-`
+`;
 
 const BtnArea = styled.div`
     text-align: center;
-`
+`;
 
 const GotoUpdateFormBtn = styled.button`
     margin-top: 55px;
     border: none;
     width: 60%;
     padding: 16px 0 16px 0;
-    background-color: #432C20;
-    color: #F6F290;
+    background-color: #432c20;
+    color: #f6f290;
     font-size: 16px;
     border-radius: 30px;
     cursor: pointer;
-`
+`;

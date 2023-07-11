@@ -8,7 +8,7 @@ import { styled } from "styled-components";
 import Header from "../layout/Header";
 import MyPageUpdateForm from "../pages/myPage/MyPageUpdateForm";
 import Login from "../pages/login/Login";
-import Loading from "../components/loading/loading";
+import Loading from "../components/loading/Loading";
 import Send from "../pages/send/Send";
 import Scan from "../pages/send/Scan";
 import SendCheck from "../pages/send/SendCheck";
@@ -25,14 +25,14 @@ function Router() {
         <BrowserRouter>
             <GlobalStyles />
             <Background />
-            
+
             <MobileWidthDiv>
-               
                 <>
                     <Header />
                     <Menulayout />
                 </>
                 <Routes>
+                
                     <Route path="/loading" element={<Loading />} />
                     <Route path="/" element={<MainPage />} />
                     <Route path="/myPage" element={<MyPage />} />
@@ -46,7 +46,10 @@ function Router() {
                     <Route path="/receive" element={<Receive />} />
                     <Route path="/receivedone" element={<ReceiveDone />} />
                     <Route path="/beans" element={<Beans />} />
-                    <Route path="/beans/detail/:rank" element={<BeansDetail />} />
+                    <Route
+                        path="/beans/detail/:rank"
+                        element={<BeansDetail />}
+                    />
                 </Routes>
             </MobileWidthDiv>
         </BrowserRouter>
@@ -62,5 +65,5 @@ const MobileWidthDiv = styled.div`
     background: #e4e1e0;
     /* margin-right: 20%; */
     padding-top: 70px;
-    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 `;

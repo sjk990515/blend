@@ -55,12 +55,8 @@ function SignUpComponent() {
     );
     //휴대폰 번호 전송 1
     const phoneMessage = () => {
-        // const bbb = new FormData();
-        // bbb.append("_id", phoneCheck);
-        alert("인증번호가 전송되었습니다");
-
         const newNumber = {
-            _id: phoneCheck,
+            id: phoneCheck,
         };
         // const aaa = JSON.stringify(newNumber);
 

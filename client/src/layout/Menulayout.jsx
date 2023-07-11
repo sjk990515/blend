@@ -69,8 +69,8 @@ function Menulayout() {
     };
 
     // 토큰 받기 버튼 클릭
-    const recieveOnClick = () => {
-        navigate("/recieve");
+    const receiveOnClick = () => {
+        navigate("/receive");
         setDisable(false);
     };
 
@@ -117,7 +117,7 @@ function Menulayout() {
                                             토큰보내기
                                         </TokenSendBtn>
                                         <TokenReceiveBtn
-                                            onClick={recieveOnClick}
+                                            onClick={receiveOnClick}
                                         >
                                             토큰받기
                                         </TokenReceiveBtn>
@@ -337,6 +337,8 @@ const TokenReceiveBtn = styled(TokenSendBtn)`
 // 메뉴 영역
 const MenuArea = styled.div`
     text-align: center;
+ 
+
 `;
 
 // 개별 메뉴 영역
@@ -347,6 +349,13 @@ const MenuArticle = styled.div`
     line-height: 62px;
     font-size: 26px;
     cursor: pointer;
+    @media (min-height:300px) and (max-height: 650px) {
+        line-height:22px;
+        font-size:22px;
+        font-weight:bold;
+        height:30px;
+        border-bottom:0;
+    }
 `;
 
 const LogoutArea = styled.div`
