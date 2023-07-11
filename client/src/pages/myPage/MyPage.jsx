@@ -1,9 +1,9 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import profile_img from "../../image/profile_for_my.png";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { loginDataRecoil } from "../../recoil/atom"
+import { loginDataRecoil } from "../../recoil/atom";
 import axios from "axios";
 
 function MyPage(props) {
@@ -15,15 +15,15 @@ function MyPage(props) {
 
     // 유저의 핸드폰번호에 '-' 기호 붙이기 위해 자르는 작업
     const userId = loginTrue?.sessionId;
-    const phoneStart = userId?.substring(0,3);
-    const phoneMiddle = userId?.substring(3,7);
-    const phoneLast = userId?.substring(7,11);
+    const phoneStart = userId?.substring(0, 3);
+    const phoneMiddle = userId?.substring(3, 7);
+    const phoneLast = userId?.substring(7, 11);
 
     // 회원번호
     const userNum = loginTrue.sessionNum;
     // 수정하기 클릭시 수정폼으로 이동 (회원번호 가지고감)
     const mypageUpdateFormOnClick = () => {
-        navigate("/mypage/update/"+userNum);
+        navigate("/mypage/update/" + userNum);
     };
 
     return (
@@ -57,14 +57,18 @@ function MyPage(props) {
                     <UserInfoArticle>
                         <span>생일</span>
                         {/* 데이터 받아서 넣을 곳 */}
-                        <span className="user-birth input">{loginTrue.sessionBirth}</span>
+                        <span className="user-birth input">
+                            {loginTrue.sessionBirth}
+                        </span>
                     </UserInfoArticle>
 
                     {/* 이메일 */}
                     <UserInfoArticle>
                         <span>이메일</span>
                         {/* 데이터 받아서 넣을 곳 */}
-                        <span className="user-email input">{loginTrue.sessionEmail}</span>
+                        <span className="user-email input">
+                            {loginTrue.sessionEmail}
+                        </span>
                     </UserInfoArticle>
                     <input type="hidden" defaultValue={userNum}></input>
                 </UserInfoArea>
@@ -75,7 +79,11 @@ function MyPage(props) {
                     {/* <Link to={`/mypage/update/${loginTrue.sessionNum}`} key={loginTrue.sessionNum}>
                         수정하기
                     </Link> */}
-                    <GotoUpdateFormBtn onClick={()=> mypageUpdateFormOnClick({userNum})}>수정하기</GotoUpdateFormBtn>
+                    <GotoUpdateFormBtn
+                        onClick={() => mypageUpdateFormOnClick({ userNum })}
+                    >
+                        수정하기
+                    </GotoUpdateFormBtn>
                 </BtnArea>
             </div>
         </Body>
