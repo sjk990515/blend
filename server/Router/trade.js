@@ -3,17 +3,31 @@ const express = require("express");
 // Router() 변수에 대입
 const router = express.Router();
 
+// 1
+// // 컨트랙트의 정보 로드
+// const contract_info = require("../build/contracts/Mileage.json");
+// const contract_abi = contract_info.abi;
+// const contract_address = contract_info.networks[1001].address;
+// console.log("##컨트랙트 주소: " + contract_address);
+
+// // 컨트랙트가 배포된 네트워크 등록
+// const { Web3 } = require("web3");
+// // const web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"));
+
+// // const smartcontract = new web3.eth.Contract(contract_abi, contract_address);
+
+// 2
 // 컨트랙트의 정보 로드
 const contract_info = require("../build/contracts/Mileage.json");
-const contract_abi = contract_info.abi;
-const contract_address = contract_info.networks[1001].address;
-console.log("##컨트랙트 주소: " + contract_address);
+// caver-js 로드
+const Caver = require("caver-js");
+// 바오밥 네트워크 주소 입력
+const caver = new Caver("http://api.baobab.klaytn.net:8651");
 
-// 컨트랙트가 배포된 네트워크 등록
-const { Web3 } = require("web3");
-// const web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"));
-
-// const smartcontract = new web3.eth.Contract(contract_abi, contract_address);
+const smartcontract = new caver.klay.Contract(
+    contract_info.abi,
+    contract_info.networks["1001"].address
+);
 
 // DB 연결
 const mysql = require("mysql2");
@@ -29,6 +43,7 @@ module.exports = function () {
     // api 생성
     // 해당 파일의 api의 기본 경로: localhost:4000/trade
 
+    // 지갑주소 혹은 폰넘버 보내고 누구인지 혹은 없는지 리턴
     // localhost:4000/checkMember [get] 컨트랙트에 등록된 유저인지 확인
     router.get("/checkMember", function (req, res) {
         const input_id = req.query._id;
@@ -74,6 +89,7 @@ module.exports = function () {
         });
     });
 
+    // 내 지갑주소, 상대방 지갑주소, 보낼 마일리지 성공 여부
     // localhost:4000/transfer [get] 마일리지 거래
     router.get("/transfer", function (req, res) {
         // 마일리지 보내는 사람, 받는 사람, 보낼 마일리지 양 불러오기?
