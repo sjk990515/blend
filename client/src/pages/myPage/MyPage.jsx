@@ -37,7 +37,9 @@ function MyPage(props) {
 
                 {/* 회원 휴대폰번호(아이디) */}
                 <UserArea>
-                    <span>{phoneStart}-{phoneMiddle}-{phoneLast}</span>
+                    <span>
+                        {phoneStart}-{phoneMiddle}-{phoneLast}
+                    </span>
                     <span>님</span>
                 </UserArea>
 
@@ -75,10 +77,6 @@ function MyPage(props) {
 
                 {/* 버튼 */}
                 <BtnArea>
-                    {/* 추후 MEMBER_NUM 넘기도록 할 것?? */}
-                    {/* <Link to={`/mypage/update/${loginTrue.sessionNum}`} key={loginTrue.sessionNum}>
-                        수정하기
-                    </Link> */}
                     <GotoUpdateFormBtn
                         onClick={() => mypageUpdateFormOnClick({ userNum })}
                     >
