@@ -159,24 +159,25 @@ module.exports = function () {
     router.post("/myToken", function (req, res) {
         const input_num = req.body._num;
 
-        console.log(input_num);
+        console.log("이거" + input_num);
 
         const sql = `
-      select 
-      TOKEN_CHANGED,
-      TOKEN_CONTENT,
-      TOKEN_REGDATE,
-      TRADE_ADDRESS
-      from
-      token
-      where
-      MEMBER_NUM = ?
-      order by
-      TOKEN_REGDATE
-      desc
-      limit
-      10;
-      `;
+        select 
+        @rownum := @rownum + 1 AS id,
+           TOKEN_CHANGED,
+           TOKEN_CONTENT,
+           TOKEN_REGDATE,
+           TRADE_ADDRESS
+           
+           from
+           token,(SELECT @rownum := 0) r
+           where
+           MEMBER_NUM = ?
+           order by
+           TOKEN_REGDATE
+           desc
+           limit
+           10;`;
 
         const totalsql = `
       select
@@ -207,13 +208,28 @@ module.exports = function () {
                                 res.send({
                                     result: true,
                                     content: result,
-                                    total: result2[0].TOKEN_TOTAL,
+                                    total: result2[0]?.TOKEN_TOTAL,
                                 });
                             }
                         }
                     );
                 } else {
-                    res.send({ result: false });
+                    connection.query(
+                        totalsql,
+                        values,
+                        function (err2, result2) {
+                            if (err2) {
+                                console.log(err);
+                                res.send(err);
+                            } else {
+                                console.log("## Token_Mycontent" + result);
+                                res.send({
+                                    result: false,
+                                    total: result2[0]?.TOKEN_TOTAL,
+                                });
+                            }
+                        }
+                    );
                 }
             }
         });

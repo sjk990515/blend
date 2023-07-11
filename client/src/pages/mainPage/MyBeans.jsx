@@ -2,57 +2,20 @@ import React, { useEffect } from "react";
 import { styled } from "styled-components";
 import redCircle from "../../image/redCircle.png";
 import { useRecoilState } from "recoil";
-import { loginDataRecoil } from "../../recoil/atom";
+import { loginDataRecoil, userHistoryRecoil } from "../../recoil/atom";
 import { useNavigate } from "react-router-dom";
 
 function MyBeans() {
     const navigator = useNavigate();
     // 로그인 정보
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
-
-    //더미 데이터
-    const aaa = [
-        // SmsAuth
-        {
-            id: 1,
-            time: "2023.07.03 22:33",
-            name: "보라카페",
-            pay: "-700",
-            wallet: "1400",
-        },
-        {
-            id: 2,
-            time: "2023.07.03 22:33",
-            name: "동그란카페",
-            pay: "-700",
-            wallet: "1400",
-        },
-        {
-            id: 3,
-            time: "2023.07.03 22:33",
-            name: "ㅁㄴㅇㄹ",
-            pay: "-700",
-            wallet: "1400",
-        },
-        {
-            id: 4,
-            time: "2023.07.03 22:33",
-            name: "ㅁㄴㅇㄹ",
-            pay: "-700",
-            wallet: "1400",
-        },
-        {
-            id: 5,
-            time: "2023.07.03 22:33",
-            name: "ㅁㄴㅇㄹ",
-            pay: "-700",
-            wallet: "1400",
-        },
-    ];
+    // 사용자 잔액, 내역 정보
+    const [userHistoryState, setUserHistoryState] =
+        useRecoilState(userHistoryRecoil);
 
     // 로그인 여부
     useEffect(() => {
-        if (!loginTrue) {
+        if (!sessionStorage.getItem("id")) {
             alert("로그인 하세요");
             navigator("/login");
         }
@@ -67,24 +30,34 @@ function MyBeans() {
                 <BoxText>나의 잔액</BoxText>
 
                 <BoxContent>
-                    3100 <BoxSpan>BEANS</BoxSpan>
+                    {userHistoryState.total} <BoxSpan>BEANS</BoxSpan>
                 </BoxContent>
 
                 <BoxImg src={redCircle} alt="redCircle" />
             </CountBox>
 
             <HistoryTitle>거래내역</HistoryTitle>
-            {aaa.map((i) => {
-                return (
-                    <History>
-                        <HistoryDate>{i.time}</HistoryDate>
-                        <HistoryName>{i.name}</HistoryName>
+            {!userHistoryState.content ? (
+                <HistoryNone>거래내역이 없습니다.</HistoryNone>
+            ) : (
+                <>
+                    {userHistoryState?.content?.map((i) => {
+                        return (
+                            <History key={i.id}>
+                                <HistoryDate>
+                                    {i.TOKEN_REGDATE.slice(0, 10)}
+                                </HistoryDate>
+                                <HistoryName>{i.TOKEN_CONTENT}</HistoryName>
 
-                        <HistoryUse>{i.pay}</HistoryUse>
-                        <HistoryCount>잔액 {i.wallet}</HistoryCount>
-                    </History>
-                );
-            })}
+                                <HistoryUse>{i.TOKEN_CHANGED}</HistoryUse>
+                                <HistoryCount>
+                                    잔액 {userHistoryState.total}
+                                </HistoryCount>
+                            </History>
+                        );
+                    })}
+                </>
+            )}
         </MyBeansWrap>
     );
 }
@@ -151,6 +124,11 @@ const History = styled.div`
     width: 100%;
     padding-bottom: 10px;
     border-bottom: 1px solid #000;
+`;
+const HistoryNone = styled.h2`
+    padding-top: 20px;
+    font-size: 20px;
+    text-align: center;
 `;
 const HistoryDate = styled.div`
     font-size: 14px;

@@ -138,10 +138,11 @@ module.exports = function () {
             MEMBER_BIRTH,
             MEMBER_EMAIL,
             MEMBER_WALLET,
-            MEMBER_AUTH
+            MEMBER_AUTH,
+            TOKEN_TOTAL
             )
             values
-            (?,?,?,?,?,?,?)
+            (?,?,?,?,?,?,?,100)
         `;
             const values = [
                 input_id,
@@ -318,7 +319,7 @@ module.exports = function () {
     // localhost:3000/member/edit [post] 회원정보 수정(DB 업데이트 및 세션 정보 수정)
     // router.post("/edit", upload.single("_profile"), function (req, res) {
     //     console.log("ddkdkdkdkdkdk");
-        
+
     //     // const input_profile = req.file.filename;
     //     // const input_id = req.body._id;
     //     const input_name = req.body._name;
@@ -339,9 +340,9 @@ module.exports = function () {
     //     //     member
     //     //     SET
     //     //     MEMBER_PASSWORD = ?
-    //     //     MEMBER_NAME = ?, 
-    //     //     MEMBER_BIRTH = ?, 
-    //     //     MEMBER_EMAIL = ?, 
+    //     //     MEMBER_NAME = ?,
+    //     //     MEMBER_BIRTH = ?,
+    //     //     MEMBER_EMAIL = ?,
     //     //     WHERE
     //     //     MEMBER_NUM = ?
     //     // `;
@@ -400,7 +401,7 @@ module.exports = function () {
     // });
 
     // localhost:4000/member/edit [post] 회원정보 수정(DB 업데이트 및 세션 정보 수정)
-    router.post("/edit", (req, res)=>{
+    router.post("/edit", (req, res) => {
         input_num = req.body.num;
         input_name = req.body.name;
         input_birth = req.body.birth;
@@ -408,7 +409,7 @@ module.exports = function () {
         input_pass = req.body.pass;
 
         // 회원 정부 수정 쿼리
-        const sql =`
+        const sql = `
             update member 
             set
                 MEMBER_PASSWORD = ?, 
@@ -417,45 +418,43 @@ module.exports = function () {
                 MEMBER_EMAIL = ?
             where
                 MEMBER_NUM = ?
-        `
+        `;
 
-        const values = [input_pass, input_name, input_birth, input_email, input_num]
+        const values = [
+            input_pass,
+            input_name,
+            input_birth,
+            input_email,
+            input_num,
+        ];
 
-        connection.query(
-            sql,
-            values,
-            (err, result) => {
-                if(err) {
-                    console.log(err)
-                } else {
-                    // 회원 정보가 정상적으로 수정되어 DB에도 반영되었다면
-                    // 수정된 유저 정보를 다시 조회 (세션 재등록을 위함)
-                    const sql = `
+        connection.query(sql, values, (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                // 회원 정보가 정상적으로 수정되어 DB에도 반영되었다면
+                // 수정된 유저 정보를 다시 조회 (세션 재등록을 위함)
+                const sql = `
                         select * from member
                         where MEMBER_NUM = ?
-                    `
-                    const values = input_num
+                    `;
+                const values = input_num;
 
-                    connection.query(
-                        sql,
-                        values,
-                        (err, result)=>{
-                            if(err){
-                                console.log(err)
-                            } else {
-                                if(result.length != 0){
-                                    res.send({
-                                        user : result[0],
-                                        result : true,
-                                    })
-                                }
-                            }
+                connection.query(sql, values, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        if (result.length != 0) {
+                            res.send({
+                                user: result[0],
+                                result: true,
+                            });
                         }
-                    )
-                }
+                    }
+                });
             }
-        )
-    })
+        });
+    });
 
     return router;
 };
