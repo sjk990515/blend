@@ -1,61 +1,62 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import beans from "../../image/beans_for_beansboard.png";
 import beansDashboard from "../../image/beansDashboard.png";
 import rankingLogo from "../../image/ranking.png";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useQuery } from "react-query";
 import Background from "../../layout/Background";
 
 function Beans() {
     // 네비게이트
     const navigate = useNavigate();
 
-    // 해당 지갑의 거래 내역으로 이동
-    const DetailOnclick = (props) => {
-        navigate("/beans/detail/"+props);
-    };
+    const [listData, setListData] = useState([])
+    const [mintAmount, setMintAmount] = useState()
+    const [companyAmount, setCompanyAmount] = useState()
 
-    const [amount, setAmount] = useState(["43,928,748", "3,729,203", "0"])
+    // const [dataa, setData] = useState([]);
 
-    /* 랭크된 유저 정보 불러오기
-    const getUserData = async () => {
+    /* 랭크된 유저 정보 불러오기 */
+    const getListData = async () => {
         const response = await axios.get(
-           // "__주소__"
+           "http://localhost:4000/token/list"
         );
+        
+        // 랭크된 유저의 지갑주소, 토큰 보유량 
+        const list = response.data.list
+        setListData(list)
+        console.log("dsdds ", listData)
+
+        // 발행량
+        const mintAmount = response.data.resultSum
+        setMintAmount(mintAmount)
+        
+        // 보유량
+        const companyWallet = response.data.companyWallet
+        setCompanyAmount(companyWallet)
+
         // setFriendAllRecoil(response?.data);
         return response;
     };
+
+    // 왜 이게 있어야 데이터가 뜨는거지
     const { isLoading, isError, data, error } = useQuery(
-        // "userData",  사용할 key
-        // getUserData  위의 함수를 사용하겠단 말
+        "getListData",
+        getListData
     );
 
-    // console.log(data) 데이터는 data에 담김
-    */
-
-    // 더미 데이터
-    const ranks = [
-        {
-            rank:1,
-            balance: 358332906
-        },
-        {
-            rank:2,
-            balance: 25833290
-        },
-        {
-            rank:3,
-            balance: 11583329
-        },
-        {
-            rank:4,
-            balance: 1583329
-        },
-        {
-            rank:5,
-            balance: 1083335
-        }
-    ];
+    // 해당 지갑의 거래 내역으로 이동
+    // 멤버 번호, 지갑주소, 보유량 가지고 감
+    const DetailOnclick = (props, wallet, token) => {
+        navigate(`/beans/detail/${props}`,{
+            state : {
+                wallet,
+                token
+            }
+        });
+    };
 
     return (
         <Body>
@@ -68,17 +69,17 @@ function Beans() {
                         <TokenInfoArticle>
                             <span className="lable">발행량</span>
                             {/* 데이터 받아서 넣기? */}
-                            <span className="token-balance">{amount[0]}</span>
+                            <span className="token-balance">{mintAmount?.toLocaleString()}</span>
                         </TokenInfoArticle>
                         <TokenInfoArticle>
                             <span className="lable">보유량</span>
                             {/* 데이터 받아서 넣기? */}
-                            <span className="token-balance">{amount[1]}</span>
+                            <span className="token-balance">{companyAmount?.toLocaleString()}</span>
                         </TokenInfoArticle>
                         <TokenInfoArticle>
                             <span className="lable">온체인량</span>
                             {/* 데이터 받아서 넣기? */}
-                            <span className="token-balance">{amount[2]}</span>
+                            <span className="token-balance">0</span>
                         </TokenInfoArticle>
                     </TokenArea>
                 </BeansBoardDiv>
@@ -90,15 +91,15 @@ function Beans() {
                         <RankingLogoImg src={rankingLogo}></RankingLogoImg>
                     </div>
                     <div className="ranking-article-area">
-                        { ranks.map((i)=>{
+                        { listData.map((i, index)=>{
                             return(
                                 // 해당 순위 article 클릭 시 해당 지갑 주소로 이동
-                                <RankingArticle onClick={() => DetailOnclick(i.rank)}>
+                                <RankingArticle onClick={() => DetailOnclick(i.MEMBER_NUM, i.MEMBER_WALLET, i.TOKEN_TOTAL)}>
                                     {/* 순위 1. 2. <- 이런 텍스트만 */}
-                                    <RankTxt color={i.rank}>{i.rank}.</RankTxt>
+                                    <RankTxt color={index+1}>{index+1}.</RankTxt>
                                     
                                     {/* 토큰 양 */}
-                                    <TokenBalanceTxt>{i.balance.toLocaleString()}</TokenBalanceTxt>
+                                    <TokenBalanceTxt>{i.TOKEN_TOTAL?.toLocaleString()}</TokenBalanceTxt>
                                 </RankingArticle>
                             );
                         })}
@@ -213,6 +214,10 @@ const RankingArticle = styled.div`
     border-radius: 10px;
     margin-bottom: 10px;
     padding: 0 30px 0 30px;
+    cursor: pointer;
+    &:hover{
+       filter: brightness(0.7);
+    }
 `
 
 const RankTxt = styled.span`
