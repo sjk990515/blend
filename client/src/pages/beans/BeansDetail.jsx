@@ -1,31 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import blend from "../../image/blendlogo_for_beansdetail.png";
-/*
-    useParam 사용??
-*/
-
+import axios from "axios";
+import { useQuery } from "react-query";
+import { useLocation, useParams } from "react-router-dom";
 function BeansDetail(props) {
     // 상단 네모에 보이는 주소 (더미 data)
     let userAddress = '0x8798dfbbD786B81486eD8762b25Af961011Db528';
     // 상단 네모에 보이는 토큰 보유량 (더미 data)
     let userBalance = 3458935093;
 
-    /* 해당 유저의 거래 정보 불러오기
-    const getUserData = async () => {
-        const response = await axios.get(
-           // "__주소__"
-        );
-        // setFriendAllRecoil(response?.data);
-        return response;
-    };
-    const { isLoading, isError, data, error } = useQuery(
-        // "userData",  사용할 key
-        // getUserData  위의 함수를 사용하겠단 말
-    );
+    // 멤버 번호 (num)
+    const param = useParams();
 
-    // console.log(data) 데이터는 data에 담김
-    */
+    // 추가로 전달한 파라미터 (지갑주소, 보유량)
+    const {state} = useLocation();
 
     /* 거래 내역에 보이는 주소 (더미 data)
        추후 order by 생각하기? */
@@ -84,12 +73,12 @@ function BeansDetail(props) {
                         <AddressArea>
                             <Label>주소</Label>
                             {/* 데이터 받아서 넣기 */}
-                            <UserAddress>{userAddress.substring(0,6)}...{userAddress.slice(-6)}</UserAddress>
+                            <UserAddress>{state.wallet.substring(0,6)}...{state.wallet.slice(-6)}</UserAddress>
                         </AddressArea>
                         <BalanceArea>
                             <Label>보유량</Label>
                             {/* 데이터 받아서 넣기 */}
-                            <UserBalance>{userBalance.toLocaleString()}</UserBalance>
+                            <UserBalance>{state.token.toLocaleString()}</UserBalance>
                         </BalanceArea>
                     </UserInfoArea>
                 </SquareDiv>
@@ -97,7 +86,6 @@ function BeansDetail(props) {
                 {/* 거래내역 */}
                 <TransferArea>
                     <TitleDiv>거래내역</TitleDiv>
-
                     {/* 개별 거래내역 - 반복문을 통해 출력*/}
                     { transferData.map((i)=>{
                         return(
