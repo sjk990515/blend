@@ -20,3 +20,7 @@ export const loginDataRecoil = atom({
     default: false,
 });
 
+export const userHistoryRecoil = atom({
+    key: "userHistoryRecoil",
+    default: false,
+});

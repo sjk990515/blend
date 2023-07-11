@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import { loginMenuRecoil } from "../../recoil/atom";
+import { loginMenuRecoil, loginSignUp } from "../../recoil/atom";
 import { useRecoilState } from "recoil";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useMutation } from "react-query";
 import axios from "axios";
 
 function SignUpComponent() {
+    // 로그인 회원가입
+    const [signUp, setSignUp] = useRecoilState(loginSignUp);
     // 비밀번호 온오프
     const [passIconOn, setPassIconOn] = useState(false);
     // 유저 로그인 메뉴
@@ -29,6 +31,12 @@ function SignUpComponent() {
     const [passInput, setPassInput] = useState("");
     // 비밀번호 확인 입력
     const [passCheckInput, setPassCheckInput] = useState("");
+    // 인증번호 타이머
+    const [timer, setTimer] = useState(180);
+    // 타이머 분
+    const [minutes, setMinutes] = useState("");
+    // 타이머 초
+    const [seconds, setSeconds] = useState("");
 
     // 패스워드 숨김 아이콘
     const passIconOnClick = () => {
@@ -53,36 +61,14 @@ function SignUpComponent() {
             },
         }
     );
-    //휴대폰 번호 전송 1
+    //휴대폰 번호 전송
     const phoneMessage = () => {
         const newNumber = {
             id: phoneCheck,
         };
-        // const aaa = JSON.stringify(newNumber);
 
-        numberPostMutation.mutate(idData);
-
-        //시도 2
-
-        //     fetch("http://localhost:4000/member/smsAuth", {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: {
-        //             id: phoneCheck,
-        //         },
-        //     }).then((response) => console.log(response));
-        // };
-
-        //시도 3
-        // axios({
-        //     url: "http://localhost:4000/member/smsAuth",
-        //     method: "post",
-        //     data: bbb,
-        // }).then(function (res) {
-        //     console.log(res);
-        // });
+        numberPostMutation.mutate(newNumber);
+        setTimer(180);
     };
 
     // 휴대폰 인증번호 입력
@@ -134,7 +120,9 @@ function SignUpComponent() {
         {
             onSuccess: (response) => {
                 const result = response.data.message;
-                console.log(result);
+                // console.log(result);
+                alert("회원가입 되었습니다.");
+                // setSignUp(false);
             },
         }
     );
@@ -185,8 +173,35 @@ function SignUpComponent() {
             console.log(newUser);
 
             signUpPostMutation.mutate(newUser);
+            setSignUp(false);
         }
     };
+
+    // 인증 타이머
+    useEffect(() => {
+        const timeInterval = setInterval(() => {
+            setTimer((timer) => timer - 1);
+        }, 100);
+
+        if (checkNumber == "" || checkNumber == 0) {
+            clearInterval(timeInterval);
+        } else if (timer == 0) {
+            clearInterval(timeInterval);
+            alert("휴대폰 인증을 다시 해주세요");
+            setCheckNumber("");
+        }
+
+        setMinutes(Math.floor(timer / 60));
+        if (seconds < 11 && 0 < seconds) {
+            setSeconds("0" + (timer % 60));
+        } else {
+            setSeconds(timer % 60);
+        }
+
+        return () => {
+            clearInterval(timeInterval);
+        };
+    }, [checkNumber, timer]);
 
     return (
         <>
@@ -222,7 +237,11 @@ function SignUpComponent() {
                             ""
                         ) : (
                             <IdCheck onClick={phoneMessage}>
-                                {checkNumber ? "재전송" : "인증"}
+                                {checkNumber
+                                    ? timer < 120
+                                        ? "재전송"
+                                        : ""
+                                    : "인증"}
                             </IdCheck>
                         )
                     ) : (
@@ -232,7 +251,10 @@ function SignUpComponent() {
 
                 {checkNumber ? (
                     <Phonediv>
-                        <InputText>인증번호</InputText>
+                        <InputText>
+                            인증번호 |{" "}
+                            <TimerSpan>{minutes + ":" + seconds}</TimerSpan>
+                        </InputText>
                         <SignUpInput
                             type="text"
                             placeholder="인증번호 입력"
@@ -329,6 +351,9 @@ const InputText = styled.h3`
     font-size: 14px;
     font-weight: 700;
     margin-bottom: 15px;
+`;
+const TimerSpan = styled.span`
+    color: blue;
 `;
 const Phonediv = styled.div`
     position: relative;
