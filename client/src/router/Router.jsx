@@ -36,10 +36,7 @@ function Router() {
                     <Route path="/loading" element={<Loading />} />
                     <Route path="/" element={<MainPage />} />
                     <Route path="/myPage" element={<MyPage />} />
-                    <Route
-                        path="/myPage/update"
-                        element={<MyPageUpdateForm />}
-                    />
+                    <Route path="/myPage/update/:num" element={<MyPageUpdateForm />}/>
                     <Route path="/login" element={<Login />} />
                     <Route path="/mybeans" element={<MyBeans />} />
                     <Route path="/send" element={<Send />} />
