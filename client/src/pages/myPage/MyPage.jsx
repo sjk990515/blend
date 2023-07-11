@@ -6,20 +6,12 @@ import { useRecoilState } from "recoil";
 import { loginDataRecoil } from "../../recoil/atom"
 import axios from "axios";
 
-function MyPage() {
+function MyPage(props) {
     // 네비게이트
     const navigate = useNavigate();
 
     // 로그인한 유저 정보 (세션에 저장된 데이터)
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
-
-    // 로그인되지 않았다면 메인으로 이동
-    useEffect(() => {
-        if (!loginTrue) {
-            alert("로그인이 필요합니다.");
-            navigate("/login");
-        }
-    }, [loginTrue]);
 
     // 유저의 핸드폰번호에 '-' 기호 붙이기 위해 자르는 작업
     const userId = loginTrue?.sessionId;
@@ -72,6 +64,7 @@ function MyPage() {
                         {/* 데이터 받아서 넣을 곳 */}
                         <span className="user-email input">{loginTrue.sessionEmail}</span>
                     </UserInfoArticle>
+                    <input type="hidden" defaultValue={userNum}></input>
                 </UserInfoArea>
 
                 {/* 버튼 */}

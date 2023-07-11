@@ -46,8 +46,14 @@ function Menulayout() {
 
     // Mypage 메뉴 클릭
     const myPageOnClick = () => {
-        navigate("/mypage");
-        setDisable(false);
+        if(!loginTrue){
+            alert("로그인이 필요합니다.");
+            navigate("/login");
+            setDisable(false);
+        } else {
+            navigate("/mypage");
+            setDisable(false);
+        }
     };
 
     // Shop 메뉴 클릭
