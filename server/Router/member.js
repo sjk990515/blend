@@ -247,7 +247,6 @@ module.exports = function () {
 
     // localhost:3000/member/myPage [get] mypage, 세션에 저장된 유저 정보 불러오기
     router.get("/myPage", function (req, res) {
-        // console.log(req.session.logined);
         // res.render("mypage.ejs", {
         //     data: req.session.logined,
         // });
