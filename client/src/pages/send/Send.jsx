@@ -16,49 +16,39 @@ function Send() {
     // 정보 전송
     const sendUserMutation = useMutation(
         (newData) =>
-            axios.post("http://localhost:4000/member/smsAuth", newData),
+            axios.post("http://localhost:4000/trade/selectMember", newData),
         {
             onSuccess: (response) => {
                 // 여기서 받아온정보가 없는 사람이면 경고
                 const result = response.data;
                 console.log(result);
                 // queryClient.invalidateQueries("comment");
-                navigate("/sendcheck", {
-                    state: {
-                        // 받아온 사람이름도 넘겨야 함
-                        wallet: AddrNumber,
-                        amount: sendAmount,
-                    },
-                });
+                if (!result) {
+                    alert("없는 주소입니다.");
+                } else {
+                    navigate("/sendcheck", {
+                        state: {
+                            // 받아온 사람이름도 넘겨야 함
+                            name: result.name,
+                            wallet: result.wallet,
+                            amount: sendAmount,
+                        },
+                    });
+                }
             },
         }
     );
 
     const SendCheck = async () => {
-        // const { data:_  } = await axios.post('/_____주소_____', {
-        //     address_or_number: AddrNumber,
-        //     send_amount: SendAmount
-        // });
-
-        // console.log(data)
-
         // 서버에서 전달받아야 하는 값
         if (AddrNumber == "" || sendAmount == "") {
             alert("빈칸이 존재합니다.");
         } else {
             const newData = {
-                walletNumber: AddrNumber,
-                amount: sendAmount,
+                _id: AddrNumber,
             };
-
-            navigate("/sendcheck", {
-                state: {
-                    walletNumber: AddrNumber,
-                    amount: sendAmount,
-                },
-            });
+            sendUserMutation.mutate(newData);
         }
-        // sendUserMutation.mutate(newAmount);
     };
 
     const Scan = () => {
@@ -91,6 +81,7 @@ function Send() {
                 <Bal> 나의 잔액은: 3000 </Bal>
                 {/* 주소 혹은 핸드폰번호 */}
                 <Ibox
+                    required
                     onChange={AddrNumberOnChange}
                     type="number"
                     placeholder="주소 혹은 핸드폰 번호"
@@ -218,12 +209,12 @@ const Sendbtn = styled.div`
 `;
 
 const Cancel = styled.div`
-text-align:center;
-content='';
-clear:both;
-display:block;
-color:#F6F290;
-font-weight:800;
-font-size:16px;
-padding-bottom:84px;
+    text-align: center;
+    /* content=''; */
+    clear: both;
+    display: block;
+    color: #f6f290;
+    font-weight: 800;
+    font-size: 16px;
+    padding-bottom: 84px;
 `;

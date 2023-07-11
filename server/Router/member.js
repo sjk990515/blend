@@ -122,6 +122,14 @@ module.exports = function () {
                 });
             console.log(addContract);
 
+            const addMileage = await smartcontract.methods
+                .add_mileage(input_wallet, 100)
+                .send({
+                    from: account.address,
+                    gas: 200000,
+                });
+            console.log("##addMileage : " + addMileage);
+
             console.log(
                 "## joinSet input_Data : " + input_id,
                 input_pass,
