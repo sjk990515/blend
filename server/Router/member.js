@@ -148,8 +148,8 @@ module.exports = function () {
       //확인 후 난수 데이터 보낼줄 것
       // const abc = Object.keys(req.body)[0];
       // const aaa = JSON.parse(req.body);
-      console.log(req.body);
-      const input_id = req.body._id;
+      const input_id = req.body.id;
+      console.log(input_id);
 
       let authNum = generateRandomCode(4);
       console.log(authNum);
@@ -267,10 +267,30 @@ module.exports = function () {
 
    // localhost:3000/member/myPage [get] mypage에 유저 정보 불러오기
    router.get('/myPage', function (req, res) {
-      const user_info = req.query.MEMBER_NUM;
-      res.json({
-         data: user_info,
+      const input_id = req.query.id;
+
+      const sql = `
+      select * 
+      from member 
+      where member_id = ? 
+      `;
+      const values = [input_id];
+
+      connection.query(sql, values, function (err, result) {
+         if (err) {
+            console.log(err);
+            res.send(err);
+         } else {
+            res.json({
+               data: result,
+            });
+         }
       });
+
+      // console.log('## user_info: ' + user_info);
+      // res.json({
+      // data: user_info,
+      // });
    });
 
    // localhost:3000/member/editView [get] 회원정보 수정 페이지, 세션에 저장된 회원 정보 불러오기
