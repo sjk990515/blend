@@ -142,8 +142,8 @@ module.exports = function () {
         });
     });
 
-    router.post("/myToken", async function (req, res) {
-        const input_num = req.body._num;
+    router.get("/myToken", async function (req, res) {
+        const input_num = req.query._num;
 
         const sql = `
       select 
