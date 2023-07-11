@@ -172,7 +172,7 @@ module.exports = function () {
         // const abc = Object.keys(req.body)[0];
         // const aaa = JSON.parse(req.body);
         console.log(req.body);
-        const input_id = req.body._id;
+        const input_id = req.body.id;
 
         let authNum = generateRandomCode(4);
         console.log(authNum);
