@@ -11,7 +11,7 @@ export const Body = styled.div`
 
 export const Wrapper = styled.div`
     width: 100%;
-    padding-top: 70px;
+    padding-top: 100px;
 `
 
 // 프사 영역

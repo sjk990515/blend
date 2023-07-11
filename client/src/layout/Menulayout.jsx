@@ -38,10 +38,22 @@ function Menulayout() {
         setDisable(false);
     };
 
+    // Beans 메뉴 클릭
+    const beansOnClick = () => {
+        navigate("/beans");
+        setDisable(false);
+    };
+
     // Mypage 메뉴 클릭
     const myPageOnClick = () => {
-        navigate("/mypage");
-        setDisable(false);
+        if(!loginTrue){
+            alert("로그인이 필요합니다.");
+            navigate("/login");
+            setDisable(false);
+        } else {
+            navigate("/mypage");
+            setDisable(false);
+        }
     };
 
     // Shop 메뉴 클릭
@@ -139,7 +151,7 @@ function Menulayout() {
 
                     {/* 메뉴 영역 */}
                     <MenuArea>
-                        <MenuArticle>Beans</MenuArticle>
+                        <MenuArticle onClick={beansOnClick}>Beans</MenuArticle>
                         <MenuArticle onClick={myPageOnClick}>
                             Mypage
                         </MenuArticle>

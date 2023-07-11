@@ -1,45 +1,30 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
 import profile_img from "../../image/profile_for_my.png";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { loginDataRecoil } from "../../recoil/atom";
+import { loginDataRecoil } from "../../recoil/atom"
+import axios from "axios";
 
-function MyPage() {
+function MyPage(props) {
     // 네비게이트
     const navigate = useNavigate();
 
-    // 로그인 정보
+    // 로그인한 유저 정보 (세션에 저장된 데이터)
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
 
-    // 마이페이지 수정폼
-    // const [mypageform, setMypageForm] = useRecoilState(myPageRecoil);
+    // 유저의 핸드폰번호에 '-' 기호 붙이기 위해 자르는 작업
+    const userId = loginTrue?.sessionId;
+    const phoneStart = userId?.substring(0,3);
+    const phoneMiddle = userId?.substring(3,7);
+    const phoneLast = userId?.substring(7,11);
 
-    // const goUpdateForm = () => {
-    //     setMypageForm(true);
-    // };
-
-    // X버튼(닫기) 클릭시 메인페이지로 네비게이트
+    // 회원번호
+    const userNum = loginTrue.sessionNum;
+    // 수정하기 클릭시 수정폼으로 이동 (회원번호 가지고감)
     const mypageUpdateFormOnClick = () => {
-        navigate("/mypage/update"); // 추후 MEMBER_NUM 넘기도록
+        navigate("/mypage/update/"+userNum);
     };
-
-    // 마이페이지에 들어온 유저의 더미 데이터
-    const userData = [
-        {
-            MEMBER_NUM: 1,
-            MEMBER_ID: "01033332222",
-            MEMBER_NAME: "김블렌드",
-            MEMBER_BIRTH: "2022-07-06",
-            MEMBER_EMAIL: "blend@gmail.com",
-            MEMBER_PROFILE: "profile.png",
-        },
-    ];
-
-    const userId = userData[0].MEMBER_ID;
-    const phoneStart = userId.substring(0, 3);
-    const phoneMiddle = userId.substring(3, 7);
-    const phoneLast = userId.substring(7, 11);
 
     return (
         <Body>
@@ -73,30 +58,26 @@ function MyPage() {
                     <UserInfoArticle>
                         <span>생일</span>
                         {/* 데이터 받아서 넣을 곳 */}
-                        <span className="user-birth input">
-                            {userData[0].MEMBER_BIRTH}
-                        </span>
+                        <span className="user-birth input">{loginTrue.sessionBirth}</span>
                     </UserInfoArticle>
 
                     {/* 이메일 */}
                     <UserInfoArticle>
                         <span>이메일</span>
                         {/* 데이터 받아서 넣을 곳 */}
-                        <span className="user-email input">
-                            {userData[0].MEMBER_EMAIL}
-                        </span>
+                        <span className="user-email input">{loginTrue.sessionEmail}</span>
                     </UserInfoArticle>
+                    <input type="hidden" defaultValue={userNum}></input>
                 </UserInfoArea>
 
                 {/* 버튼 */}
                 <BtnArea>
                     {/* 추후 MEMBER_NUM 넘기도록 할 것?? */}
-                    <GotoUpdateFormBtn onClick={mypageUpdateFormOnClick}>
+                    {/* <Link to={`/mypage/update/${loginTrue.sessionNum}`} key={loginTrue.sessionNum}>
                         수정하기
-                    </GotoUpdateFormBtn>
+                    </Link> */}
+                    <GotoUpdateFormBtn onClick={()=> mypageUpdateFormOnClick({userNum})}>수정하기</GotoUpdateFormBtn>
                 </BtnArea>
-
-                {/* {mypageform ? <MyPageUpdateComponet /> : <LoginComponent />} */}
             </div>
         </Body>
     );
@@ -114,7 +95,7 @@ const Body = styled.div`
 
     .wrapper {
         width: 100%;
-        padding-top: 70px;
+        padding-top: 100px;
         padding-bottom: 50px;
     }
 `;
