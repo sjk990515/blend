@@ -58,7 +58,6 @@ function MyPageUpdateForm(props) {
     // form submit 막기
     const userUpdateOnSubmit = (e) => {
         e.preventDefault();
-        // updateDoneClick();
     };
 
     // 마이페이지 수정 정보 전송 [post]
