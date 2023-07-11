@@ -371,6 +371,7 @@ module.exports = function () {
         input_email = req.body.email;
         input_pass = req.body.pass;
 
+        // 회원 정부 수정 쿼리
         const sql =`
             update member 
             set
@@ -391,7 +392,30 @@ module.exports = function () {
                 if(err) {
                     console.log(err)
                 } else {
-                    res.send({result : true})
+                    // 회원 정보가 정상적으로 수정되어 DB에도 반영되었다면
+                    // 수정된 유저 정보를 다시 조회 (세션 재등록을 위함)
+                    const sql = `
+                        select * from member
+                        where MEMBER_NUM = ?
+                    `
+                    const values = input_num
+
+                    connection.query(
+                        sql,
+                        values,
+                        (err, result)=>{
+                            if(err){
+                                console.log(err)
+                            } else {
+                                if(result.length != 0){
+                                    res.send({
+                                        user : result[0],
+                                        result : true,
+                                    })
+                                }
+                            }
+                        }
+                    )
                 }
             }
         )

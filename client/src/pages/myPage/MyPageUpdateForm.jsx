@@ -12,13 +12,18 @@ function MyPageUpdateForm(props) {
     // 네비게이트
     const navigate = useNavigate();
 
-    // 로그인한 유저 정보 (세션에 저장된 데이터)
+    // 로그인한 유저 정보 (세션에 저장된 데이터)    
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
-
     const userName = loginTrue.sessionName;
     const userBirth = loginTrue.sessionBirth;
     const userEmail = loginTrue.sessionEmail;
     const userPass = loginTrue.sessionPass;
+
+    // 유저 핸드폰번호(id)에 '-' 기호 붙여주기 위함
+    const userId = loginTrue?.sessionId;
+    const phoneStart = userId?.substring(0,3);
+    const phoneMiddle = userId?.substring(3,7);
+    const phoneLast = userId?.substring(7,11);
 
     // 이름 input
     const [nameInput, setNameInput] = useState(userName);
@@ -63,11 +68,67 @@ function MyPageUpdateForm(props) {
         axios.post("http://localhost:4000/member/edit", updateData),
         {
             onSuccess : (response) => {
+                const user = response.data.user;
                 const result = response.data.result;
+
+                // 세션값 수정
                 if(result){
-                    alert("수정되었습니다.")
-                    navigate("/mypage")
+                    sessionStorage.setItem(
+                        "auth",
+                        user.MEMBER_AUTH
+                    );
+                    sessionStorage.setItem(
+                        "birth",
+                        user.MEMBER_BIRTH
+                    );
+                    sessionStorage.setItem(
+                        "email",
+                        user.MEMBER_EMAIL
+                    );
+                    sessionStorage.setItem("id", user.MEMBER_ID);
+                    sessionStorage.setItem(
+                        "name",
+                        user.MEMBER_NAME
+                    );
+                    sessionStorage.setItem(
+                        "num",
+                        user.MEMBER_NUM
+                    );
+                    sessionStorage.setItem(
+                        "profile",
+                        user.MEMBER_PROFILE
+                    );
+                    sessionStorage.setItem(
+                        "wallet",
+                        user.MEMBER_WALLET
+                    );
+
+                    const sessionId = sessionStorage?.getItem("id");
+                    const sessionprofile = sessionStorage?.getItem("profile");
+                    const sessionAuth = sessionStorage?.getItem("auth");
+                    const sessionEmail = sessionStorage?.getItem("email");
+                    const sessionNum = sessionStorage?.getItem("num");
+                    const sessionName = sessionStorage?.getItem("name");
+                    const sessionWallet = sessionStorage?.getItem("wallet");
+                    const sessionBirth = sessionStorage?.getItem("birth");
+
+                    // loginRecoil 재할당
+                    if (sessionId) {
+                        const loginData = {
+                            sessionId,
+                            sessionprofile,
+                            sessionAuth,
+                            sessionEmail,
+                            sessionNum,
+                            sessionName,
+                            sessionWallet,
+                            sessionBirth,
+                        };
+                        setLoginTrue(loginData);
+                    }
                 }
+                alert("수정되었습니다.")
+                navigate("/mypage") // 마이페이지로 리다이렉트
             },
         }
     )
@@ -86,16 +147,10 @@ function MyPageUpdateForm(props) {
                 pass : passInput
             };
 
-            console.log(updateData)
             userUpdateMutation.mutate(updateData);
         }
     };
     
-    const userId = loginTrue?.sessionId;
-    const phoneStart = userId?.substring(0,3);
-    const phoneMiddle = userId?.substring(3,7);
-    const phoneLast = userId?.substring(7,11);
-
     return(
         <S.Body>
             <S.Wrapper>
