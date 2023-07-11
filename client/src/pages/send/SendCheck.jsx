@@ -20,14 +20,19 @@ function SendCheck() {
     // 정보 전송
     const sendInformationMutation = useMutation(
         (newData) =>
-            axios.post("http://localhost:4000/member/smsAuth", newData),
+            axios.post("http://localhost:4000/trade/transfer", newData),
         {
             onSuccess: (response) => {
                 // 여기서 받아온정보가 없는 사람이면 경고
-                const result = response.data;
+                const result = response.data.result;
                 console.log(result);
+                if (result) {
+                    navigate("/senddone");
+                } else {
+                    alert("송금에 실패했습니다.");
+                }
                 // 성공하면
-                navigate("/senddone");
+                // navigate("/senddone");
                 // 실패하면
                 // navigate("/send");
             },
@@ -36,9 +41,10 @@ function SendCheck() {
 
     const SendDone = () => {
         const newData = {
-            myWallet: loginTrue.sessionWallet,
-            userWallet: state.wallet,
-            amount: state.amount,
+            user_wallet: loginTrue.sessionWallet,
+            user_num: loginTrue.sessionNum,
+            input_amount: state.amount,
+            input_wallet: state.wallet,
         };
 
         sendInformationMutation.mutate(newData);
