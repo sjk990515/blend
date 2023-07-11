@@ -37,8 +37,7 @@ function MyPage(props) {
 
                 {/* 회원 휴대폰번호(아이디) */}
                 <UserArea>
-                    {/* <span>{phoneStart}-{phoneMiddle}-{phoneLast}</span> */}
-                    <span>{loginTrue.sessionId}</span>
+                    <span>{phoneStart}-{phoneMiddle}-{phoneLast}</span>
                     <span>님</span>
                 </UserArea>
 

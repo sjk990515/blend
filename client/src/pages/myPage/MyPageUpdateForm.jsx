@@ -17,7 +17,6 @@ function MyPageUpdateForm(props) {
     const userName = loginTrue.sessionName;
     const userBirth = loginTrue.sessionBirth;
     const userEmail = loginTrue.sessionEmail;
-    const userPass = loginTrue.sessionPass;
 
     // 유저 핸드폰번호(id)에 '-' 기호 붙여주기 위함
     const userId = loginTrue?.sessionId;
@@ -32,7 +31,7 @@ function MyPageUpdateForm(props) {
     // 이메일 input
     const [emailInput, setEmailInput] = useState(userEmail);
     // 비밀번호 input
-    const [passInput, setPassInput] = useState(userPass);
+    const [passInput, setPassInput] = useState("");
 
     // 휴대폰 인증 버튼 클릭
     const authPhoneOnClick = () => {
