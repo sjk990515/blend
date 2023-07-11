@@ -51,11 +51,25 @@ module.exports = function () {
       TOKEN_TOTAL
       from
       MEMBER
+      WHERE
+      MEMBER_NUM
+      NOT IN
+      (1)
       ORDER BY
       TOKEN_TOTAL
       DESC
-      LIMIT 10
+      LIMIT 5
       `;
+
+        const companyWalletSQL = `
+      select
+      TOKEN_TOTAL
+      from
+      member
+      where
+      member_num = 1
+      `;
+
         connection.query(sql, function (err, result) {
             if (err) {
                 console.log(err);
@@ -63,10 +77,29 @@ module.exports = function () {
             } else {
                 if (result.length != 0) {
                     console.log("## Token_list" + result);
-                    res.send({
-                        result: true,
-                        list: result,
-                    }); // 메인으로 가는 경로 정해지면 바꿔주세요
+
+                    var sum = 0;
+                    for (var i = 0; i < result.length; i++) {
+                        var sum = sum + result[i].TOKEN_TOTAL;
+                    }
+                    console.log(sum);
+
+                    connection.query(
+                        companyWalletSQL,
+                        function (err2, cwresult) {
+                            if (err2) {
+                                console.log(err2);
+                                res.send(err2);
+                            } else {
+                                res.send({
+                                    result: true,
+                                    list: result,
+                                    resultSum: sum,
+                                    companyWallet: cwresult[0].TOKEN_TOTAL,
+                                });
+                            }
+                        }
+                    );
                 } else {
                     res.send({ result: false });
                 }
@@ -76,6 +109,7 @@ module.exports = function () {
 
     router.post("/select", async function (req, res) {
         const input_wallet = req.body._wallet;
+        const input_total = req.body._total;
 
         const sql = `
       select 
@@ -100,14 +134,6 @@ module.exports = function () {
       limit
       10;
       `;
-        const companyWalletSQL = `
-      select
-      TOKEN_TOTAL
-      from
-      member
-      where
-      member_num = 1
-      `;
 
         const values = [input_wallet];
 
@@ -118,23 +144,11 @@ module.exports = function () {
             } else {
                 if (result.length != 0) {
                     console.log("## Token_content" + result);
-                    var sum = 0;
-                    for (var i = 0; i < result.length; i++) {
-                        var sum = sum + result[i].TOKEN_TOTAL;
-                    }
-                    console.log(sum);
-
-                    connection.query(
-                        companyWalletSQL,
-                        function (err, cwresult) {
-                            res.send({
-                                result: true,
-                                resultSum: sum,
-                                companyWallet: cwresult[0],
-                                content: result,
-                            });
-                        }
-                    );
+                    res.send({
+                        result: true,
+                        content: result,
+                        total: input_total,
+                    });
                 } else {
                     res.send({ result: false });
                 }
@@ -142,8 +156,10 @@ module.exports = function () {
         });
     });
 
-    router.get("/myToken", async function (req, res) {
-        const input_num = req.query._num;
+    router.post("/myToken", function (req, res) {
+        const input_num = req.body._num;
+
+        console.log(input_num);
 
         const sql = `
       select 
@@ -154,12 +170,21 @@ module.exports = function () {
       from
       token
       where
-      member_num = ?
+      MEMBER_NUM = ?
       order by
       TOKEN_REGDATE
       desc
       limit
       10;
+      `;
+
+        const totalsql = `
+      select
+      TOKEN_TOTAL
+      from
+      member
+      where
+      MEMBER_NUM = ?
       `;
 
         const values = [input_num];
@@ -170,11 +195,23 @@ module.exports = function () {
                 res.send(err);
             } else {
                 if (result.length != 0) {
-                    console.log("## Token_Mycontent" + result);
-                    res.send({
-                        result: true,
-                        content: result,
-                    }); // 메인으로 가는 경로 정해지면 바꿔주세요
+                    connection.query(
+                        totalsql,
+                        values,
+                        function (err2, result2) {
+                            if (err2) {
+                                console.log(err);
+                                res.send(err);
+                            } else {
+                                console.log("## Token_Mycontent" + result);
+                                res.send({
+                                    result: true,
+                                    content: result,
+                                    total: result2[0].TOKEN_TOTAL,
+                                });
+                            }
+                        }
+                    );
                 } else {
                     res.send({ result: false });
                 }
