@@ -2,24 +2,53 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import profile1 from "../../image/profile1.png";
+import { useRecoilState } from "recoil";
+import { loginDataRecoil } from "../../recoil/atom";
+import { useMutation } from "react-query";
+import axios from "axios";
 
 function SendCheck() {
+    // 로그인 정보
+    const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
+
     const navigate = useNavigate();
 
-    const {state} = useLocation();
+    const { state } = useLocation();
 
     console.log(state);
 
+    // 정보 전송
+    const sendInformationMutation = useMutation(
+        (newData) =>
+            axios.post("http://localhost:4000/member/smsAuth", newData),
+        {
+            onSuccess: (response) => {
+                // 여기서 받아온정보가 없는 사람이면 경고
+                const result = response.data;
+                console.log(result);
+                // 성공하면
+                navigate("/senddone");
+                // 실패하면
+                // navigate("/send");
+            },
+        }
+    );
 
-    const SendDone =()=>{
-        navigate("/senddone")
-    }
+    const SendDone = () => {
+        const newData = {
+            myWallet: loginTrue.sessionWallet,
+            userWallet: state.wallet,
+            amount: state.amount,
+        };
+
+        sendInformationMutation.mutate(newData);
+    };
 
     return (
         <Body>
             <Wrap>
                 <div className="Title">
-                    <Phone>010-3302-1234</Phone>
+                    <Phone>{loginTrue.sessionId}</Phone>
                     <Bal> 나의 잔액은: 3,000 BEANS </Bal>
                 </div>
                 <Alertbx>
@@ -28,7 +57,7 @@ function SendCheck() {
                     </Profile>
                     <div className="text">
                         <p>010-2222-1234님께</p>
-                        <p className="price">1000</p>
+                        <p className="price">{state.amount}</p>
                         <p>BEANS를 이체합니다.</p>
                     </div>
                 </Alertbx>

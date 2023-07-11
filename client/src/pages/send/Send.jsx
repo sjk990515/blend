@@ -3,41 +3,67 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useMutation } from "react-query";
 import axios from "axios";
+import { useRecoilState } from "recoil";
+import { loginDataRecoil } from "../../recoil/atom";
 
 function Send() {
     const navigate = useNavigate();
-    const [AddrNumber,setAddrNumber] = useState("");
-    const [SendAmount,setSendAmount] = useState(0);
+    const [AddrNumber, setAddrNumber] = useState("");
+    const [sendAmount, setSendAmount] = useState(0);
+    // 로그인 정보
+    const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
 
+    // 정보 전송
+    const sendUserMutation = useMutation(
+        (newData) =>
+            axios.post("http://localhost:4000/member/smsAuth", newData),
+        {
+            onSuccess: (response) => {
+                // 여기서 받아온정보가 없는 사람이면 경고
+                const result = response.data;
+                console.log(result);
+                // queryClient.invalidateQueries("comment");
+                navigate("/sendcheck", {
+                    state: {
+                        // 받아온 사람이름도 넘겨야 함
+                        wallet: AddrNumber,
+                        amount: sendAmount,
+                    },
+                });
+            },
+        }
+    );
 
     const SendCheck = async () => {
-
         // const { data:_  } = await axios.post('/_____주소_____', {
         //     address_or_number: AddrNumber,
         //     send_amount: SendAmount
         // });
 
-        console.log(data)
+        // console.log(data)
 
         // 서버에서 전달받아야 하는 값
-        const data = {
-            is_validate: true, // 검증 여부 (1. 유저 잔고보다 요청한 금액이 많거나 2. 받는 사람의 정보가 조회되지 않았을 경우 false)
-            to_user_name: '홍길동', // address_or_number의 유저 데이터의 이름
-            amount: 1000, // send_amount
-        };
+        if (AddrNumber == "" || sendAmount == "") {
+            alert("빈칸이 존재합니다.");
+        } else {
+            const newData = {
+                walletNumber: AddrNumber,
+                amount: sendAmount,
+            };
 
-        navigate("/sendcheck", {
-            state : {
-                user_name:data.to_user_name,
-                amount: data.amount,
-            }
-        });
-
+            navigate("/sendcheck", {
+                state: {
+                    walletNumber: AddrNumber,
+                    amount: sendAmount,
+                },
+            });
+        }
+        // sendUserMutation.mutate(newAmount);
     };
 
-    const Scan =()=>{
-        navigate("/scan")
-    }
+    const Scan = () => {
+        navigate("/scan");
+    };
     const AddrNumberOnChange = (e) => {
         setAddrNumber(e.target.value);
     };
@@ -50,17 +76,25 @@ function Send() {
         <Body>
             <div className="Title">
                 {/* 내정보 폰번호 불러오기 */}
-                <Phone>010-3302-1234</Phone>
+                <Phone>{loginTrue.sessionId}</Phone>
                 {/* 주소 불러오기 */}
-                <Addr>0x0000000000</Addr>
+                <Addr>{loginTrue.sessionWallet}</Addr>
             </div>
-            <InputBox >
+            <InputBox>
                 {/* 수량*/}
-                <Ibox onChange={SendAmountOnchange} type="number" placeholder="수량"></Ibox>
+                <Ibox
+                    onChange={SendAmountOnchange}
+                    type="number"
+                    placeholder="수량"
+                ></Ibox>
                 {/* 내 잔액 확인 */}
                 <Bal> 나의 잔액은: 3000 </Bal>
                 {/* 주소 혹은 핸드폰번호 */}
-                <Ibox onChange={AddrNumberOnChange} type="number" placeholder="주소 혹은 핸드폰 번호"></Ibox>
+                <Ibox
+                    onChange={AddrNumberOnChange}
+                    type="number"
+                    placeholder="주소 혹은 핸드폰 번호"
+                ></Ibox>
                 <Wrap>
                     <div className="ScanBtn">
                         <Scanbtn onClick={Scan}>스캔</Scanbtn>
@@ -94,6 +128,10 @@ const Phone = styled.div`
 const Addr = styled(Phone)`
     margin: 0 auto;
     width: 50%;
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     font-size: 14px;
     padding-top: 10px;
     padding-bottom: 102px;
