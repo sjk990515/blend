@@ -10,17 +10,21 @@ import bestImg3 from "../../image/bestImg3.png";
 import bestImg4 from "../../image/bestImg4.png";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import axios from "axios";
 import Session from "react-session-api";
 import { useRecoilState } from "recoil";
-import { loginDataRecoil } from "../../recoil/atom";
+import { loginDataRecoil, userHistoryRecoil } from "../../recoil/atom";
 import Loading from "../../components/loading/Loading";
 
 function MainPage() {
     const navigate = useNavigate();
     // slide 세팅
     const [noticeSlide, setNoticeSlide] = useState(0);
+    // 사용자 잔액, 내역 정보
+    const [userHistoryState, setUserHistoryState] =
+        useRecoilState(userHistoryRecoil);
+
     const [aaaa, setAaaa] = useState(true);
 
     // 로그인 정보
@@ -90,7 +94,7 @@ function MainPage() {
 
                         {loginTrue ? (
                             <BeansCount onClick={beansCountOnClick}>
-                                3100{" "}
+                                {userHistoryState.total}{" "}
                                 <BeansCountSpan>&nbsp; BEANS</BeansCountSpan>
                                 <IoIosArrowForward />
                             </BeansCount>
@@ -110,9 +114,11 @@ function MainPage() {
                             {...beansSettings}
                             afterChange={handleSlideChange}
                         >
-                            <SliderText>안녕안녕안녕안녕11</SliderText>
-                            <SliderText>안녕안녕안녕안녕22</SliderText>
-                            <SliderText>안녕안녕안녕안녕33</SliderText>
+                            <SliderText>새로운 가맹점 23곳 등록</SliderText>
+                            <SliderText>
+                                오픈이벤트 가입하면 100마일리지 적립
+                            </SliderText>
+                            <SliderText>새로운 추천 원두 업데이트</SliderText>
                         </Slider>
                     </NoticeSlide>
 

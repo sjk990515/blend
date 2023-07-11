@@ -8,7 +8,7 @@ import { menuAble, userHistoryRecoil } from "../recoil/atom";
 import { IoMdClose } from "react-icons/io";
 import { loginDataRecoil } from "../recoil/atom";
 import axios from "axios";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 function Header() {
     // 로그인 정보
@@ -32,9 +32,13 @@ function Header() {
         setDisable(!disable);
     };
 
-    // // 사용자 잔액, 거래내역
+    // console.log(userHistoryState);
+
     // const userHistory = async () => {
-    //     const response = await axios.get("http://localhost:4000/token/myToken");
+    //     const response = await axios.post(
+    //         "http://localhost:4000/token/myToken",
+    //         { _num: loginTrue.sessionId }
+    //     );
     //     // setUserHistoryState(response);
     //     return response;
     // };
@@ -45,9 +49,6 @@ function Header() {
     //     data: userHistoryData,
     //     error,
     // } = useQuery("userHistory", userHistory);
-
-    // setUserHistoryState(userHistoryData.data);
-    // console.log(userHistoryData.data);
 
     useEffect(() => {
         // 로그인 확인
@@ -77,6 +78,27 @@ function Header() {
             // 사용자 잔액, 거래 내역
         }
     }, [sessionStorage?.getItem("id")]);
+
+    // 사용자 잔액, 거래내역
+    const userHistoryMutation = useMutation(
+        (newUser) => axios.post("http://localhost:4000/token/myToken", newUser),
+        {
+            onSuccess: (response) => {
+                const result = response.data;
+                setUserHistoryState(result);
+
+                console.log(result);
+                // setSignUp(false);
+            },
+        }
+    );
+
+    useEffect(() => {
+        if (loginTrue) {
+            console.log(loginTrue.sessionNum);
+            userHistoryMutation.mutate({ _num: loginTrue.sessionNum });
+        }
+    }, [loginTrue, window.location.href]);
 
     return (
         <HeaderDiv>
