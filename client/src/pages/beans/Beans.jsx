@@ -15,7 +15,7 @@ function Beans() {
         navigate("/beans/detail/"+props);
     };
 
-    const [amount, setAmount] = useState(["43,928,748", "3,729,203", "482,091"])
+    const [amount, setAmount] = useState(["43,928,748", "3,729,203", "0"])
 
     /* 랭크된 유저 정보 불러오기
     const getUserData = async () => {
@@ -66,17 +66,17 @@ function Beans() {
                     </TitleArea>
                     <TokenArea>
                         <TokenInfoArticle>
-                            <span className="lable">유통량</span>
+                            <span className="lable">발행량</span>
                             {/* 데이터 받아서 넣기? */}
                             <span className="token-balance">{amount[0]}</span>
                         </TokenInfoArticle>
                         <TokenInfoArticle>
-                            <span className="lable">소각량</span>
+                            <span className="lable">보유량</span>
                             {/* 데이터 받아서 넣기? */}
                             <span className="token-balance">{amount[1]}</span>
                         </TokenInfoArticle>
                         <TokenInfoArticle>
-                            <span className="lable">보유량</span>
+                            <span className="lable">온체인량</span>
                             {/* 데이터 받아서 넣기? */}
                             <span className="token-balance">{amount[2]}</span>
                         </TokenInfoArticle>

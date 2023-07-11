@@ -167,10 +167,10 @@ function MyPageUpdateForm(props) {
                     {/* 번호 데이터 받아서 바꿔야함 */}
                     <span>{phoneStart}-{phoneMiddle}-{phoneLast}</span>
                     <span>님</span>
-                    <AuthPhoneArea>
+                    {/* <AuthPhoneArea>
                         <p className="txt">휴대폰 인증을 해주세요!</p>
                         <AuthPhoneBtn onClick={authPhoneOnClick}>휴대폰인증</AuthPhoneBtn>
-                    </AuthPhoneArea>
+                    </AuthPhoneArea> */}
                 </S.UserArea>
 
                 {/* 수정폼 */}
@@ -210,9 +210,15 @@ function MyPageUpdateForm(props) {
 
 export default MyPageUpdateForm;
 
+
 const Profilearea = styled.div`
 `
 
+const TxtDiv =styled.div`
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+`
 const AuthPhoneArea = styled.div`
     padding-top: 15px;
     padding-bottom: 10px;
