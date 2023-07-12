@@ -120,7 +120,6 @@ module.exports = function () {
                     from: account.address,
                     gas: 2000000,
                 });
-            console.log(addContract);
 
             const addMileage = await smartcontract.methods
                 .add_mileage(input_wallet, 100)
@@ -128,13 +127,6 @@ module.exports = function () {
                     from: account.address,
                     gas: 200000,
                 });
-            console.log("##addMileage : " + addMileage);
-
-            console.log(
-                "## joinSet input_Data : " + input_id,
-                input_pass,
-                input_birth
-            );
 
             const sql = `
             insert
@@ -167,7 +159,6 @@ module.exports = function () {
                     console.log(err);
                     res.send(err);
                 } else {
-                    console.log(result);
                     res.json({ message: "Y" });
                 }
             });
@@ -177,21 +168,14 @@ module.exports = function () {
     });
     // localhost:3000/member/smsAuth [post] Ajax sms인증
     router.post("/smsAuth", async function (req, res) {
-        //확인 후 난수 데이터 보낼줄 것
-        // const abc = Object.keys(req.body)[0];
-        // const aaa = JSON.parse(req.body);
-        console.log(req.body);
         const input_id = req.body.id;
 
         let authNum = generateRandomCode(4);
-        console.log(authNum);
         const phonetext =
             "[Blend]Blend에서 인증번호를 발송해드립니다. 당신의 인증번호는 [" +
             authNum +
             "] 입니다.";
         const resNum = { auth_Num: authNum };
-
-        console.log("## text : " + phonetext);
 
         const SQL = `
         select
@@ -209,7 +193,6 @@ module.exports = function () {
                 console.log(err);
                 res.send(err);
             } else {
-                console.log("## ID check : " + result);
                 if (result.length == 0) {
                     // 2건 이상의 메시지를 발송할 때는 sendMany, 단일 건 메시지 발송은 sendOne을 이용해야 합니다.
                     messageService
@@ -224,7 +207,6 @@ module.exports = function () {
                         .catch((err) => console.error(err));
                     res.json(resNum);
                 } else {
-                    console.log("중복됨");
                     res.json({ auth_Num: "0" });
                 }
             }
@@ -235,8 +217,6 @@ module.exports = function () {
     //        res.render("login.ejs");
     //    });
     router.post("/session", function (req, res) {
-        //   console.log(aaa);
-        console.log(req.sessionID);
         if (!req.session.logined) {
             res.send({ result: false });
         } else {

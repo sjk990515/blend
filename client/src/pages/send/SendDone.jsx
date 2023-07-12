@@ -9,7 +9,6 @@ function SendDone() {
     const navigate = useNavigate();
 
     const { state } = useLocation();
-    console.log(state);
 
     // 로그인 정보
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);

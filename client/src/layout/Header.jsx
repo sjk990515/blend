@@ -33,24 +33,6 @@ function Header() {
         setDisable(!disable);
     };
 
-    // console.log(userHistoryState);
-
-    // const userHistory = async () => {
-    //     const response = await axios.post(
-    //         "http://localhost:4000/token/myToken",
-    //         { _num: loginTrue.sessionId }
-    //     );
-    //     // setUserHistoryState(response);
-    //     return response;
-    // };
-
-    // const {
-    //     isLoading,
-    //     isError,
-    //     data: userHistoryData,
-    //     error,
-    // } = useQuery("userHistory", userHistory);
-
     useEffect(() => {
         // 로그인 확인
         const sessionId = sessionStorage?.getItem("id");
@@ -86,12 +68,8 @@ function Header() {
         {
             onSuccess: (response) => {
                 const result = response.data;
-                console.log(result);
                 setUserHistoryState(result);
                 setLoading(false);
-
-                console.log(result);
-                // setSignUp(false);
             },
         }
     );
@@ -99,7 +77,6 @@ function Header() {
     useEffect(() => {
         if (loginTrue) {
             setLoading(true);
-            console.log(loginTrue.sessionNum);
             userHistoryMutation.mutate({ _num: loginTrue.sessionNum });
         }
     }, [loginTrue, window.location.href]);

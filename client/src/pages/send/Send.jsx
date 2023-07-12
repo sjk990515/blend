@@ -31,8 +31,6 @@ function Send() {
             onSuccess: (response) => {
                 // 여기서 받아온정보가 없는 사람이면 경고
                 const result = response.data;
-                console.log(result);
-                // queryClient.invalidateQueries("comment");
                 setLoading(false);
                 if (!result.result) {
                     alert("없는 주소입니다.");

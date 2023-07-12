@@ -24,8 +24,6 @@ function SendCheck() {
 
     const { state } = useLocation();
 
-    console.log(state);
-
     // 정보 전송
     const sendInformationMutation = useMutation(
         (newData) =>
@@ -34,7 +32,6 @@ function SendCheck() {
             onSuccess: (response) => {
                 // 여기서 받아온정보가 없는 사람이면 경고
                 const result = response.data.result;
-                console.log(result);
                 setLoading(false);
                 if (result) {
                     navigate("/senddone", {

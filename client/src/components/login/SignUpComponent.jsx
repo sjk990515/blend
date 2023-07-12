@@ -57,7 +57,7 @@ function SignUpComponent() {
         {
             onSuccess: (response) => {
                 const result = response.data.auth_Num;
-                console.log(result);
+
                 setCheckNumber(result);
                 // queryClient.invalidateQueries("comment");
             },
@@ -96,7 +96,6 @@ function SignUpComponent() {
 
     // 생일 input
     const birthInputOnChange = (e) => {
-        console.log(e.target.value);
         setBirthInput(e.target.value);
     };
 
@@ -122,10 +121,8 @@ function SignUpComponent() {
         {
             onSuccess: (response) => {
                 const result = response.data.message;
-                // console.log(result);
                 alert("회원가입 되었습니다.");
                 setLoading(false);
-                // setSignUp(false);
             },
         }
     );
@@ -173,8 +170,6 @@ function SignUpComponent() {
                 _birth: birthInput.trim(),
                 _email: emailInput.trim(),
             };
-
-            console.log(newUser);
 
             signUpPostMutation.mutate(newUser);
             setSignUp(false);

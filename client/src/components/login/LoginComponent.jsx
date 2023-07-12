@@ -58,7 +58,6 @@ function LoginComponent() {
         {
             onSuccess: (response) => {
                 const result = response.data.result;
-                console.log(result);
                 setLoading(false);
 
                 if (result) {

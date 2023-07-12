@@ -34,8 +34,6 @@ function BeansDetail(props) {
         return response;
     };
 
-    console.log(content);
-
     // 왜 이게 있어야 데이터가 뜨는거지
     const { isLoading, isError, data, error } = useQuery(
         "getUserData",
