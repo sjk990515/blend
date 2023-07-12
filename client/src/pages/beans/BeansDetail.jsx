@@ -75,10 +75,10 @@ function BeansDetail(props) {
                             <Label>주소</Label>
                             <Text>
                                 <AddrIcon>
-                                <UserAddress >
-                                    {state.wallet.substring(0,6)}...{state.wallet.slice(-6)}
-                                </UserAddress>
-                                <BiCopy className="copy-icon"></BiCopy>
+                                    <UserAddress >
+                                        {state.wallet.substring(0,6)}...{state.wallet.slice(-6)}
+                                    </UserAddress>
+                                    <BiCopy className="copy-icon"></BiCopy>
                                 </AddrIcon>
                             </Text>
                         </AddressArea>
@@ -200,6 +200,13 @@ const Text = styled.div`
     cursor: pointer;
     position: relative;
 
+
+    .copy-icon {
+        font-size: 18px;
+    }
+`
+const AddrIcon = styled.div`
+    width: 101%;
     &::after{
         content: '주소 복사하기';
         position: absolute;
@@ -218,13 +225,6 @@ const Text = styled.div`
     &:hover::after{
         opacity: 1;
     }
-
-    .copy-icon {
-        font-size: 18px;
-    }
-`
-const AddrIcon = styled.div`
-    width: 101%;
 `
 
 const UserAddress = styled.span`
