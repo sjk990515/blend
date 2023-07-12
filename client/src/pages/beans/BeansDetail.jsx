@@ -27,13 +27,9 @@ function BeansDetail(props) {
                 _total : userToken,
             }
         }) 
-        .then (
-            // 받아온 데이터를 state에 저장
-            (res) => {
-                const contents = res.data.content;
-                setContent(contents);
-            }
-        );
+        
+        const contents = response.data.content;
+        setContent(contents);
 
         return response;
     };
@@ -95,7 +91,7 @@ function BeansDetail(props) {
                     {/* 개별 거래내역 - 반복문을 통해 출력*/}
                     { content.map((i)=>{
                         return(
-                            <TransferArticle>
+                            <TransferArticle key={i.TOKEN_NUM}>
                                 <DateAndTimeDiv>
                                     {/* 거래 날짜 */}
                                     <TransferDate>

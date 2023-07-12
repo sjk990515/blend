@@ -94,7 +94,7 @@ function Beans() {
                         { listData.map((i, index)=>{
                             return(
                                 // 해당 순위 article 클릭 시 해당 지갑 주소로 이동
-                                <RankingArticle onClick={() => DetailOnclick(i.MEMBER_NUM, i.MEMBER_WALLET, i.TOKEN_TOTAL)}>
+                                <RankingArticle key={i.MEMBER_NUM} onClick={() => DetailOnclick(i.MEMBER_NUM, i.MEMBER_WALLET, i.TOKEN_TOTAL)}>
                                     {/* 순위 1. 2. <- 이런 텍스트만 */}
                                     <RankTxt color={index+1}>{index+1}.</RankTxt>
                                     

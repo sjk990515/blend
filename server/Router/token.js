@@ -185,6 +185,7 @@ module.exports = function () {
       TOKEN_CONTENT,
       TOKEN_REGDATE,
       TRADE_ADDRESS
+      TOKEN_NUM
       from
       token
       where
