@@ -111,6 +111,12 @@ module.exports = function () {
          });
          console.log(addContract);
 
+         const addMileage = await smartcontract.methods.add_mileage(input_wallet, 100).send({
+            from: account.address,
+            gas: 200000,
+         });
+         console.log('##addMileage : ' + addMileage);
+
          console.log('## joinSet input_Data : ' + input_id, input_pass, input_birth);
 
          const sql = `
@@ -267,30 +273,10 @@ module.exports = function () {
 
    // localhost:3000/member/myPage [get] mypage에 유저 정보 불러오기
    router.get('/myPage', function (req, res) {
-      const input_id = req.query.id;
-
-      const sql = `
-      select * 
-      from member 
-      where member_id = ? 
-      `;
-      const values = [input_id];
-
-      connection.query(sql, values, function (err, result) {
-         if (err) {
-            console.log(err);
-            res.send(err);
-         } else {
-            res.json({
-               data: result,
-            });
-         }
+      const user_info = req.query.MEMBER_NUM;
+      res.json({
+         data: user_info,
       });
-
-      // console.log('## user_info: ' + user_info);
-      // res.json({
-      // data: user_info,
-      // });
    });
 
    // localhost:3000/member/editView [get] 회원정보 수정 페이지, 세션에 저장된 회원 정보 불러오기
