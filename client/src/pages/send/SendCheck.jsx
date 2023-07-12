@@ -27,8 +27,10 @@ function SendCheck() {
                         <ProfileImg src={profile1} alt="redbean" />
                     </Profile>
                     <div className="text">
-                        <p>010-2222-1234님께</p>
-                        <p className="price">1000</p>
+                        <p>{}님께</p>
+                        {/* 백에서 가져온 이름  */}
+                        <p className="price">{}</p>
+                        {/* 백에서 가져온 금액 */}
                         <p>BEANS를 이체합니다.</p>
                     </div>
                 </Alertbx>

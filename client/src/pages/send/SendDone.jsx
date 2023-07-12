@@ -17,12 +17,16 @@ function SendDone() {
             <Wrap>
             <div className="Title">
                 <Phone>010-3302-1234</Phone>
-                <Bal> 나의 잔액은: 3,000 BEANS </Bal>
+                <Bal> 나의 잔액은:{
+                //  가지고있는 금액
+                  }-{ 
+                //   이체된 금액 
+                  } BEANS </Bal>
             </div>
                 <Alertbx>
                    <Profile><ProfileImg src={profile2} alt="greenbean"/></Profile>
                    <div className="text">
-                   <p>010-2222-1234님께</p>
+                   <p>{}님께</p>
                    <p>보내기 완료!</p>
                    </div>
                 </Alertbx>
