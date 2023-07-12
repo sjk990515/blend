@@ -1,65 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import blend from "../../image/blendlogo_for_beansdetail.png";
+import { BiCopy } from "react-icons/bi";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useLocation, useParams } from "react-router-dom";
+import {CopyToClipboard} from "react-copy-to-clipboard/src";
+
 function BeansDetail(props) {
-    // 상단 네모에 보이는 주소 (더미 data)
-    let userAddress = '0x8798dfbbD786B81486eD8762b25Af961011Db528';
-    // 상단 네모에 보이는 토큰 보유량 (더미 data)
-    let userBalance = 3458935093;
+    // 서버에서 받아온 정보를 저장 (거래내역에 보일 token에 대한 정보들)
+    const [content, setContent] = useState([]);
 
-    // 멤버 번호 (num)
+    // 서버에 전달한 파라미터
     const param = useParams();
-
-    // 추가로 전달한 파라미터 (지갑주소, 보유량)
+    const userNum = param.num // 멤버 번호
     const {state} = useLocation();
+    const userToken = state.token // 해당 멤버의 토큰 보유량
 
-    /* 거래 내역에 보이는 주소 (더미 data)
-       추후 order by 생각하기? */
-    const transferData = [
-        {
-            id: 1,
-            address: '0x8798dfbbD786B81486eD8762b25Af961011Db5281Db528',
-            date: '2022-07-07',
-            time: '22:30:32',
-            kind: 'plus',
-            amount: 800
-        },
-        {
-            id: 2,
-            address: '0x8798dfbbD786B81486eD8762b25Af961011Db528',
-            date: '2022-07-07',
-            time: '20:30:48',
-            kind: 'minus',
-            amount: 1200
-        },
-        {
-            id: 3,
-            address: '0x8798dfbbD786B81486eD8762b25Af961011Db528',
-            date: '2022-07-06',
-            time: '12:30:45',
-            kind: 'minus',
-            amount: 1000
-        },
-        {
-            id: 4,
-            address: '0x8798dfbbD786B81486eD8762b25Af961011Db528',
-            date: '2022-07-05',
-            time: '15:30:48',
-            kind: 'plus',
-            amount: 700
-        },
-        {
-            id: 5,
-            address: '0x8798dfbbD786B81486eD8762b25Af961011Db528',
-            date: '2022-07-05',
-            time: '11:30:48',
-            kind: 'plus',
-            amount: 300
-        }
-    ]
+    // 서버와 연결 
+    const getUserData = () => {
+        const response = axios.get("http://localhost:4000/token/select", {
+            params: {
+                _num : userNum,
+                _total : userToken,
+            }
+        })
+        .then(
+            // 받아온 데이터를 state에 저장
+            (res)=>{
+                const contents = res.data.content;
+                setContent(contents);
+            }
+        );
+
+        return response;
+    };
+
+    // 왜 이게 있어야 데이터가 뜨는거지
+    const { isLoading, isError, data, error } = useQuery(
+        "getUserData",
+        getUserData,
+    );
+
+    // TOKEN_CHANGED가 음수인지 양수인지 체크하는 함수
+    const checkSign = (target)=>{
+        let sign = ""
+        let check = Math.sign(target);
+
+        return (check == 1 ? sign = 'plus' : 'minus')
+    }
 
     return (
         <Body>
@@ -72,12 +61,17 @@ function BeansDetail(props) {
                     <UserInfoArea>
                         <AddressArea>
                             <Label>주소</Label>
-                            {/* 데이터 받아서 넣기 */}
-                            <UserAddress>{state.wallet.substring(0,6)}...{state.wallet.slice(-6)}</UserAddress>
+                        <CopyToClipboard className="Toram" text={state.wallet} onCopy={() => alert("클립보드에 복사되었습니다.")}>
+                            <Text>
+                                <UserAddress>
+                                    {state.wallet.substring(0,6)}...{state.wallet.slice(-6)}
+                                </UserAddress>
+                                <BiCopy className="icon"></BiCopy>
+                            </Text>
+                        </CopyToClipboard>
                         </AddressArea>
                         <BalanceArea>
                             <Label>보유량</Label>
-                            {/* 데이터 받아서 넣기 */}
                             <UserBalance>{state.token.toLocaleString()}</UserBalance>
                         </BalanceArea>
                     </UserInfoArea>
@@ -87,33 +81,31 @@ function BeansDetail(props) {
                 <TransferArea>
                     <TitleDiv>거래내역</TitleDiv>
                     {/* 개별 거래내역 - 반복문을 통해 출력*/}
-                    { transferData.map((i)=>{
+                    { content.map((i)=>{
                         return(
                             <TransferArticle>
                                 <DateAndTimeDiv>
                                     {/* 거래 날짜 */}
-                                    <TransferDate>{i.date}</TransferDate>
-                                    {/* 거래 시간 */}
-                                    <TransferTime>{i.time}</TransferTime>
+                                    <TransferDate>
+                                        {i.TOKEN_REGDATE}
+                                    </TransferDate>
                                 </DateAndTimeDiv>
 
                                 <AddressAndAmountDiv>
                                     {/* 거래된 주소 */}
-                                    <TransferAddress>{i.address.substring(0,6)}...{i.address.slice(-6)}</TransferAddress>
+                                    <TransferAddress>{i.TRADE_ADDRESS.substring(0,6)}...{i.TRADE_ADDRESS.slice(-6)}</TransferAddress>
 
-                                    {/* 토큰거래양 앞의 +, - 기호 */}
+                                    {/* 토큰거래양 - 음수∙양수에 따라 색깔 다르게 보여줌 */}
                                     <SignAndAmountDiv>
-                                        {/* 받은 토큰이라면 빨간색, 보낸 토큰이라면 파란색 */}
-                                        {i.kind == 'plus'? 
-                                            <AmountSign color={'#F06A24'}>+</AmountSign> 
-                                                :
-                                            <AmountSign color={'#0C77F8'}>-</AmountSign>
+                                        {checkSign(i.TOKEN_CHANGED) == 'plus' ? 
+                                            <TransferAmount  color={'#F06A24'}>
+                                                {i.TOKEN_CHANGED}
+                                            </TransferAmount>
+                                        :
+                                            <TransferAmount color={'#0C77F8'}>
+                                                {i.TOKEN_CHANGED}
+                                            </TransferAmount>
                                         }
-
-                                        {/* 토큰 거래양 */}
-                                        <TransferAmount as="span" color={ i.kind == 'plus'? '#F06A24' : '#0C77F8' }>
-                                            {i.amount}
-                                        </TransferAmount>
                                     </SignAndAmountDiv>
                                 </AddressAndAmountDiv>
                             </TransferArticle>
@@ -188,13 +180,24 @@ const Label = styled.span`
     font-weight: 800;
 `
 
-const UserAddress = styled.div`
+const Text = styled.text`
     width: 80%;
     text-align: right;
+    cursor: pointer;
+    &:hover{
+        color: rgb(246,242,144);
+    }
+`
+
+const UserAddress = styled.span`
     font-size: 22px;
     font-weight: 700;
 `
-const UserBalance = styled(UserAddress)``
+
+const UserBalance = styled(UserAddress)`
+    width: 80%;
+    text-align: right;
+`
 
 const TransferArea = styled.div`
     padding: 20px;
@@ -227,8 +230,6 @@ const TransferDate = styled.span`
     color: #432C20;
     padding-right: 5px;
 `
-const TransferTime = styled(TransferDate)``
-
 const AddressAndAmountDiv= styled.div`
     line-height: 32px;
     height: 50%;
@@ -249,10 +250,3 @@ const TransferAmount = styled(TransferAddress)`
     text-align: right;
     color: ${(props) => props.color || "#432C20" };
     `
-
-const AmountSign = styled.span`
-    font-weight: 800;
-    font-size: 20px;
-    margin-right: 2px;
-    color: ${(props) => props.color || "#432C20"};
-`
