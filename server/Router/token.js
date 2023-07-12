@@ -108,16 +108,15 @@ module.exports = function () {
     });
 
     // http://localhost:4000/token/select [get]
-    router.post("/select", async function (req, res) {
-        const input_num = req.body._num;
-        const input_total = req.body._total;
-        // console.log("www ", input_wallet, "tttt ", input_total)
+    router.get("/select", async function (req, res) {
+        const input_num = req.query._num;
+        const input_total = req.query._total;
 
         const sql = `
         select 
             TOKEN_CHANGED,
             TOKEN_CONTENT,
-            TOKEN_REGDATE,
+            date_format(TOKEN_REGDATE, '%Y-%m-%d %T') as TOKEN_REGDATE,
             TRADE_ADDRESS
         from
             token
@@ -162,7 +161,7 @@ module.exports = function () {
                 res.send(err);
             } else {
                 if (result.length != 0) {
-                    console.log("## Token_content" + result);
+                    // console.log("## Token_content" + result);
                     res.send({
                         result: true,
                         content: result,
@@ -222,7 +221,7 @@ module.exports = function () {
                                 console.log(err);
                                 res.send(err);
                             } else {
-                                console.log("## Token_Mycontent" + result);
+                                // console.log("## Token_Mycontent" + result);
                                 res.send({
                                     result: true,
                                     content: result,
