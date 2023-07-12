@@ -19,8 +19,12 @@ import MyBeans from "../pages/mainPage/MyBeans";
 import Beans from "../pages/beans/Beans";
 import BeansDetail from "../pages/beans/BeansDetail";
 import Background from "../layout/Background";
+import { useRecoilState } from "recoil";
+import { loadingRecoil } from "../recoil/atom";
 
 function Router() {
+    const [loading, setLoading] = useRecoilState(loadingRecoil);
+
     return (
         <BrowserRouter>
             <GlobalStyles />
@@ -28,15 +32,20 @@ function Router() {
 
             <MobileWidthDiv>
                 <>
+                    <LodingStyle loading={loading ? 1 : 0}>
+                        <Loading />
+                    </LodingStyle>
                     <Header />
                     <Menulayout />
                 </>
                 <Routes>
-                
                     <Route path="/loading" element={<Loading />} />
                     <Route path="/" element={<MainPage />} />
                     <Route path="/myPage" element={<MyPage />} />
-                    <Route path="/myPage/update/:num" element={<MyPageUpdateForm />}/>
+                    <Route
+                        path="/myPage/update/:num"
+                        element={<MyPageUpdateForm />}
+                    />
                     <Route path="/login" element={<Login />} />
                     <Route path="/mybeans" element={<MyBeans />} />
                     <Route path="/send" element={<Send />} />
@@ -66,4 +75,7 @@ const MobileWidthDiv = styled.div`
     /* margin-right: 20%; */
     padding-top: 70px;
     box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+`;
+const LodingStyle = styled.div`
+    display: ${(props) => (props.loading ? "block" : "none")};
 `;

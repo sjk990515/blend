@@ -4,7 +4,7 @@ import BlendLogo from "../image/BlendLogo.png";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { menuAble, userHistoryRecoil } from "../recoil/atom";
+import { loadingRecoil, menuAble, userHistoryRecoil } from "../recoil/atom";
 import { IoMdClose } from "react-icons/io";
 import { loginDataRecoil } from "../recoil/atom";
 import axios from "axios";
@@ -16,7 +16,8 @@ function Header() {
     // 사용자 잔액, 내역 정보
     const [userHistoryState, setUserHistoryState] =
         useRecoilState(userHistoryRecoil);
-
+    //로딩
+    const [loading, setLoading] = useRecoilState(loadingRecoil);
     //네비게이트
     const navigate = useNavigate();
     const [disable, setDisable] = useRecoilState(menuAble);
@@ -86,6 +87,7 @@ function Header() {
             onSuccess: (response) => {
                 const result = response.data;
                 setUserHistoryState(result);
+                setLoading(false);
 
                 console.log(result);
                 // setSignUp(false);
@@ -95,6 +97,7 @@ function Header() {
 
     useEffect(() => {
         if (loginTrue) {
+            setLoading(true);
             console.log(loginTrue.sessionNum);
             userHistoryMutation.mutate({ _num: loginTrue.sessionNum });
         }

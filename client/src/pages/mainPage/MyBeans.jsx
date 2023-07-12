@@ -45,7 +45,7 @@ function MyBeans() {
                         return (
                             <History key={i.id}>
                                 <HistoryDate>
-                                    {i.TOKEN_REGDATE.slice(0, 10)}
+                                    {i.TOKEN_REGDATE?.slice(0, 10)}
                                 </HistoryDate>
                                 <HistoryName>{i.TOKEN_CONTENT}</HistoryName>
 

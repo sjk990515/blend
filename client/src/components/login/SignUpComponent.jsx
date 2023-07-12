@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import { loginMenuRecoil, loginSignUp } from "../../recoil/atom";
+import { loadingRecoil, loginMenuRecoil, loginSignUp } from "../../recoil/atom";
 import { useRecoilState } from "recoil";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useMutation } from "react-query";
@@ -37,6 +37,8 @@ function SignUpComponent() {
     const [minutes, setMinutes] = useState("");
     // 타이머 초
     const [seconds, setSeconds] = useState("");
+    //로딩
+    const [loading, setLoading] = useRecoilState(loadingRecoil);
 
     // 패스워드 숨김 아이콘
     const passIconOnClick = () => {
@@ -122,6 +124,7 @@ function SignUpComponent() {
                 const result = response.data.message;
                 // console.log(result);
                 alert("회원가입 되었습니다.");
+                setLoading(false);
                 // setSignUp(false);
             },
         }
@@ -162,6 +165,7 @@ function SignUpComponent() {
         } else if (passInput != passCheckInput) {
             alert("비밀번호가 같지 않습니다.");
         } else {
+            setLoading(true);
             const newUser = {
                 _id: phoneCheck.trim(),
                 _pass: passInput.trim(),
