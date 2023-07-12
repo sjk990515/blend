@@ -66,7 +66,7 @@ function BeansDetail(props) {
                                 <UserAddress>
                                     {state.wallet.substring(0,6)}...{state.wallet.slice(-6)}
                                 </UserAddress>
-                                <BiCopy className="icon"></BiCopy>
+                                <BiCopy className="copy-icon"></BiCopy>
                             </Text>
                         </CopyToClipboard>
                         </AddressArea>
@@ -93,7 +93,9 @@ function BeansDetail(props) {
 
                                 <AddressAndAmountDiv>
                                     {/* 거래된 주소 */}
-                                    <TransferAddress>{i.TRADE_ADDRESS.substring(0,6)}...{i.TRADE_ADDRESS.slice(-6)}</TransferAddress>
+                                    <TransferAddress>
+                                        {i.TRADE_ADDRESS.substring(0,6)}...{i.TRADE_ADDRESS.slice(-6)}
+                                    </TransferAddress>
 
                                     {/* 토큰거래양 - 음수∙양수에 따라 색깔 다르게 보여줌 */}
                                     <SignAndAmountDiv>
@@ -187,11 +189,16 @@ const Text = styled.text`
     &:hover{
         color: rgb(246,242,144);
     }
+
+    .copy-icon {
+        font-size: 18px;
+    }
 `
 
 const UserAddress = styled.span`
     font-size: 22px;
     font-weight: 700;
+    margin-right: 6px;
 `
 
 const UserBalance = styled(UserAddress)`
