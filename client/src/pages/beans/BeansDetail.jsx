@@ -5,7 +5,6 @@ import { BiCopy } from "react-icons/bi";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useLocation, useParams } from "react-router-dom";
-import {CopyToClipboard} from "react-copy-to-clipboard/src";
 
 function BeansDetail(props) {
     // 서버에서 받아온 정보를 저장 (거래내역에 보일 token에 대한 정보들)
@@ -16,6 +15,9 @@ function BeansDetail(props) {
     const userNum = param.num // 멤버 번호
     const {state} = useLocation();
     const userToken = state.token // 해당 멤버의 토큰 보유량
+    
+    // 클립보드 복사 기능을 위해 사용
+    const userWallet = JSON.stringify(state.wallet).substring(1,43)
 
     // 서버와 연결 
     const getUserData = () => {
@@ -50,6 +52,16 @@ function BeansDetail(props) {
         return (check == 1 ? sign = 'plus' : 'minus')
     }
 
+    // 클릭씨 주소 복사 시키는 함수
+    const clickCopyClipBoard = async (text) => {
+        try {
+          await navigator.clipboard.writeText(text);
+          alert('주소가 복사되었습니다!');
+        } catch (e) {
+          alert('복사에 실패하였습니다.');
+        }
+    };
+
     return (
         <Body>
             <Wrapper>
@@ -59,16 +71,16 @@ function BeansDetail(props) {
                         <BlenImg src={blend}></BlenImg>
                     </BlenImgArea>
                     <UserInfoArea>
-                        <AddressArea>
+                        <AddressArea onClick={()=>{clickCopyClipBoard(userWallet)}}>
                             <Label>주소</Label>
-                        <CopyToClipboard className="Toram" text={state.wallet} onCopy={() => alert("클립보드에 복사되었습니다.")}>
                             <Text>
-                                <UserAddress>
+                                <AddrIcon>
+                                <UserAddress >
                                     {state.wallet.substring(0,6)}...{state.wallet.slice(-6)}
                                 </UserAddress>
                                 <BiCopy className="copy-icon"></BiCopy>
+                                </AddrIcon>
                             </Text>
-                        </CopyToClipboard>
                         </AddressArea>
                         <BalanceArea>
                             <Label>보유량</Label>
@@ -182,17 +194,37 @@ const Label = styled.span`
     font-weight: 800;
 `
 
-const Text = styled.text`
+const Text = styled.div`
     width: 80%;
     text-align: right;
     cursor: pointer;
-    &:hover{
-        color: rgb(246,242,144);
+    position: relative;
+
+    &::after{
+        content: '주소 복사하기';
+        position: absolute;
+        top: 40px;
+        right: 0px;
+        background-color: #e9e9e9;
+        border-radius: 8px;
+        border: 1px solid #432C20;
+        font-size: 12px;
+        line-height: 12px;
+        padding: 8px;
+        opacity: 0;
+        transition: 0.3s ease;
+    }
+    
+    &:hover::after{
+        opacity: 1;
     }
 
     .copy-icon {
         font-size: 18px;
     }
+`
+const AddrIcon = styled.div`
+    width: 101%;
 `
 
 const UserAddress = styled.span`
