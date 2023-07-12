@@ -56,6 +56,13 @@ function Send() {
         // 서버에서 전달받아야 하는 값
         if (AddrNumber == "" || sendAmount == "") {
             alert("빈칸이 존재합니다.");
+        } else if (
+            AddrNumber == loginTrue.sessionId ||
+            AddrNumber == loginTrue.sessionWallet
+        ) {
+            alert("본인에게 송금할 수 없습니다.");
+        } else if (sendAmount > userHistoryState.total) {
+            alert("잔액이 송금 금액보다 적습니다.");
         } else {
             setLoading(true);
             const newData = {

@@ -92,7 +92,7 @@ function LoginComponent() {
                         "wallet",
                         response.data.user.MEMBER_WALLET
                     );
-                    alert("로그인 성공했습니다..");
+                    alert("로그인 성공했습니다.");
                     navigator("/");
                 } else {
                     alert("로그인에 실패했습니다.");
