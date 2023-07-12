@@ -4,13 +4,18 @@ import BlendLogo from "../image/BlendLogo.png";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { menuAble } from "../recoil/atom";
+import { menuAble, userHistoryRecoil } from "../recoil/atom";
 import { IoMdClose } from "react-icons/io";
 import { loginDataRecoil } from "../recoil/atom";
+import axios from "axios";
+import { useMutation, useQuery } from "react-query";
 
 function Header() {
     // 로그인 정보
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
+    // 사용자 잔액, 내역 정보
+    const [userHistoryState, setUserHistoryState] =
+        useRecoilState(userHistoryRecoil);
 
     //네비게이트
     const navigate = useNavigate();
@@ -22,9 +27,28 @@ function Header() {
         setDisable(false);
     };
 
+    //메뉴 클릭
     const menuOnClick = () => {
         setDisable(!disable);
     };
+
+    // console.log(userHistoryState);
+
+    // const userHistory = async () => {
+    //     const response = await axios.post(
+    //         "http://localhost:4000/token/myToken",
+    //         { _num: loginTrue.sessionId }
+    //     );
+    //     // setUserHistoryState(response);
+    //     return response;
+    // };
+
+    // const {
+    //     isLoading,
+    //     isError,
+    //     data: userHistoryData,
+    //     error,
+    // } = useQuery("userHistory", userHistory);
 
     useEffect(() => {
         // 로그인 확인
@@ -50,8 +74,31 @@ function Header() {
             };
 
             setLoginTrue(loginData);
+
+            // 사용자 잔액, 거래 내역
         }
     }, [sessionStorage?.getItem("id")]);
+
+    // 사용자 잔액, 거래내역
+    const userHistoryMutation = useMutation(
+        (newUser) => axios.post("http://localhost:4000/token/myToken", newUser),
+        {
+            onSuccess: (response) => {
+                const result = response.data;
+                setUserHistoryState(result);
+
+                console.log(result);
+                // setSignUp(false);
+            },
+        }
+    );
+
+    useEffect(() => {
+        if (loginTrue) {
+            console.log(loginTrue.sessionNum);
+            userHistoryMutation.mutate({ _num: loginTrue.sessionNum });
+        }
+    }, [loginTrue, window.location.href]);
 
     return (
         <HeaderDiv>

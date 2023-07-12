@@ -9,7 +9,7 @@ import { BiLogoTwitter } from "react-icons/bi";
 import { BiLogoInstagram } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { loginDataRecoil, menuAble } from "../recoil/atom";
+import { loginDataRecoil, menuAble, userHistoryRecoil } from "../recoil/atom";
 
 function Menulayout() {
     const [disable, setDisable] = useRecoilState(menuAble);
@@ -17,6 +17,9 @@ function Menulayout() {
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
     // 네비게이트
     const navigate = useNavigate();
+    // 사용자 잔액, 내역 정보
+    const [userHistoryState, setUserHistoryState] =
+        useRecoilState(userHistoryRecoil);
 
     // X버튼(닫기)
     const closeOnClick = () => {
@@ -38,10 +41,22 @@ function Menulayout() {
         setDisable(false);
     };
 
+    // Beans 메뉴 클릭
+    const beansOnClick = () => {
+        navigate("/beans");
+        setDisable(false);
+    };
+
     // Mypage 메뉴 클릭
     const myPageOnClick = () => {
-        navigate("/mypage");
-        setDisable(false);
+        if (!loginTrue) {
+            alert("로그인이 필요합니다.");
+            navigate("/login");
+            setDisable(false);
+        } else {
+            navigate("/mypage");
+            setDisable(false);
+        }
     };
 
     // Shop 메뉴 클릭
@@ -92,12 +107,12 @@ function Menulayout() {
                                             <span className="user-nim">님</span>
                                         </p>
                                         <div className="user-token-area">
-                                            <span className="user-token">
-                                                3,100
-                                            </span>
-                                            <span className="user-token-name">
-                                                BEANS
-                                            </span>
+                                            <h2 className="user-token">
+                                                {userHistoryState.total}{" "}
+                                                <span className="user-token-name">
+                                                    BEANS
+                                                </span>
+                                            </h2>
                                         </div>
                                     </div>
                                     <div className="btn-area">
@@ -139,7 +154,7 @@ function Menulayout() {
 
                     {/* 메뉴 영역 */}
                     <MenuArea>
-                        <MenuArticle>Beans</MenuArticle>
+                        <MenuArticle onClick={beansOnClick}>Beans</MenuArticle>
                         <MenuArticle onClick={myPageOnClick}>
                             Mypage
                         </MenuArticle>
@@ -277,15 +292,16 @@ const Logined = styled.div`
     }
 
     .user-token-area {
-        border-bottom: 1px solid #e4e1e0;
         /* text-decoration: underline; */
-        width: 166px;
     }
 
     .user-token {
+        display: inline-block;
         font-size: 32px;
         font-weight: 900;
         margin-right: 18px;
+        border-bottom: 1px solid #e4e1e0;
+        padding-bottom: 5px;
     }
 
     .user-token-name {
@@ -325,8 +341,6 @@ const TokenReceiveBtn = styled(TokenSendBtn)`
 // 메뉴 영역
 const MenuArea = styled.div`
     text-align: center;
- 
-
 `;
 
 // 개별 메뉴 영역
@@ -337,12 +351,12 @@ const MenuArticle = styled.div`
     line-height: 62px;
     font-size: 26px;
     cursor: pointer;
-    @media (min-height:300px) and (max-height: 650px) {
-        line-height:22px;
-        font-size:22px;
-        font-weight:bold;
-        height:30px;
-        border-bottom:0;
+    @media (min-height: 300px) and (max-height: 650px) {
+        line-height: 22px;
+        font-size: 22px;
+        font-weight: bold;
+        height: 30px;
+        border-bottom: 0;
     }
 `;
 

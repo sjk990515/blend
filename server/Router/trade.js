@@ -78,9 +78,9 @@ module.exports = function () {
    router.post('/selectMember', function (req, res) {
       // 마일리지 받는 사람, 수량 체크
       const input_id = req.body._id;
-      const input_wallet = req.body._wallet;
+      // const input_wallet = req.body._wallet
       // const input_amount = req.body._amount;
-      console.log('## 마일리지 받는 사람 번호, 지갑 주소: ' + input_id, input_wallet);
+      console.log('## 마일리지 받는 사람 번호, 지갑 주소: ' + input_id);
 
       // 쿼리문으로 멤버 확인
       const sql = `
@@ -93,7 +93,7 @@ module.exports = function () {
       or 
       MEMBER_WALLET = ?
       `;
-      const values = [input_id, input_wallet];
+      const values = [input_id, input_id];
       console.log('values', values);
 
       connection.query(sql, values, function (err, result) {
@@ -121,7 +121,7 @@ module.exports = function () {
       const sender_num = req.body.user_num;
       const receiver = req.body.input_wallet;
       const amount = req.body.input_amount;
-      console.log('## 보내는 사람, 받는 사람, 보내는 마일리지: ' + sender, receiver, amount);
+      console.log('## 보내는 사람, 받는 사람, 보내는 마일리지: ' + sender, receiver, amount, sender_num);
 
       // 마일리지 거래한 후 결과값을 보내주기...?
       smartcontract.methods
@@ -194,14 +194,16 @@ module.exports = function () {
                   connection.query(sql2, values2, function (err, toten_total) {
                      if (err) {
                         console.log(err);
-                        res.send(err);
+                        res.send({ result: false });
                      } else {
+                        res.send({ result: true });
+
                         console.log('## receiver token_total: ' + toten_total);
                      }
                   });
                });
             //응답
-            res.send(result);
+            // res.send(result);
          });
    });
 
