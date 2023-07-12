@@ -81,18 +81,6 @@ function Menulayout() {
         <Body disable={disable ? 1 : 0}>
             <>
                 <div className="wrapper">
-                    {/* 로고와 메뉴 닫기 버튼 영역 */}
-                    {/* <LogoArea> */}
-                    {/* BLEND 로고 */}
-                    {/* <LogoImg src={logo}></LogoImg> */}
-
-                    {/* 메뉴 닫기 */}
-                    {/* <AiOutlineClose
-                        className="close-btn"
-                        onClick={closeOnClick}
-                    ></AiOutlineClose> */}
-                    {/* </LogoArea> */}
-
                     {/* 유저 정보 영역 */}
                     <UserArea>
                         {loginTrue ? (
@@ -130,7 +118,11 @@ function Menulayout() {
                         ) : (
                             <>
                                 {/* 로그인 안 했을 때 보여질 컴포넌트 */}
-                                <NoLogin>
+                                <NoLogin
+                                    onClick={() => {
+                                        setDisable(false);
+                                    }}
+                                >
                                     <div className="login-area">
                                         <span className="info">
                                             로그인 해주세요.

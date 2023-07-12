@@ -185,7 +185,7 @@ function SignUpComponent() {
     useEffect(() => {
         const timeInterval = setInterval(() => {
             setTimer((timer) => timer - 1);
-        }, 100);
+        }, 1000);
 
         if (checkNumber == "" || checkNumber == 0) {
             clearInterval(timeInterval);
