@@ -92,7 +92,7 @@ function LoginComponent() {
                         "wallet",
                         response.data.user.MEMBER_WALLET
                     );
-                    alert("로그인에 성공.");
+                    alert("로그인 성공했습니다..");
                     navigator("/");
                 } else {
                     alert("로그인에 실패했습니다.");
@@ -118,7 +118,7 @@ function LoginComponent() {
     // 로그인 여부
     useEffect(() => {
         if (loginTrue) {
-            alert("이미 로그인 상태입니다.");
+            // alert("이미 로그인 상태입니다.");
             navigator("/");
         }
     }, [loginTrue]);

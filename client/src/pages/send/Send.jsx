@@ -9,6 +9,7 @@ import {
     loginDataRecoil,
     userHistoryRecoil,
 } from "../../recoil/atom";
+import { BiCopy } from "react-icons/bi";
 
 function Send() {
     const navigate = useNavigate();
@@ -43,6 +44,7 @@ function Send() {
                             wallet: result.wallet,
                             num: result.num,
                             amount: sendAmount,
+                            total: result.token_total,
                         },
                     });
                 }
@@ -74,13 +76,21 @@ function Send() {
         setSendAmount(e.target.value);
     };
 
+    // 클릭씨 주소 복사 시키는 함수
+    const clickCopyClipBoard = async () => {
+        await navigator.clipboard?.writeText(loginTrue.sessionWallet);
+        alert("주소가 복사되었습니다!");
+    };
+
     return (
         <Body>
             <div className="Title">
                 {/* 내정보 폰번호 불러오기 */}
                 <Phone>{loginTrue.sessionId}</Phone>
                 {/* 주소 불러오기 */}
-                <Addr>{loginTrue.sessionWallet}</Addr>
+                <Addr onClick={clickCopyClipBoard}>
+                    <BiCopy /> {loginTrue.sessionWallet}
+                </Addr>
             </div>
             <InputBox>
                 {/* 수량*/}
@@ -95,7 +105,7 @@ function Send() {
                 <Ibox
                     required
                     onChange={AddrNumberOnChange}
-                    type="number"
+                    type="text"
                     placeholder="주소 혹은 핸드폰 번호"
                 ></Ibox>
                 <Wrap>

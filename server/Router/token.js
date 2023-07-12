@@ -43,32 +43,33 @@ const account = caver.klay.accounts.createWithAccountKey(
 caver.klay.accounts.wallet.add(account);
 
 module.exports = function () {
-    // localhost:4000/token/list [post] 등록된 토큰의 랭킹
-    router.post("/list", async function (req, res) {
+    // localhost:4000/token/list [get] 등록된 토큰의 랭킹
+    router.get("/list", async function (req, res) {
         const sql = `
-      select
-      MEMBER_WALLET,
-      TOKEN_TOTAL
-      from
-      MEMBER
-      WHERE
-      MEMBER_NUM
-      NOT IN
-      (1)
-      ORDER BY
-      TOKEN_TOTAL
-      DESC
-      LIMIT 5
-      `;
+            select
+            MEMBER_WALLET,
+            TOKEN_TOTAL,
+            MEMBER_NUM
+            from
+            MEMBER
+            WHERE
+            MEMBER_NUM
+            NOT IN
+            (1)
+            ORDER BY
+            TOKEN_TOTAL
+            DESC
+            LIMIT 5
+        `;
 
         const companyWalletSQL = `
-      select
-      TOKEN_TOTAL
-      from
-      member
-      where
-      member_num = 1
-      `;
+            select
+            TOKEN_TOTAL
+            from
+            member
+            where
+            member_num = 1
+        `;
 
         connection.query(sql, function (err, result) {
             if (err) {
@@ -76,13 +77,10 @@ module.exports = function () {
                 res.send(err);
             } else {
                 if (result.length != 0) {
-                    console.log("## Token_list" + result);
-
                     var sum = 0;
                     for (var i = 0; i < result.length; i++) {
                         var sum = sum + result[i].TOKEN_TOTAL;
                     }
-                    console.log(sum);
 
                     connection.query(
                         companyWalletSQL,
@@ -107,35 +105,30 @@ module.exports = function () {
         });
     });
 
-    router.post("/select", async function (req, res) {
-        const input_wallet = req.body._wallet;
-        const input_total = req.body._total;
-
+    // http://localhost:4000/token/select [get]
+    router.get("/select", async function (req, res) {
+        const input_num = req.query._num;
+        const input_total = req.query._total;
+        console.log(input_num, input_total);
         const sql = `
-      select 
-      TOKEN_CHANGED,
-      TOKEN_CONTENT,
-      TOKEN_REGDATE,
-      TRADE_ADDRESS
-      from
-      token
-      where
-      member_num = 
-      (select 
-         MEMBER_NUM
-         from
-         member
-         where
-         MEMBER_WALLET = ?
-         )
-      order by
-      TOKEN_REGDATE
-      desc
-      limit
-      10;
-      `;
+        select 
+            TOKEN_CHANGED,
+            TOKEN_CONTENT,
+            date_format(TOKEN_REGDATE, '%Y-%m-%d %T') as TOKEN_REGDATE,
+            TRADE_ADDRESS,
+            TOKEN_NUM
+        from
+            token
+        where
+            member_num = ?
+        order by
+            TOKEN_REGDATE
+        desc
+        limit
+        10;
+    `;
 
-        const values = [input_wallet];
+        const values = [input_num];
 
         connection.query(sql, values, function (err, result) {
             if (err) {
@@ -143,7 +136,7 @@ module.exports = function () {
                 res.send(err);
             } else {
                 if (result.length != 0) {
-                    console.log("## Token_content" + result);
+                    // console.log("## Token_content" + result);
                     res.send({
                         result: true,
                         content: result,
@@ -159,7 +152,7 @@ module.exports = function () {
     router.post("/myToken", function (req, res) {
         const input_num = req.body._num;
 
-        console.log("이거" + input_num);
+        //   console.log("이거" + input_num);
 
         const sql = `
         select 
@@ -167,7 +160,8 @@ module.exports = function () {
            TOKEN_CHANGED,
            TOKEN_CONTENT,
            TOKEN_REGDATE,
-           TRADE_ADDRESS
+           TRADE_ADDRESS,
+           TOKEN_BALANCE
            
            from
            token,(SELECT @rownum := 0) r

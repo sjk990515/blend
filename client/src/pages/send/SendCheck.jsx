@@ -57,11 +57,13 @@ function SendCheck() {
         const newData = {
             user_wallet: loginTrue.sessionWallet,
             user_num: loginTrue.sessionNum,
+            user_total: userHistoryState.total,
             input_amount: state.amount,
             input_wallet: state.wallet,
             receiver_name: state.name,
             user_name: loginTrue.sessionName,
             receiver_num: state.num,
+            receiver_total: state.total,
         };
 
         sendInformationMutation.mutate(newData);
