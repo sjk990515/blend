@@ -34,9 +34,9 @@ function MyPageUpdateForm(props) {
     const [passInput, setPassInput] = useState("");
 
     // 휴대폰 인증 버튼 클릭
-    const authPhoneOnClick = () => {
-        navigate("/checkPhone");
-    };
+    // const authPhoneOnClick = () => {
+    //     navigate("/checkPhone");
+    // };
 
     // 이름 onchange
     const nameOnChange = (e) => {
@@ -212,31 +212,31 @@ export default MyPageUpdateForm;
 const Profilearea = styled.div`
 `
 
-const TxtDiv =styled.div`
-    font-weight: 700;
-    font-size: 16px;
-    text-align: center;
-`
-const AuthPhoneArea = styled.div`
-    padding-top: 15px;
-    padding-bottom: 10px;
+// const TxtDiv =styled.div`
+//     font-weight: 700;
+//     font-size: 16px;
+//     text-align: center;
+// `
+// const AuthPhoneArea = styled.div`
+//     padding-top: 15px;
+//     padding-bottom: 10px;
 
-    .txt{
-        font-size: 11px;
-        font-weight: 700;
-        color: #432C20;
-    }
-`
+//     .txt{
+//         font-size: 11px;
+//         font-weight: 700;
+//         color: #432C20;
+//     }
+// `
 
-const AuthPhoneBtn = styled.button`
-    margin-top: 7px;
-    background-color: #F6F290;
-    border: 1px solid #432C20;
-    border-radius: 30px;
-    font-size: 13px;
-    cursor: pointer;
-    padding: 2px 14px 2px 14px;
-`
+// const AuthPhoneBtn = styled.button`
+//     margin-top: 7px;
+//     background-color: #F6F290;
+//     border: 1px solid #432C20;
+//     border-radius: 30px;
+//     font-size: 13px;
+//     cursor: pointer;
+//     padding: 2px 14px 2px 14px;
+// `
 
 const FormArea = styled.form`
     padding: 20px;

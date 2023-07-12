@@ -20,16 +20,16 @@ function BeansDetail(props) {
     const userWallet = JSON.stringify(state.wallet).substring(1,43)
 
     // 서버와 연결 
-    const getUserData = () => {
-        const response = axios.get("http://localhost:4000/token/select", {
+    const getUserData = async () => {
+        const response = await axios.get("http://localhost:4000/token/select", {
             params: {
                 _num : userNum,
                 _total : userToken,
             }
-        })
-        .then(
+        }) 
+        .then (
             // 받아온 데이터를 state에 저장
-            (res)=>{
+            (res) => {
                 const contents = res.data.content;
                 setContent(contents);
             }
@@ -113,7 +113,7 @@ function BeansDetail(props) {
                                     <SignAndAmountDiv>
                                         {checkSign(i.TOKEN_CHANGED) == 'plus' ? 
                                             <TransferAmount  color={'#F06A24'}>
-                                                {i.TOKEN_CHANGED}
+                                                {i.TOKEN_CHANGED.toLocaleString()}
                                             </TransferAmount>
                                         :
                                             <TransferAmount color={'#0C77F8'}>

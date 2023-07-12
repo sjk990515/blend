@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { AiFillAmazonCircle } from "react-icons/ai";
 import styled from "styled-components";
-import logo from "../image/logo_for_menu.png";
 import bean_img from "../image/bean_img.png";
-import { AiOutlineClose } from "react-icons/ai";
 import { BiLogoGmail } from "react-icons/bi";
 import { BiLogoTwitter } from "react-icons/bi";
 import { BiLogoInstagram } from "react-icons/bi";
@@ -18,10 +16,10 @@ function Menulayout() {
     // 네비게이트
     const navigate = useNavigate();
 
-    // X버튼(닫기)
-    const closeOnClick = () => {
-        setDisable(true);
-    };
+    // // X버튼(닫기)
+    // const closeOnClick = () => {
+    //     setDisable(true);
+    // };
 
     // X버튼(닫기) 클릭시 메인페이지로 네비게이트
     const loginOnClick = () => {
@@ -178,10 +176,10 @@ function Menulayout() {
 }
 
 export default Menulayout;
-const Wrap = styled.div`
-    width: 430px;
-    overflow: hidden;
-`;
+// const Wrap = styled.div`
+//     width: 430px;
+//     overflow: hidden;
+// `;
 
 // 전체 감쌈
 const Body = styled.div`
@@ -208,27 +206,27 @@ const Body = styled.div`
 `;
 
 // 상단 (로고랑 닫기 버튼 영역)
-const LogoArea = styled.div`
-    padding-left: 20px;
-    display: flex;
-    height: 57px;
-    border-bottom: 1px solid #e4e1e0;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
+// const LogoArea = styled.div`
+//     padding-left: 20px;
+//     display: flex;
+//     height: 57px;
+//     border-bottom: 1px solid #e4e1e0;
+//     width: 100%;
+//     justify-content: space-between;
+//     align-items: center;
 
-    /* X 버튼 (메뉴 닫기) */
-    .close-btn {
-        margin-right: 23px;
-        font-size: 25px;
-        color: #e4e1e0;
-        cursor: pointer;
-    }
-`;
+//     /* X 버튼 (메뉴 닫기) */
+//     .close-btn {
+//         margin-right: 23px;
+//         font-size: 25px;
+//         color: #e4e1e0;
+//         cursor: pointer;
+//     }
+// `;
 
-const LogoImg = styled.img`
-    width: 72px;
-`;
+// const LogoImg = styled.img`
+//     width: 72px;
+// `;
 
 // 사용자 영역 (로그인 해주세요..)
 const UserArea = styled.div`

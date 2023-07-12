@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import profile_img from "../../image/profile_for_my.png";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { loginDataRecoil } from "../../recoil/atom";
-import axios from "axios";
 
 function MyPage(props) {
     // 네비게이트
