@@ -3,13 +3,22 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import profile1 from "../../image/profile1.png";
 import { useRecoilState } from "recoil";
-import { loginDataRecoil } from "../../recoil/atom";
+import {
+    loadingRecoil,
+    loginDataRecoil,
+    userHistoryRecoil,
+} from "../../recoil/atom";
 import { useMutation } from "react-query";
 import axios from "axios";
 
 function SendCheck() {
     // 로그인 정보
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
+    // 사용자 잔액, 내역 정보
+    const [userHistoryState, setUserHistoryState] =
+        useRecoilState(userHistoryRecoil);
+    //로딩
+    const [loading, setLoading] = useRecoilState(loadingRecoil);
 
     const navigate = useNavigate();
 
@@ -26,8 +35,11 @@ function SendCheck() {
                 // 여기서 받아온정보가 없는 사람이면 경고
                 const result = response.data.result;
                 console.log(result);
+                setLoading(false);
                 if (result) {
-                    navigate("/senddone");
+                    navigate("/senddone", {
+                        state,
+                    });
                 } else {
                     alert("송금에 실패했습니다.");
                 }
@@ -40,11 +52,16 @@ function SendCheck() {
     );
 
     const SendDone = () => {
+        setLoading(true);
+
         const newData = {
             user_wallet: loginTrue.sessionWallet,
             user_num: loginTrue.sessionNum,
             input_amount: state.amount,
             input_wallet: state.wallet,
+            receiver_name: state.name,
+            user_name: loginTrue.sessionName,
+            receiver_num: state.num,
         };
 
         sendInformationMutation.mutate(newData);
@@ -55,14 +72,14 @@ function SendCheck() {
             <Wrap>
                 <div className="Title">
                     <Phone>{loginTrue.sessionId}</Phone>
-                    <Bal> 나의 잔액은: 3,000 BEANS </Bal>
+                    <Bal> 나의 잔액은: {userHistoryState.total} BEANS </Bal>
                 </div>
                 <Alertbx>
                     <Profile>
                         <ProfileImg src={profile1} alt="redbean" />
                     </Profile>
                     <div className="text">
-                        <p>010-2222-1234님께</p>
+                        <p>{state.name}님께</p>
                         <p className="price">{state.amount}</p>
                         <p>BEANS를 이체합니다.</p>
                     </div>

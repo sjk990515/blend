@@ -24,3 +24,8 @@ export const userHistoryRecoil = atom({
     key: "userHistoryRecoil",
     default: false,
 });
+
+export const loadingRecoil = atom({
+    key: "loadingRecoil",
+    default: false,
+});

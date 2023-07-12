@@ -4,7 +4,11 @@ import styled from "styled-components";
 import { useMutation } from "react-query";
 import axios from "axios";
 import { useRecoilState } from "recoil";
-import { loginDataRecoil } from "../../recoil/atom";
+import {
+    loadingRecoil,
+    loginDataRecoil,
+    userHistoryRecoil,
+} from "../../recoil/atom";
 
 function Send() {
     const navigate = useNavigate();
@@ -12,8 +16,13 @@ function Send() {
     const [sendAmount, setSendAmount] = useState(0);
     // 로그인 정보
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
-
+    // 사용자 잔액, 내역 정보
+    const [userHistoryState, setUserHistoryState] =
+        useRecoilState(userHistoryRecoil);
+    //로딩
+    const [loading, setLoading] = useRecoilState(loadingRecoil);
     // 정보 전송
+    // react-query
     const sendUserMutation = useMutation(
         (newData) =>
             axios.post("http://localhost:4000/trade/selectMember", newData),
@@ -23,7 +32,8 @@ function Send() {
                 const result = response.data;
                 console.log(result);
                 // queryClient.invalidateQueries("comment");
-                if (!result) {
+                setLoading(false);
+                if (!result.result) {
                     alert("없는 주소입니다.");
                 } else {
                     navigate("/sendcheck", {
@@ -31,6 +41,7 @@ function Send() {
                             // 받아온 사람이름도 넘겨야 함
                             name: result.name,
                             wallet: result.wallet,
+                            num: result.num,
                             amount: sendAmount,
                         },
                     });
@@ -44,8 +55,9 @@ function Send() {
         if (AddrNumber == "" || sendAmount == "") {
             alert("빈칸이 존재합니다.");
         } else {
+            setLoading(true);
             const newData = {
-                _id: AddrNumber,
+                _id: AddrNumber, // 주소 & 번호
             };
             sendUserMutation.mutate(newData);
         }
@@ -78,7 +90,7 @@ function Send() {
                     placeholder="수량"
                 ></Ibox>
                 {/* 내 잔액 확인 */}
-                <Bal> 나의 잔액은: 3000 </Bal>
+                <Bal> 나의 잔액은: {userHistoryState.total} </Bal>
                 {/* 주소 혹은 핸드폰번호 */}
                 <Ibox
                     required

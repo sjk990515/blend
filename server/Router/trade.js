@@ -107,12 +107,19 @@ module.exports = function () {
                 console.log(err);
                 res.send(err);
             } else {
-                console.log(">>>>>>", result);
-                res.send({
-                    name: result[0].MEMBER_NAME,
-                    wallet: result[0].MEMBER_WALLET,
-                    // amount: input_amount,
-                });
+                if (result.length != 0) {
+                    console.log(">>>>>>", result);
+                    res.send({
+                        name: result[0].MEMBER_NAME,
+                        wallet: result[0].MEMBER_WALLET,
+                        num: result[0].MEMBER_NUM,
+                        result: true,
+                        // amount: input_amount,
+                    });
+                } else {
+                    res.send({ result: false });
+                }
+
                 // res.json(JSON.stringify(result));
                 console.log("## result" + result);
                 console.log("## selectMember result:" + JSON.stringify(result));
@@ -126,6 +133,12 @@ module.exports = function () {
         const sender = req.body.user_wallet;
         const sender_num = req.body.user_num;
         const receiver = req.body.input_wallet;
+
+        // ##########################################
+        const sender_name = req.body.user_name;
+        const receiver_num = req.body.receiver_num;
+        const receiver_name = req.body.receiver_name;
+
         const amount = req.body.input_amount;
         console.log(
             "## 보내는 사람, 받는 사람, 보내는 마일리지: " + sender,
@@ -146,12 +159,17 @@ module.exports = function () {
 
                 // DB insert 구문 (token 테이블)
                 sql = `
-            insert into token
-            (member_num, token_changed, trade_address) 
-            values
-            (?, ?, ?)
-            `;
-                values = [sender_num, amount, receiver];
+             insert into token
+             (member_num, token_changed,token_content , trade_address) 
+             values
+             (?, ?, ? , ?)
+             `;
+
+                // ##########################################
+                // cosnt minus = "-"+amount // 아래 -amount가 안먹을시 넣어줄 변수
+                values = [sender_num, -amount, receiver_name, receiver];
+                values_receiver = [receiver_num, amount, sender_name, sender];
+
                 console.log(
                     "sender_num, amount, receiver: " + sender_num,
                     amount,
@@ -162,9 +180,23 @@ module.exports = function () {
                         console.log(err);
                         res.send(err);
                     } else {
-                        console.log("token_result: " + token_result);
+                        console.log("sender_result: " + token_result);
                     }
                 });
+
+                //########################################################
+                connection.query(
+                    sql,
+                    values_receiver,
+                    function (err, token_result) {
+                        if (err) {
+                            console.log(err);
+                            res.send(err);
+                        } else {
+                            console.log("receiver_result: " + token_result);
+                        }
+                    }
+                );
 
                 smartcontract.methods
                     .view_mileage(sender)
@@ -175,10 +207,10 @@ module.exports = function () {
                         console.log("## user mile_result" + mile_result);
                         // DB에 토탈 업데이트
                         sql2 = `
-               update member 
-               set token_total = ?
-               where member_wallet = ?
-               `;
+           update member 
+           set token_total = ?
+           where member_wallet = ?
+           `;
                         values2 = [mile_result, sender];
                         console.log(
                             "## 마일리지 토탈, user: " + mile_result,
@@ -209,10 +241,10 @@ module.exports = function () {
                         console.log("## receiver mile_result" + mile_result);
                         // DB에 토탈 업데이트
                         sql2 = `
-               update member 
-               set token_total = ?
-               where member_wallet = ?
-               `;
+           update member 
+           set token_total = ?
+           where member_wallet = ?
+           `;
                         values2 = [mile_result, receiver];
                         console.log(
                             "## 마일리지 토탈, receiver: " + mile_result,
