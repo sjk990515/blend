@@ -27,7 +27,7 @@ function MyBeans() {
             <MyBeansSmallTitle>{loginTrue.sessionName}님</MyBeansSmallTitle>
 
             <CountBox>
-                <BoxText>나의 잔액</BoxText>
+                <BoxText>My Beans</BoxText>
 
                 <BoxContent>
                     {userHistoryState.total} <BoxSpan>BEANS</BoxSpan>
@@ -47,11 +47,18 @@ function MyBeans() {
                                 <HistoryDate>
                                     {i.TOKEN_REGDATE?.slice(0, 10)}
                                 </HistoryDate>
-                                <HistoryName>{i.TOKEN_CONTENT}</HistoryName>
+                                <HistoryName>{i.TOKEN_CONTENT} </HistoryName>
 
-                                <HistoryUse>{i.TOKEN_CHANGED}</HistoryUse>
+                                <HistoryUse>
+                                    {i.TOKEN_CHANGED}{" "}
+                                    <HistoryUseSpan>Beans</HistoryUseSpan>
+                                </HistoryUse>
                                 <HistoryCount>
-                                    잔액 {userHistoryState.total}
+                                    잔액{" "}
+                                    <HistoryCountSpan>
+                                        {i.TOKEN_BALANCE}{" "}
+                                    </HistoryCountSpan>
+                                    Beans
                                 </HistoryCount>
                             </History>
                         );
@@ -146,7 +153,18 @@ const HistoryUse = styled.div`
     font-size: 20px;
     font-weight: 700;
 `;
+const HistoryUseSpan = styled.span`
+    /* text-align: right; */
+    /* margin: 7px 0; */
+    color: #f06a24;
+    font-size: 16px;
+    font-weight: 700;
+`;
+
 const HistoryCount = styled.div`
     text-align: right;
     font-size: 14px;
+`;
+const HistoryCountSpan = styled.span`
+    font-size: 16px;
 `;

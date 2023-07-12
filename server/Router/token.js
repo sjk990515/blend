@@ -167,7 +167,8 @@ module.exports = function () {
            TOKEN_CHANGED,
            TOKEN_CONTENT,
            TOKEN_REGDATE,
-           TRADE_ADDRESS
+           TRADE_ADDRESS,
+           TOKEN_BALANCE
            
            from
            token,(SELECT @rownum := 0) r

@@ -113,6 +113,7 @@ module.exports = function () {
                         name: result[0].MEMBER_NAME,
                         wallet: result[0].MEMBER_WALLET,
                         num: result[0].MEMBER_NUM,
+                        token_total: result[0].TOKEN_TOTAL,
                         result: true,
                         // amount: input_amount,
                     });
@@ -140,6 +141,10 @@ module.exports = function () {
         const receiver_name = req.body.receiver_name;
 
         const amount = req.body.input_amount;
+
+        const sender_total = req.body.user_total - parseInt(amount);
+        const receiver_total = req.body.receiver_total + parseInt(amount);
+
         console.log(
             "## 보내는 사람, 받는 사람, 보내는 마일리지: " + sender,
             receiver,
@@ -160,15 +165,27 @@ module.exports = function () {
                 // DB insert 구문 (token 테이블)
                 sql = `
              insert into token
-             (member_num, token_changed,token_content , trade_address) 
+             (member_num, token_changed,token_content , trade_address, token_balance) 
              values
-             (?, ?, ? , ?)
+             (?, ?, ? , ?, ?)
              `;
 
                 // ##########################################
                 // cosnt minus = "-"+amount // 아래 -amount가 안먹을시 넣어줄 변수
-                values = [sender_num, -amount, receiver_name, receiver];
-                values_receiver = [receiver_num, amount, sender_name, sender];
+                values = [
+                    sender_num,
+                    -amount,
+                    receiver_name,
+                    receiver,
+                    sender_total,
+                ];
+                values_receiver = [
+                    receiver_num,
+                    amount,
+                    sender_name,
+                    sender,
+                    receiver_total,
+                ];
 
                 console.log(
                     "sender_num, amount, receiver: " + sender_num,

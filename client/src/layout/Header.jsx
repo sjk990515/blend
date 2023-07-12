@@ -86,6 +86,7 @@ function Header() {
         {
             onSuccess: (response) => {
                 const result = response.data;
+                console.log(result);
                 setUserHistoryState(result);
                 setLoading(false);
 

@@ -43,6 +43,7 @@ function Send() {
                             wallet: result.wallet,
                             num: result.num,
                             amount: sendAmount,
+                            total: result.token_total,
                         },
                     });
                 }
