@@ -9,6 +9,7 @@ function MyBeans() {
     const navigator = useNavigate();
     // 로그인 정보
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
+
     // 사용자 잔액, 내역 정보
     const [userHistoryState, setUserHistoryState] =
         useRecoilState(userHistoryRecoil);
@@ -48,11 +49,18 @@ function MyBeans() {
                                     {i.TOKEN_REGDATE?.slice(0, 10)}
                                 </HistoryDate>
                                 <HistoryName>{i.TOKEN_CONTENT} </HistoryName>
+                                {parseInt(i.TOKEN_CHANGED) > 0 ? (
+                                    <HistoryUse color={"#F06A24"}>
+                                        +{i.TOKEN_CHANGED}{" "}
+                                        <HistoryUseSpan>Beans</HistoryUseSpan>
+                                    </HistoryUse>
+                                ) : (
+                                    <HistoryUse color={"#0C77F8"}>
+                                        {i.TOKEN_CHANGED}{" "}
+                                        <HistoryUseSpan>Beans</HistoryUseSpan>
+                                    </HistoryUse>
+                                )}
 
-                                <HistoryUse>
-                                    {i.TOKEN_CHANGED}{" "}
-                                    <HistoryUseSpan>Beans</HistoryUseSpan>
-                                </HistoryUse>
                                 <HistoryCount>
                                     잔액{" "}
                                     <HistoryCountSpan>
@@ -149,14 +157,14 @@ const HistoryName = styled.div`
 const HistoryUse = styled.div`
     text-align: right;
     margin: 7px 0;
-    color: #f06a24;
+    color: ${(props) => props.color};
     font-size: 20px;
     font-weight: 700;
 `;
 const HistoryUseSpan = styled.span`
     /* text-align: right; */
     /* margin: 7px 0; */
-    color: #f06a24;
+    /* color: #f06a24; */
     font-size: 16px;
     font-weight: 700;
 `;

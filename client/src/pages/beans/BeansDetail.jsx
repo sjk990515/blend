@@ -1,76 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import blend from "../../image/blendlogo_for_beansdetail.png";
-/*
-    useParam 사용??
-*/
+import { BiCopy } from "react-icons/bi";
+import axios from "axios";
+import { useQuery } from "react-query";
+import { useLocation, useParams } from "react-router-dom";
 
 function BeansDetail(props) {
-    // 상단 네모에 보이는 주소 (더미 data)
-    let userAddress = '0x8798dfbbD786B81486eD8762b25Af961011Db528';
-    // 상단 네모에 보이는 토큰 보유량 (더미 data)
-    let userBalance = 3458935093;
+    // 서버에서 받아온 정보를 저장 (거래내역에 보일 token에 대한 정보들)
+    const [content, setContent] = useState([]);
 
-    /* 해당 유저의 거래 정보 불러오기
+    // 서버에 전달한 파라미터
+    const param = useParams();
+    const userNum = param.num; // 멤버 번호
+    const { state } = useLocation();
+    const userToken = state.token; // 해당 멤버의 토큰 보유량
+
+    // 클립보드 복사 기능을 위해 사용
+    const userWallet = JSON.stringify(state.wallet).substring(1, 43);
+
+    // 서버와 연결
     const getUserData = async () => {
-        const response = await axios.get(
-           // "__주소__"
-        );
-        // setFriendAllRecoil(response?.data);
+        const response = await axios.get("http://localhost:4000/token/select", {
+            params: {
+                _num: userNum,
+                _total: userToken,
+            },
+        });
+
+        const contents = response.data.content;
+        setContent(contents);
+
         return response;
     };
+
+    console.log(content);
+
+    // 왜 이게 있어야 데이터가 뜨는거지
     const { isLoading, isError, data, error } = useQuery(
-        // "userData",  사용할 key
-        // getUserData  위의 함수를 사용하겠단 말
+        "getUserData",
+        getUserData
     );
 
-    // console.log(data) 데이터는 data에 담김
-    */
+    // TOKEN_CHANGED가 음수인지 양수인지 체크하는 함수
+    const checkSign = (target) => {
+        let sign = "";
+        let check = Math.sign(target);
 
-    /* 거래 내역에 보이는 주소 (더미 data)
-       추후 order by 생각하기? */
-    const transferData = [
-        {
-            id: 1,
-            address: '0x8798dfbbD786B81486eD8762b25Af961011Db5281Db528',
-            date: '2022-07-07',
-            time: '22:30:32',
-            kind: 'plus',
-            amount: 800
-        },
-        {
-            id: 2,
-            address: '0x8798dfbbD786B81486eD8762b25Af961011Db528',
-            date: '2022-07-07',
-            time: '20:30:48',
-            kind: 'minus',
-            amount: 1200
-        },
-        {
-            id: 3,
-            address: '0x8798dfbbD786B81486eD8762b25Af961011Db528',
-            date: '2022-07-06',
-            time: '12:30:45',
-            kind: 'minus',
-            amount: 1000
-        },
-        {
-            id: 4,
-            address: '0x8798dfbbD786B81486eD8762b25Af961011Db528',
-            date: '2022-07-05',
-            time: '15:30:48',
-            kind: 'plus',
-            amount: 700
-        },
-        {
-            id: 5,
-            address: '0x8798dfbbD786B81486eD8762b25Af961011Db528',
-            date: '2022-07-05',
-            time: '11:30:48',
-            kind: 'plus',
-            amount: 300
+        return check == 1 ? (sign = "plus") : "minus";
+    };
+
+    // 클릭씨 주소 복사 시키는 함수
+    const clickCopyClipBoard = async (text) => {
+        try {
+            await navigator.clipboard.writeText(text);
+            alert("주소가 복사되었습니다!");
+        } catch (e) {
+            alert("복사에 실패하였습니다.");
         }
-    ]
+    };
 
     return (
         <Body>
@@ -81,15 +69,26 @@ function BeansDetail(props) {
                         <BlenImg src={blend}></BlenImg>
                     </BlenImgArea>
                     <UserInfoArea>
-                        <AddressArea>
+                        <AddressArea
+                            onClick={() => {
+                                clickCopyClipBoard(userWallet);
+                            }}
+                        >
                             <Label>주소</Label>
-                            {/* 데이터 받아서 넣기 */}
-                            <UserAddress>{userAddress.substring(0,6)}...{userAddress.slice(-6)}</UserAddress>
+                            <Text>
+                                <UserAddress>
+                                    {state.wallet.substring(0, 6)}…
+                                    {state.wallet.slice(-6)}
+                                    &nbsp;
+                                    <BiCopy className="copy-icon"></BiCopy>
+                                </UserAddress>
+                            </Text>
                         </AddressArea>
                         <BalanceArea>
                             <Label>보유량</Label>
-                            {/* 데이터 받아서 넣기 */}
-                            <UserBalance>{userBalance.toLocaleString()}</UserBalance>
+                            <UserBalance>
+                                {state.token.toLocaleString()}
+                            </UserBalance>
                         </BalanceArea>
                     </UserInfoArea>
                 </SquareDiv>
@@ -97,40 +96,56 @@ function BeansDetail(props) {
                 {/* 거래내역 */}
                 <TransferArea>
                     <TitleDiv>거래내역</TitleDiv>
-
                     {/* 개별 거래내역 - 반복문을 통해 출력*/}
-                    { transferData.map((i)=>{
-                        return(
-                            <TransferArticle>
-                                <DateAndTimeDiv>
-                                    {/* 거래 날짜 */}
-                                    <TransferDate>{i.date}</TransferDate>
-                                    {/* 거래 시간 */}
-                                    <TransferTime>{i.time}</TransferTime>
-                                </DateAndTimeDiv>
+                    {content?.length != undefined ? (
+                        <>
+                            {content?.map((i) => {
+                                return (
+                                    <TransferArticle key={i.TOKEN_NUM}>
+                                        <DateAndTimeDiv>
+                                            {/* 거래 날짜 */}
+                                            <TransferDate>
+                                                {i.TOKEN_REGDATE}
+                                            </TransferDate>
+                                        </DateAndTimeDiv>
 
-                                <AddressAndAmountDiv>
-                                    {/* 거래된 주소 */}
-                                    <TransferAddress>{i.address.substring(0,6)}...{i.address.slice(-6)}</TransferAddress>
+                                        <AddressAndAmountDiv>
+                                            {/* 거래된 주소 */}
+                                            <TransferAddress>
+                                                {i.TRADE_ADDRESS.substring(
+                                                    0,
+                                                    6
+                                                )}
+                                                …{i.TRADE_ADDRESS.slice(-6)}
+                                            </TransferAddress>
 
-                                    {/* 토큰거래양 앞의 +, - 기호 */}
-                                    <SignAndAmountDiv>
-                                        {/* 받은 토큰이라면 빨간색, 보낸 토큰이라면 파란색 */}
-                                        {i.kind == 'plus'? 
-                                            <AmountSign color={'#F06A24'}>+</AmountSign> 
-                                                :
-                                            <AmountSign color={'#0C77F8'}>-</AmountSign>
-                                        }
-
-                                        {/* 토큰 거래양 */}
-                                        <TransferAmount as="span" color={ i.kind == 'plus'? '#F06A24' : '#0C77F8' }>
-                                            {i.amount}
-                                        </TransferAmount>
-                                    </SignAndAmountDiv>
-                                </AddressAndAmountDiv>
-                            </TransferArticle>
-                        );
-                    })}
+                                            {/* 토큰거래양 - 음수∙양수에 따라 색깔 다르게 보여줌 */}
+                                            <SignAndAmountDiv>
+                                                {checkSign(i.TOKEN_CHANGED) ==
+                                                "plus" ? (
+                                                    <TransferAmount
+                                                        color={"#F06A24"}
+                                                    >
+                                                        {i.TOKEN_CHANGED.toLocaleString()}{" "}
+                                                        <BoxSpan>Beans</BoxSpan>
+                                                    </TransferAmount>
+                                                ) : (
+                                                    <TransferAmount
+                                                        color={"#0C77F8"}
+                                                    >
+                                                        {i.TOKEN_CHANGED.toLocaleString()}{" "}
+                                                        <BoxSpan>Beans</BoxSpan>
+                                                    </TransferAmount>
+                                                )}
+                                            </SignAndAmountDiv>
+                                        </AddressAndAmountDiv>
+                                    </TransferArticle>
+                                );
+                            })}
+                        </>
+                    ) : (
+                        <NoData>거래내역이 존재하지 않습니다.</NoData>
+                    )}
                 </TransferArea>
             </Wrapper>
         </Body>
@@ -145,13 +160,13 @@ const Body = styled.div`
     position: relative;
     justify-content: center;
     align-items: center;
-    min-height:100vh;
-    margin-top:-70px;
-`
+    min-height: 100vh;
+    margin-top: -70px;
+`;
 const Wrapper = styled.div`
     width: 100%;
     padding-top: 110px;
-`
+`;
 
 const SquareDiv = styled.div`
     z-index: 1;
@@ -160,111 +175,153 @@ const SquareDiv = styled.div`
     width: 90%;
     height: 212px;
     border-radius: 10px;
-    border: 2px solid #432C20;
+    border: 2px solid #432c20;
     backdrop-filter: blur(6px);
-    background: rgb(246,242,144);
-    background: linear-gradient(143deg, rgba(246,242,144,0.6) 0%, rgba(231,229,183,0.2259497549019608) 51%, rgba(217,217,217,0) 100%);
+    background: rgb(246, 242, 144);
+    background: linear-gradient(
+        143deg,
+        rgba(246, 242, 144, 0.6) 0%,
+        rgba(231, 229, 183, 0.2259497549019608) 51%,
+        rgba(217, 217, 217, 0) 100%
+    );
     padding: 1.56em;
     box-shadow: 0px 4px 7px 0 #797979;
-`
+`;
 
 const BlenImgArea = styled.div`
     position: relative;
     width: 100%;
     margin-top: 8px;
-`
+`;
 
 const BlenImg = styled.img`
     width: 120px;
-`
+`;
 
 const UserInfoArea = styled.div`
     position: relative;
     width: 100%;
     height: 80px;
-    color: #432C20;
+    color: #432c20;
     top: 20%;
-`
+`;
 
 const AddressArea = styled.div`
     display: flex;
     height: 40px;
     line-height: 40px;
-`
-const BalanceArea = styled(AddressArea)`
-`
+    justify-content: space-between;
+`;
+const BalanceArea = styled(AddressArea)``;
 
 const Label = styled.span`
     width: 20%;
     font-size: 15px;
     font-weight: 800;
-`
+`;
 
-const UserAddress = styled.div`
-    width: 80%;
+const Text = styled.div`
+    width: 100%;
     text-align: right;
+    cursor: pointer;
+    position: relative;
+
+    .copy-icon {
+        font-size: 18px;
+    }
+`;
+
+const UserAddress = styled.span`
     font-size: 22px;
     font-weight: 700;
-`
-const UserBalance = styled(UserAddress)``
+    /* margin-right: 6px; */
+
+    &::after {
+        content: "주소 복사하기";
+        position: absolute;
+        top: 40px;
+        right: 0px;
+        background-color: #e9e9e9;
+        border-radius: 8px;
+        border: 1px solid #432c20;
+        font-size: 12px;
+        line-height: 12px;
+        padding: 8px;
+        opacity: 0;
+        transition: 0.3s ease;
+    }
+
+    &:hover::after {
+        opacity: 1;
+    }
+`;
+
+const UserBalance = styled(UserAddress)`
+    width: 80%;
+    text-align: right;
+`;
 
 const TransferArea = styled.div`
     padding: 20px;
     margin-top: 26px;
-`
+`;
 
 const TitleDiv = styled.div`
-    border-bottom: 2px solid #432C20;
+    border-bottom: 2px solid #432c20;
     font-size: 18px;
     font-weight: 800;
     height: 40px;
     line-height: 40px;
     padding-left: 5px;
-    color: #432C20;
-`
+    color: #432c20;
+`;
 
 const TransferArticle = styled.div`
     width: 100%;
     height: 88px;
     padding: 10px 5px 0 5px;
-    border-bottom: 1px solid #432C20;
-`
+    border-bottom: 1px solid #432c20;
+`;
 const DateAndTimeDiv = styled.div`
     height: 50%;
     position: relative;
-`
+`;
 
 const TransferDate = styled.span`
     font-size: 14px;
-    color: #432C20;
+    color: #432c20;
     padding-right: 5px;
-`
-const TransferTime = styled(TransferDate)``
-
-const AddressAndAmountDiv= styled.div`
+`;
+const AddressAndAmountDiv = styled.div`
     line-height: 32px;
     height: 50%;
     display: flex;
-`
+    justify-content: space-between;
+`;
 
-const TransferAddress=styled.div`
+const TransferAddress = styled.div`
+    /* width: 80%; */
     font-size: 14;
-`
+`;
 const SignAndAmountDiv = styled.div`
-    width: 80%;
+    /* width: 80%; */
     text-align: right;
-`
+`;
 
 const TransferAmount = styled(TransferAddress)`
+    /* width: 20%; */
     font-weight: 800;
     font-size: 21px;
     text-align: right;
-    color: ${(props) => props.color || "#432C20" };
-    `
-
-const AmountSign = styled.span`
-    font-weight: 800;
-    font-size: 20px;
-    margin-right: 2px;
     color: ${(props) => props.color || "#432C20"};
-`
+`;
+
+const NoData = styled.div`
+    text-align: center;
+    height: 360px;
+    line-height: 360px;
+`;
+const BoxSpan = styled.span`
+    font-size: 14px;
+    font-weight: 700;
+`;

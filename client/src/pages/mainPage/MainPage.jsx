@@ -28,8 +28,6 @@ function MainPage() {
     // 사용자 잔액, 내역 정보
     const [userHistoryState, setUserHistoryState] =
         useRecoilState(userHistoryRecoil);
-    //로딩
-    const [loading, setLoading] = useRecoilState(loadingRecoil);
     // 로그인 정보
     const [loginTrue, setLoginTrue] = useRecoilState(loginDataRecoil);
 
@@ -66,11 +64,6 @@ function MainPage() {
     const beansCountOnClick = () => {
         navigate("/mybeans");
     };
-
-    useEffect(() => {
-        setLoading(true);
-        setTimeout(() => setLoading(false), 1000);
-    }, []);
 
     return (
         <MainWrapDiv>
