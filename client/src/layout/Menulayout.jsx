@@ -90,7 +90,7 @@ function Menulayout() {
                                     <div className="user-info">
                                         <p className="user-phone-area">
                                             <span className="user-phone">
-                                                {loginTrue.sessionId}
+                                                {loginTrue.sessionName}
                                             </span>
                                             <span className="user-nim">님</span>
                                         </p>
