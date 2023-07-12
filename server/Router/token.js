@@ -117,7 +117,8 @@ module.exports = function () {
             TOKEN_CHANGED,
             TOKEN_CONTENT,
             date_format(TOKEN_REGDATE, '%Y-%m-%d %T') as TOKEN_REGDATE,
-            TRADE_ADDRESS
+            TRADE_ADDRESS,
+            TOKEN_NUM
         from
             token
         where
@@ -128,30 +129,6 @@ module.exports = function () {
         limit
         10;
     `;
-
-        // const sql = `
-        //     select 
-        //         TOKEN_CHANGED,
-        //         TOKEN_CONTENT,
-        //         TOKEN_REGDATE,
-        //         TRADE_ADDRESS
-        //     from
-        //         token
-        //     where
-        //         member_num = 
-        //         (select 
-        //             MEMBER_NUM
-        //             from
-        //             member
-        //             where
-        //             MEMBER_WALLET = ?
-        //         )
-        //     order by
-        //         TOKEN_REGDATE
-        //     desc
-        //     limit
-        //     10;
-        // `;
 
         const values = [input_num];
 
@@ -167,6 +144,7 @@ module.exports = function () {
                         content: result,
                         total: input_total,
                     });
+
                 } else {
                     res.send({ result: false });
                 }
@@ -185,7 +163,6 @@ module.exports = function () {
       TOKEN_CONTENT,
       TOKEN_REGDATE,
       TRADE_ADDRESS
-      TOKEN_NUM
       from
       token
       where
