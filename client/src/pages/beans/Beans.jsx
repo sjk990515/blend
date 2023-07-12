@@ -27,7 +27,7 @@ function Beans() {
         // 랭크된 유저의 지갑주소, 토큰 보유량 
         const list = response.data.list
         setListData(list)
-        console.log("dsdds ", listData)
+        // console.log("dsdds ", listData)
 
         // 발행량
         const mintAmount = response.data.resultSum
