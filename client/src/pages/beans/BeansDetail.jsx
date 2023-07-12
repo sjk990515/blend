@@ -117,7 +117,7 @@ function BeansDetail(props) {
                                             </TransferAmount>
                                         :
                                             <TransferAmount color={'#0C77F8'}>
-                                                {i.TOKEN_CHANGED}
+                                                {i.TOKEN_CHANGED.toLocaleString()}
                                             </TransferAmount>
                                         }
                                     </SignAndAmountDiv>
