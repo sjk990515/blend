@@ -117,7 +117,13 @@ function Send() {
                 <Sendbtn onClick={SendCheck}>보내기</Sendbtn>
             </InputBox>
 
-            <Cancel>취소</Cancel>
+            <Cancel
+                onClick={() => {
+                    navigate("/");
+                }}
+            >
+                취소
+            </Cancel>
         </Body>
     );
 }
