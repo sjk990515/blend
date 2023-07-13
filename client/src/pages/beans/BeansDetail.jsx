@@ -157,7 +157,7 @@ const Body = styled.div`
     display: flex;
     position: relative;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
     min-height: 100vh;
     margin-top: -70px;
 `;

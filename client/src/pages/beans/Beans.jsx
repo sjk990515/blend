@@ -116,11 +116,18 @@ const Body = styled.div`
     max-width: 430px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height:100vh;
-    margin-top:-70px;
-    background: rgb(67,44,32);
-    background: linear-gradient(344deg, rgba(67,44,32,1) 0%, rgba(94,75,65,1) 4%, rgba(152,141,136,1) 25%, rgba(171,163,160,1) 38%, rgba(217,217,217,1) 100%);
+    /* align-items: center; */
+    min-height: 100vh;
+    margin-top: -70px;
+    background: rgb(67, 44, 32);
+    background: linear-gradient(
+        344deg,
+        rgba(67, 44, 32, 1) 0%,
+        rgba(94, 75, 65, 1) 4%,
+        rgba(152, 141, 136, 1) 25%,
+        rgba(171, 163, 160, 1) 38%,
+        rgba(217, 217, 217, 1) 100%
+    );
     position: relative;
 
 `
